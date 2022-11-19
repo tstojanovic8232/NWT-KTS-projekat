@@ -1,4 +1,4 @@
-package tim.model.enums;
+package tim.projekat.model.enums;
 
 public enum NacinPlacanja {
     PayPal, Bitcoin

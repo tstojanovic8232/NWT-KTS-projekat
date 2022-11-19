@@ -1,13 +1,23 @@
-package tim.model;
+package tim.projekat.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.*;
 
+@Entity
+@Access(AccessType.FIELD)
+@Table(name="voznja")
 public class Voznja {
+    @ManyToOne
+    @JoinColumn(name="vozac_id", nullable=false)
     private Vozac vozac;
-    private List<Korisnik> putnici;
+
+    @ManyToMany(targetEntity = Korisnik.class)
+    private List<Korisnik> korisnici;
+
     private String polaziste;
-    private List<String> stanice;
+//    @ElementCollection
+//    private List<String> stanice;
     private String destinacija;     // Za sad String dok ne rešimo rad sa mapama
     private double brojKilometara;
     private String napomena;
@@ -16,12 +26,16 @@ public class Voznja {
     private Boolean gotova;
     private int ocena;
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
     public Voznja() {
     }
 
     public Voznja(Vozac vozac, List<Korisnik> putnici, double brojKilometara, String napomena, LocalDateTime datumVreme, double cena) {
         this.vozac = vozac;
-        this.putnici = putnici;
+        this.korisnici = putnici;
         this.brojKilometara = brojKilometara;
         this.napomena = napomena;
         this.datumVreme = datumVreme;
@@ -29,6 +43,7 @@ public class Voznja {
         this.gotova = false;
         this.ocena = 0;
     }
+
 
     public Vozac getVozac() {
         return vozac;
@@ -39,11 +54,11 @@ public class Voznja {
     }
 
     public List<Korisnik> getPutnici() {
-        return putnici;
+        return korisnici;
     }
 
     public void setPutnici(List<Korisnik> putnici) {
-        this.putnici = putnici;
+        this.korisnici = putnici;
     }
 
     public double getBrojKilometara() {
@@ -94,13 +109,37 @@ public class Voznja {
         this.ocena = ocena;
     }
 
+    public String getPolaziste() {
+        return polaziste;
+    }
+
+    public void setPolaziste(String polaziste) {
+        this.polaziste = polaziste;
+    }
+
+//    public List<String> getStanice() {
+//        return stanice;
+//    }
+//
+//    public void setStanice(List<String> stanice) {
+//        this.stanice = stanice;
+//    }
+
+    public String getDestinacija() {
+        return destinacija;
+    }
+
+    public void setDestinacija(String destinacija) {
+        this.destinacija = destinacija;
+    }
+
     @Override
     public String toString() {
         return "Voznja{" +
                 "vozac=" + vozac +
-                ", putnici=" + putnici +
+                ", putnici=" + korisnici +
                 ", polaziste='" + polaziste + '\'' +
-                ", stanice=" + stanice +
+//                ", stanice=" + stanice +
                 ", destinacija='" + destinacija + '\'' +
                 ", brojKilometara=" + brojKilometara +
                 ", napomena='" + napomena + '\'' +
@@ -108,6 +147,15 @@ public class Voznja {
                 ", cena=" + cena +
                 ", gotova=" + gotova +
                 ", ocena=" + ocena +
+                ", id=" + id +
                 '}';
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

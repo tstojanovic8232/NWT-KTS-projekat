@@ -1,8 +1,21 @@
-package tim.model;
+package tim.projekat.model;
 
-import tim.model.enums.NacinPlacanja;
+import org.hibernate.annotations.NaturalId;
+import tim.projekat.model.enums.NacinPlacanja;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Access(AccessType.FIELD)
+@Table(name="korisnik")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Korisnik {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+    @Column(unique = true)
     private String email;
     private String lozinka;
     private String ime;
@@ -14,6 +27,9 @@ public class Korisnik {
     private String podaciPlacanja;
     private Boolean uVoznji;    // Da li je trenutno u voznji
     private Boolean blokiran;   // Da li je blokiran od strane administratora
+
+    @ManyToMany(targetEntity = Voznja.class, mappedBy = "korisnici")
+    private List<Voznja> voznje;
 
     public Korisnik() {
     }
@@ -28,6 +44,14 @@ public class Korisnik {
         this.aktivan = false;
         this.uVoznji = false;
         this.blokiran = false;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -118,10 +142,19 @@ public class Korisnik {
         this.blokiran = blokiran;
     }
 
+    public List<Voznja> getVoznje() {
+        return voznje;
+    }
+
+    public void setVoznje(List<Voznja> voznje) {
+        this.voznje = voznje;
+    }
+
     @Override
     public String toString() {
         return "Korisnik{" +
-                "email='" + email + '\'' +
+                "id=" + id +
+                ", email='" + email + '\'' +
                 ", lozinka='" + lozinka + '\'' +
                 ", ime='" + ime + '\'' +
                 ", prezime='" + prezime + '\'' +

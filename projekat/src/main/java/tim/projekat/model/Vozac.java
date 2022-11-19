@@ -1,10 +1,20 @@
-package tim.model;
+package tim.projekat.model;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Access(AccessType.FIELD)
+@Table(name="vozac")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Vozac extends Korisnik {
     private Boolean status; // Da li je aktivan na sistemu, tj. da li je prijavljen
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vozilo_id", referencedColumnName = "id")
     private Vozilo vozilo;
+
+    @OneToMany
+    private List<Voznja> voznje;
 
     public Vozac() {
     }
@@ -32,11 +42,19 @@ public class Vozac extends Korisnik {
         this.vozilo = vozilo;
     }
 
+    public List<Voznja> getVoznje() {
+        return voznje;
+    }
+
+    public void setVoznje(List<Voznja> voznje) {
+        this.voznje = voznje;
+    }
+
     @Override
     public String toString() {
         return "Vozac{" +
                 "status=" + status +
                 ", vozilo=" + vozilo +
-                "} : " + super.toString();
+                "} " + super.toString();
     }
 }
