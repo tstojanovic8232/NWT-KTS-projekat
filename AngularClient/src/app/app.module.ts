@@ -4,11 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarLogOutComponent } from './nav-bar-log-out/nav-bar-log-out.component';
+import { LoginComponent } from './login/login.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavBarLogOutComponent
+    NavBarLogOutComponent,
+    LoginComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
