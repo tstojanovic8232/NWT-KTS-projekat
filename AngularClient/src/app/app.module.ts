@@ -7,6 +7,8 @@ import { NavBarLogOutComponent } from './nav-bar-log-out/nav-bar-log-out.compone
 import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import { HomePageComponent } from './home-page/home-page.component';
     NavBarLogOutComponent,
     LoginComponent,
     MapComponent,
-    HomePageComponent
+    HomePageComponent,
+    RegistrationComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
