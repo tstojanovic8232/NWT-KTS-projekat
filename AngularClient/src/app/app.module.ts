@@ -9,6 +9,7 @@ import { MapComponent } from './map/map.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AboutComponent } from './about/about.component';
+import { ClientProfileComponent } from './client-profile/client-profile.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AboutComponent } from './about/about.component';
     MapComponent,
     HomePageComponent,
     RegistrationComponent,
-    AboutComponent
+    AboutComponent,
+    ClientProfileComponent
   ],
   imports: [
     BrowserModule,
