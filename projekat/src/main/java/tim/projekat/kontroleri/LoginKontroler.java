@@ -1,21 +1,25 @@
 package tim.projekat.kontroleri;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-@Controller
-@RequestMapping(
-        value = "/login",
-        method = RequestMethod.GET,
-        consumes = "application/json",
-        produces = "application/json")
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import tim.projekat.dto.LoginDTO;
+import tim.projekat.model.Korisnik;
+import tim.projekat.servisi.KorisnikServis;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class LoginKontroler {
 
-    @PostMapping("/test")
-    public void login() {
+    @Autowired
+    KorisnikServis korisnikServis;
 
-
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {
+        Korisnik korisnik = this.korisnikServis.getUserByEmail(loginDTO.getEmail());
+        if(korisnik.getLozinka().equals(loginDTO.getPassword()))
+            return ResponseEntity.ok(korisnik);
+        return (ResponseEntity<?>) ResponseEntity.internalServerError();
     }
 }
