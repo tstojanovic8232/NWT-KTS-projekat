@@ -8,11 +8,13 @@ import { Observable } from 'rxjs';
 })
 export class UserLoginService {
 
-  private baseUrl = "http://localhost:8084/login";
-  constructor(private httpClient : HttpClient) { }
+  private loginUrl : string;
+  constructor(private http : HttpClient) {
+    this.loginUrl="http://localhost:8084/login";
+   }
 
   loginUser(user : User):Observable<object> {
     console.log(user);
-    return this.httpClient.post(`${this.baseUrl}`, user);
+    return this.http.post<User>(this.loginUrl, user);
   }
 }

@@ -12,6 +12,12 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { AboutComponent } from './about/about.component';
 import { ClientProfileComponent } from './client-profile/client-profile.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { NavBarAdminComponent } from './nav-bar-admin/nav-bar-admin.component';
+import { ClientPageComponent } from './client-page/client-page.component';
+import { DriverPageComponent } from './driver-page/driver-page.component';
+import { NavBarClientComponent } from './nav-bar-client/nav-bar-client.component';
+import { NavBarDriverComponent } from './nav-bar-driver/nav-bar-driver.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +28,13 @@ import { ClientProfileComponent } from './client-profile/client-profile.componen
     HomePageComponent,
     RegistrationComponent,
     AboutComponent,
-    ClientProfileComponent
+    ClientProfileComponent,
+    AdminPageComponent,
+    NavBarAdminComponent,
+    ClientPageComponent,
+    DriverPageComponent,
+    NavBarClientComponent,
+    NavBarDriverComponent
   ],
   imports: [
     BrowserModule,

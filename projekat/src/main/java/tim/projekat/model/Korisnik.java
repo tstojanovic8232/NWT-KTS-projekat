@@ -28,8 +28,6 @@ public class Korisnik {
     private Boolean uVoznji;    // Da li je trenutno u voznji
     private Boolean blokiran;   // Da li je blokiran od strane administratora
 
-    // Možda napravimo još jednu klasu za klijenta, a ovu klasu stavimo da bude apstraktna
-
     @ManyToMany(targetEntity = Voznja.class, mappedBy = "korisnici")
     private List<Voznja> voznje;
 
