@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
 
   }
   userLogin() {
+    console.log(this.user);
     this.userLoginService.loginUser(this.user).subscribe(result => this.gotoUserPage("admin"));
   }
 

@@ -28,6 +28,8 @@ public class AuthKontroler {
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterDTO registerDTO) {
         System.out.println(registerDTO.toString());
+        Korisnik k=new Korisnik(registerDTO);
+        this.korisnikServis.save(k);
         return ResponseEntity.ok(registerDTO);
     }
 }

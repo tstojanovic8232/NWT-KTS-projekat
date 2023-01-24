@@ -1,6 +1,7 @@
 package tim.projekat.model;
 
 import org.hibernate.annotations.NaturalId;
+import tim.projekat.dto.RegisterDTO;
 import tim.projekat.model.enums.NacinPlacanja;
 
 import javax.persistence.*;
@@ -41,6 +42,16 @@ public class Korisnik {
         this.prezime = prezime;
         this.grad = grad;
         this.brojTel = brojTel;
+        this.aktivan = false;
+        this.uVoznji = false;
+        this.blokiran = false;
+    }
+    public Korisnik(RegisterDTO dto){
+        this.email=dto.getEmail();
+        this.lozinka=dto.getPassword();
+        this.ime=dto.getName();
+        this.prezime=dto.getLastname();
+        this.brojTel=dto.getPhone();
         this.aktivan = false;
         this.uVoznji = false;
         this.blokiran = false;

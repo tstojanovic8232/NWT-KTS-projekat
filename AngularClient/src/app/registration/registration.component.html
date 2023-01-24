@@ -4,29 +4,29 @@
       <div class="col-md-6 col-lg-4">
         <div class="login-wrap p-0">
           <h3 class="mb-4 text-center">Registration</h3>
-          <form action="#" class="signin-form">
+          <form (ngSubmit)="register()" class="signin-form">
             <div class="form-group">
-              <input  type="name" class="form-control" placeholder="Name" required>
+              <input  type="name" name="name" class="form-control" placeholder="Name" [(ngModel)]="user.name" required>
 
             </div>
             <div class="form-group">
-              <input  type="name" class="form-control" placeholder="LastName" required>
+              <input  type="name" name="lastname" class="form-control" placeholder="LastName" [(ngModel)]="user.lastname" required>
 
             </div>
             <div class="form-group">
-              <input id="password-field" type="password" class="form-control" placeholder="Password" required>
+              <input id="password-field" name="password" type="password" class="form-control" placeholder="Password" [(ngModel)]="user.password" required>
               <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" placeholder="Confirm password" required>
+              <input type="password" name="pass" class="form-control" placeholder="Confirm password" [(ngModel)]="pass" required>
               <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
             </div>
             <div class="form-group">
-              <input  type="email" class="form-control" placeholder="Email" required>
+              <input  type="email" name="email" class="form-control" placeholder="Email" [(ngModel)]="user.email" required>
 
             </div>
             <div class="form-group">
-              <input  type="name" class="form-control" placeholder="Phone" required>
+              <input  type="name" name="phone" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" required>
 
             </div>
             <div class="form-group">

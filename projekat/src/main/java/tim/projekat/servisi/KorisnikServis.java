@@ -13,4 +13,7 @@ public class KorisnikServis {
     public Korisnik getKorisnikByEmail(String email) {
         return this.korisnikRepo.getKorisnikByEmail(email);
     }
+    public void save(Korisnik k){
+         this.korisnikRepo.save(k);
+    }
 }
