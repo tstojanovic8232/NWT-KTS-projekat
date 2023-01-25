@@ -4,14 +4,13 @@ import javax.persistence.*;
 
 @Entity
 @Access(AccessType.FIELD)
-@Table(name="admin")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorValue("admin")
 public class Administrator extends Korisnik {
     public Administrator() {
     }
 
-    public Administrator(String email, String lozinka, String ime, String prezime, String grad, String brojTel) {
-        super(email, lozinka, ime, prezime, grad, brojTel);
+    public Administrator(String email, String lozinka) {
+        super(email, lozinka);
         this.setAktivan(true);
     }
 

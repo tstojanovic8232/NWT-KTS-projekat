@@ -12,8 +12,8 @@ public class Voznja {
     @JoinColumn(name="vozac_id", nullable=false)
     private Vozac vozac;
 
-    @ManyToMany(targetEntity = Korisnik.class)
-    private List<Korisnik> korisnici;
+    @ManyToMany(targetEntity = Klijent.class)
+    private List<Klijent> klijenti;
 
     private String polaziste;
 //    @ElementCollection
@@ -33,9 +33,9 @@ public class Voznja {
     public Voznja() {
     }
 
-    public Voznja(Vozac vozac, List<Korisnik> putnici, double brojKilometara, String napomena, LocalDateTime datumVreme, double cena) {
+    public Voznja(Vozac vozac, List<Klijent> putnici, double brojKilometara, String napomena, LocalDateTime datumVreme, double cena) {
         this.vozac = vozac;
-        this.korisnici = putnici;
+        this.klijenti = putnici;
         this.brojKilometara = brojKilometara;
         this.napomena = napomena;
         this.datumVreme = datumVreme;
@@ -53,12 +53,12 @@ public class Voznja {
         this.vozac = vozac;
     }
 
-    public List<Korisnik> getPutnici() {
-        return korisnici;
+    public List<Klijent> getPutnici() {
+        return klijenti;
     }
 
-    public void setPutnici(List<Korisnik> putnici) {
-        this.korisnici = putnici;
+    public void setPutnici(List<Klijent> putnici) {
+        this.klijenti = putnici;
     }
 
     public double getBrojKilometara() {
@@ -137,7 +137,7 @@ public class Voznja {
     public String toString() {
         return "Voznja{" +
                 "vozac=" + vozac +
-                ", putnici=" + korisnici +
+                ", putnici=" + klijenti +
                 ", polaziste='" + polaziste + '\'' +
 //                ", stanice=" + stanice +
                 ", destinacija='" + destinacija + '\'' +

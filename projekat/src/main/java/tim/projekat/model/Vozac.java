@@ -5,9 +5,14 @@ import java.util.List;
 
 @Entity
 @Access(AccessType.FIELD)
-@Table(name="vozac")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorValue("vozac")
 public class Vozac extends Korisnik {
+    private String ime;
+    private String prezime;
+    private String grad;
+    private String brojTel;
+    private Boolean uVoznji;    // Da li je trenutno u voznji
+    private Boolean blokiran;   // Da li je blokiran od strane administratora
     private Boolean status; // Da li je aktivan na sistemu, tj. da li je prijavljen
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vozilo_id", referencedColumnName = "id")
@@ -20,10 +25,16 @@ public class Vozac extends Korisnik {
     }
 
     public Vozac(String email, String lozinka, String ime, String prezime, String grad, String brojTel, Vozilo vozilo) {
-        super(email, lozinka, ime, prezime, grad, brojTel);
-        this.setAktivan(true);
-        this.status = false;
+        super(email, lozinka);
+        this.ime = ime;
+        this.prezime = prezime;
+        this.grad = grad;
+        this.brojTel = brojTel;
         this.vozilo = vozilo;
+        this.blokiran = false;
+        this.uVoznji = false;
+        this.status = false;
+        this.setAktivan(true);
     }
 
     public Boolean getStatus() {
@@ -50,11 +61,66 @@ public class Vozac extends Korisnik {
         this.voznje = voznje;
     }
 
+    public String getIme() {
+        return ime;
+    }
+
+    public void setIme(String ime) {
+        this.ime = ime;
+    }
+
+    public String getPrezime() {
+        return prezime;
+    }
+
+    public void setPrezime(String prezime) {
+        this.prezime = prezime;
+    }
+
+    public String getGrad() {
+        return grad;
+    }
+
+    public void setGrad(String grad) {
+        this.grad = grad;
+    }
+
+    public String getBrojTel() {
+        return brojTel;
+    }
+
+    public void setBrojTel(String brojTel) {
+        this.brojTel = brojTel;
+    }
+
+    public Boolean getuVoznji() {
+        return uVoznji;
+    }
+
+    public void setuVoznji(Boolean uVoznji) {
+        this.uVoznji = uVoznji;
+    }
+
+    public Boolean getBlokiran() {
+        return blokiran;
+    }
+
+    public void setBlokiran(Boolean blokiran) {
+        this.blokiran = blokiran;
+    }
+
     @Override
     public String toString() {
         return "Vozac{" +
-                "status=" + status +
+                "ime='" + ime + '\'' +
+                ", prezime='" + prezime + '\'' +
+                ", grad='" + grad + '\'' +
+                ", brojTel='" + brojTel + '\'' +
+                ", uVoznji=" + uVoznji +
+                ", blokiran=" + blokiran +
+                ", status=" + status +
                 ", vozilo=" + vozilo +
+                ", voznje=" + voznje +
                 "} " + super.toString();
     }
 }
