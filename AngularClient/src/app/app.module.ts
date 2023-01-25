@@ -18,6 +18,7 @@ import { ClientPageComponent } from './client-page/client-page.component';
 import { DriverPageComponent } from './driver-page/driver-page.component';
 import { NavBarClientComponent } from './nav-bar-client/nav-bar-client.component';
 import { NavBarDriverComponent } from './nav-bar-driver/nav-bar-driver.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { NavBarDriverComponent } from './nav-bar-driver/nav-bar-driver.component
     ClientPageComponent,
     DriverPageComponent,
     NavBarClientComponent,
-    NavBarDriverComponent
+    NavBarDriverComponent,
+    ConfirmComponent
   ],
   imports: [
     BrowserModule,
