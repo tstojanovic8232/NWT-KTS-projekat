@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 import {Observable} from "rxjs";
 import {UserRegister} from "../model/user-register";
@@ -17,6 +17,11 @@ export class UserRegisterService {
 
   registerUser(user : UserRegister):Observable<object> {
     console.log(user);
-    return this.http.post<UserRegister>(this.loginUrl, user);
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json'}
+      )
+    };
+    return this.http.post<UserRegister>(this.loginUrl, JSON.stringify(user), httpOptions);
   }
 }

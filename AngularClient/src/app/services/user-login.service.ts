@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { Observable } from 'rxjs';
@@ -15,6 +15,11 @@ export class UserLoginService {
 
   loginUser(user : User):Observable<object> {
     console.log(user);
-    return this.http.post<User>(this.loginUrl, user);
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json'}
+      )
+    };
+    return this.http.post<User>(this.loginUrl, JSON.stringify(user), httpOptions);
   }
 }

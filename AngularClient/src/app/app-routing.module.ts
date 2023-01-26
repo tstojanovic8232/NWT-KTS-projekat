@@ -32,6 +32,42 @@ const routes: Routes = [
           component: ClientsListComponent,
         },*/
       ],
+  },
+  {
+    path: 'client-home', component: ClientProfileComponent,
+    children:
+      [
+        {
+          path: 'profile',
+          component: ClientProfileComponent,
+        },
+        /*{
+          path: 'drivers',
+          component: DriversListComponent,
+        },
+        {
+          path: 'clients',
+          component: ClientsListComponent,
+        },*/
+      ],
+  },
+  {
+    path: 'driver-home', component: HomePageComponent,
+    children:
+      [
+        {
+          path: 'profile',
+          component: ClientProfileComponent,
+        },
+        /*{
+          path: 'drivers',
+          component: DriversListComponent,
+        },
+        {
+          path: 'clients',
+          component: ClientsListComponent,
+        },*/
+      ],
   }
   //{ path: '**', component: PageNotFoundComponent}
 ];

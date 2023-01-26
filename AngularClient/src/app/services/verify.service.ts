@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {User} from "../model/user";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -16,7 +15,12 @@ export class VerifyService {
 
   verify(token:string|null):Observable<object> {
     console.log(this.url+'?token='+token)
-    return this.http.get(this.url+'?token='+token);
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json'}
+      )
+    };
+    return this.http.get(this.url+'?token='+token, httpOptions);
 
   }
 }

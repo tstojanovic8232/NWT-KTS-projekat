@@ -2,7 +2,7 @@ package tim.projekat.kontroleri;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tim.projekat.dto.LoginDTO;
@@ -10,6 +10,7 @@ import tim.projekat.dto.RegisterDTO;
 import tim.projekat.model.Klijent;
 import tim.projekat.model.Korisnik;
 import tim.projekat.model.VerificationToken;
+import tim.projekat.pojo.LoginPOJO;
 import tim.projekat.servisi.EmailServis;
 import tim.projekat.servisi.KorisnikServis;
 
@@ -23,19 +24,20 @@ public class AuthKontroler {
     @Autowired
     KorisnikServis korisnikServis;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {
+    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LoginPOJO> loginUser(@RequestBody LoginDTO loginDTO) {
         System.out.println(loginDTO.toString());
         Korisnik korisnik = this.korisnikServis.getKorisnikByEmail(loginDTO.getEmail());
-        if(korisnik.getLozinka().equals(loginDTO.getPassword()) && korisnik.getAktivan().equals(true))
-            return ResponseEntity.ok(korisnik);
-        return (ResponseEntity<?>) ResponseEntity.internalServerError();
+        LoginPOJO response = new LoginPOJO(korisnik.getEmail(), korisnik.getClass().getSimpleName());
+        if (korisnik.getLozinka().equals(loginDTO.getPassword()) && korisnik.getAktivan().equals(true))
+            return ResponseEntity.ok(response);
+        return (ResponseEntity<LoginPOJO>) ResponseEntity.internalServerError();
     }
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> registerUser(@RequestBody RegisterDTO registerDTO) {
         System.out.println(registerDTO.toString());
-        Korisnik k=new Klijent(registerDTO);
+        Korisnik k = new Klijent(registerDTO);
         this.korisnikServis.save(k);
         String token = UUID.randomUUID().toString();
 
@@ -47,7 +49,8 @@ public class AuthKontroler {
         emailServis.sendConfirmationEmail(k.getEmail(), token);
         return ResponseEntity.ok(registerDTO);
     }
-    @GetMapping("/confirm")
+
+    @GetMapping(value = "/confirm", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> confirmEmail(@RequestParam("token") String token) {
 
         // Retrieve the token from the database
@@ -59,7 +62,7 @@ public class AuthKontroler {
 
             return ResponseEntity.ok(verificationToken);
         } else {
-            return (ResponseEntity<?>)ResponseEntity.internalServerError();
+            return (ResponseEntity<?>) ResponseEntity.internalServerError();
         }
     }
 }
