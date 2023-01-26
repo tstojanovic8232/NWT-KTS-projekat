@@ -31,6 +31,7 @@ public class Klijent extends Korisnik {
         this.uVoznji = false;
         this.blokiran = false;
         this.voznje = new ArrayList<>();
+        this.grad=dto.getCity();
     }
 
     public Klijent() {

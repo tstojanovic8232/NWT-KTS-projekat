@@ -4,4 +4,5 @@ export class UserRegister {
   password!:string;
   email!:string;
   phone!:string;
+  city!: string;
 }

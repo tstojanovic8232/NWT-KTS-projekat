@@ -6,6 +6,9 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {ClientProfileComponent} from "./client-profile/client-profile.component";
 import {AdminPageComponent} from './admin-page/admin-page.component';
 import {ConfirmComponent} from "./confirm/confirm.component";
+import {ClientPageComponent} from "./client-page/client-page.component";
+import {MapComponent} from "./map/map.component";
+import {DriverPageComponent} from "./driver-page/driver-page.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -34,9 +37,11 @@ const routes: Routes = [
       ],
   },
   {
-    path: 'client-home', component: ClientProfileComponent,
+    path: 'client-home', component: ClientPageComponent,
+
     children:
       [
+        {path:'', component: MapComponent},
         {
           path: 'profile',
           component: ClientProfileComponent,
@@ -52,7 +57,7 @@ const routes: Routes = [
       ],
   },
   {
-    path: 'driver-home', component: HomePageComponent,
+    path: 'driver-home', component: DriverPageComponent,
     children:
       [
         {

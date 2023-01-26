@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./client-profile.component.css']
 })
 export class ClientProfileComponent {
+  activeTab: string = 'User';
+
+  openTab(tab: string) {
+    this.activeTab = tab;
+  }
+
+
 
 }

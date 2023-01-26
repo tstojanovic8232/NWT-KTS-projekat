@@ -7,16 +7,19 @@ public class RegisterDTO {
     private String email;
     private String phone;
 
+    private String city;
+
 
     public RegisterDTO() {
     }
 
-    public RegisterDTO(String name, String lastname, String password, String email, String phone) {
+    public RegisterDTO(String name, String lastname, String password, String email, String phone,String city) {
         this.name = name;
         this.lastname = lastname;
         this.password = password;
         this.email = email;
         this.phone = phone;
+        this.city=city;
     }
 
     public String getName() {
@@ -59,6 +62,14 @@ public class RegisterDTO {
         this.phone = phone;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "RegisterDTO{" +
@@ -67,6 +78,7 @@ public class RegisterDTO {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", city='" + city + '\'' +
                 '}';
     }
 }

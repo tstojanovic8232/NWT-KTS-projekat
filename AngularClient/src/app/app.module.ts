@@ -19,6 +19,9 @@ import { DriverPageComponent } from './driver-page/driver-page.component';
 import { NavBarClientComponent } from './nav-bar-client/nav-bar-client.component';
 import { NavBarDriverComponent } from './nav-bar-driver/nav-bar-driver.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { UserInfoComponent } from './user-info/user-info.component';
+import { BillingInfoComponent } from './billing-info/billing-info.component';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { ConfirmComponent } from './confirm/confirm.component';
     DriverPageComponent,
     NavBarClientComponent,
     NavBarDriverComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    UserInfoComponent,
+    BillingInfoComponent,
+
   ],
   imports: [
     BrowserModule,

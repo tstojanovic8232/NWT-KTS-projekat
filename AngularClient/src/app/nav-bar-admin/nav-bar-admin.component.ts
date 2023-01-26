@@ -22,7 +22,7 @@ export class NavBarAdminComponent implements OnInit {
   }
 
   logout() {
-    
+    this.goToHomePage();
   }
 
   goToHomePage() {

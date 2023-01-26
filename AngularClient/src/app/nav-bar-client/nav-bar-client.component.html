@@ -1,1 +1,12 @@
-<p>nav-bar-client works!</p>
+<div class="topnav">
+  <a class="active" routerLink="/client-home" routerLinkActive="active" ariaCurrentWhenActive="page"><i
+    class="fa fa-fw fa-home"></i>Home</a>
+
+
+  <div class="topnav-right">
+    <a routerLink="/client-home/history" routerLinkActive="active" ariaCurrentWhenActive="page">History</a>
+    <a routerLink="/" (click)="logout()">Logout</a>
+    <a routerLink="/client-home/profile" routerLinkActive="active" ariaCurrentWhenActive="page"><i
+      class="fa fa-fw fa-user"></i>Profile</a>
+  </div>
+</div>
