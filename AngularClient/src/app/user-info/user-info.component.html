@@ -1,17 +1,17 @@
 <div class="tab-content" id="User">
   <div class="change" id="personal">
     <form>
-      <input type="text" placeholder="Pera" name="firstName" />
-      <input type="text" placeholder="Peric" name="lastName" />
-      <input type="text" placeholder="Novi Sad" name="city" />
-      <input type="text" placeholder="061/1234567" name="phone" />
+      <input type="text" [placeholder]="user.name" name="name" />
+      <input type="text" [placeholder]="user.lastname" name="lastname" />
+      <input type="text" [placeholder]="user.city" name="city" />
+      <input type="text" [placeholder]="user.phone" name="phone" />
       <button type="submit">Submit changes</button>
     </form>
   </div>
   <hr />
   <div class="change" id="email">
     <form>
-      <input type="email" placeholder="peraperic123@gmail.com" name="email" />
+      <input type="email" [placeholder]="user.email" name="email" />
       <button type="submit">Change email</button>
     </form>
   </div>

@@ -3,6 +3,7 @@ import {User} from '../model/user';
 import {UserLoginService} from '../services/user-login.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserRole} from "../model/user-role";
+import { LocalService } from '../services/local.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userLoginService: UserLoginService) {
+    private userLoginService: UserLoginService,
+    private localService : LocalService) {
   }
 
   ngOnInit(): void {
@@ -27,6 +29,10 @@ export class LoginComponent implements OnInit {
     console.log(this.user);
     this.userLoginService.loginUser(this.user).subscribe(data => {
       this.gotoUserPage(data as UserRole);
+      this.localService.saveData('user',(data as UserRole).email)
+      this.localService.saveData('role',(data as UserRole).role)
+      console.log(this.localService.getData('user'))
+      console.log(this.localService.getData('role'))
       console.log(data);
     });
   }

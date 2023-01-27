@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {LocalService} from "../services/local.service";
 
 @Component({
   selector: 'app-admin-page',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-page.component.css']
 })
 export class AdminPageComponent {
-
+constructor(private localService:LocalService) {
+  console.log(localService.getData('user'));
+}
 }

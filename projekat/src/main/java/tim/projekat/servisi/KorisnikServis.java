@@ -29,6 +29,7 @@ public class KorisnikServis {
     }
 
     public Korisnik getKorisnikByEmail(String email) {
+        System.out.println(email);
         return this.korisnikRepo.getKorisnikByEmail(email);
     }
     public void save(Korisnik k){

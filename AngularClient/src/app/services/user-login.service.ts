@@ -2,6 +2,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
 import { Observable } from 'rxjs';
+import {LocalService} from "./local.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,8 @@ import { Observable } from 'rxjs';
 export class UserLoginService {
 
   private loginUrl : string;
-  constructor(private http : HttpClient) {
+  constructor(private http : HttpClient,
+              private localService : LocalService) {
     this.loginUrl="http://localhost:8084/login";
    }
 
@@ -21,5 +23,9 @@ export class UserLoginService {
       )
     };
     return this.http.post<User>(this.loginUrl, JSON.stringify(user), httpOptions);
+  }
+
+  logoutUser() {
+    this.localService.clearData()
   }
 }

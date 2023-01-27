@@ -14,7 +14,7 @@
         <button (click)="openTab('Billing')" [class.active]="activeTab === 'Billing'">Billing info</button>
 
       </div>
-      <app-user-info *ngIf="activeTab === 'User'"></app-user-info>
-      <app-billing-info *ngIf="activeTab === 'Billing'"></app-billing-info>
+      <app-user-info *ngIf="activeTab === 'User'" [user]="user"></app-user-info>
+      <app-billing-info *ngIf="activeTab === 'Billing'" [user]="user"></app-billing-info>
     </div>
 </div>

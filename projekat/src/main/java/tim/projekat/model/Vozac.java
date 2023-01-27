@@ -1,5 +1,7 @@
 package tim.projekat.model;
 
+import tim.projekat.model.enums.NacinPlacanja;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,6 +13,10 @@ public class Vozac extends Korisnik {
     private String prezime;
     private String grad;
     private String brojTel;
+
+    private NacinPlacanja nacinPlacanja;
+    private String podaciPlacanja;
+
     private Boolean uVoznji;    // Da li je trenutno u voznji
     private Boolean blokiran;   // Da li je blokiran od strane administratora
     private Boolean status; // Da li je aktivan na sistemu, tj. da li je prijavljen
@@ -22,6 +28,7 @@ public class Vozac extends Korisnik {
     private List<Voznja> voznje;
 
     public Vozac() {
+        super();
     }
 
     public Vozac(String email, String lozinka, String ime, String prezime, String grad, String brojTel, Vozilo vozilo) {
@@ -109,6 +116,22 @@ public class Vozac extends Korisnik {
         this.blokiran = blokiran;
     }
 
+    public NacinPlacanja getNacinPlacanja() {
+        return nacinPlacanja;
+    }
+
+    public void setNacinPlacanja(NacinPlacanja nacinPlacanja) {
+        this.nacinPlacanja = nacinPlacanja;
+    }
+
+    public String getPodaciPlacanja() {
+        return podaciPlacanja;
+    }
+
+    public void setPodaciPlacanja(String podaciPlacanja) {
+        this.podaciPlacanja = podaciPlacanja;
+    }
+
     @Override
     public String toString() {
         return "Vozac{" +
@@ -116,6 +139,8 @@ public class Vozac extends Korisnik {
                 ", prezime='" + prezime + '\'' +
                 ", grad='" + grad + '\'' +
                 ", brojTel='" + brojTel + '\'' +
+                ", nacinPlacanja=" + nacinPlacanja +
+                ", podaciPlacanja='" + podaciPlacanja + '\'' +
                 ", uVoznji=" + uVoznji +
                 ", blokiran=" + blokiran +
                 ", status=" + status +

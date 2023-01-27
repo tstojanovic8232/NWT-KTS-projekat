@@ -22,6 +22,7 @@ export class NavBarAdminComponent implements OnInit {
   }
 
   logout() {
+    this.userLoginService.logoutUser();
     this.goToHomePage();
   }
 

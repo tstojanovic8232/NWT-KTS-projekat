@@ -29,6 +29,19 @@ public class Korisnik {
         this.aktivan = false;
     }
 
+    public Korisnik(Klijent k) {
+        this.email = k.getEmail();
+        this.lozinka = k.getLozinka();
+        this.aktivan = k.getAktivan();
+    }
+
+
+    public Korisnik(Vozac k) {
+        this.email = k.getEmail();
+        this.lozinka = k.getLozinka();
+        this.aktivan = k.getAktivan();
+    }
+
     public Long getId() {
         return id;
     }

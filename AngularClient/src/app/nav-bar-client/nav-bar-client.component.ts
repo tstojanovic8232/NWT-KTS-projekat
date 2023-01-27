@@ -21,6 +21,7 @@ export class NavBarClientComponent {
   }
 
   logout() {
+    this.userLoginService.logoutUser();
     this.goToHomePage();
   }
 

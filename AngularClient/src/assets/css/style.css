@@ -8140,7 +8140,7 @@ body {
   color: gray;
   position: relative;
   z-index: 0;
-  padding: 0; }
+  padding: 0;}
   body:after {
     position: absolute;
     top: 0;
@@ -8148,7 +8148,7 @@ body {
     right: 0;
     bottom: 0;
     content: '';
-    background: #000;
+    background: #000 fixed;
     opacity: .3;
     z-index: -1; }
 
@@ -8174,7 +8174,7 @@ h1, h2, h3, h4, h5,
   background: #fbceb5 !important; }
 
 .ftco-section {
-  padding: 7em 0; }
+  padding-top: 5em;}
 
 .ftco-no-pt {
   padding-top: 0; }

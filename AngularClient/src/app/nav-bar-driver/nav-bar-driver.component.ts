@@ -21,6 +21,7 @@ export class NavBarDriverComponent {
   }
 
   logout() {
+    this.userLoginService.logoutUser();
     this.goToHomePage();
   }
 

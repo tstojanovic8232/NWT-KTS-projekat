@@ -2,13 +2,11 @@
 
   <div class="change" >
     <form>
-      <select name="payMethod">
-        <option selected disabled hidden>Choose payment method</option>
-        <option value="PayPal">PayPal</option>
-        <option value="Bitcoin">Bitcoin</option>
+      <select name="payMethod" [(ngModel)]="selectedValue">
+        <option *ngFor="let b of billing" [ngValue]="b.id">{{b.name}}</option>
       </select>
-      <input type="text" placeholder="Payment data" name="payData" />
-      <button type="submit">Change password</button>
+      <input type="text" [placeholder]="user.billingInfo" name="payData" />
+      <button type="submit">Save changes</button>
     </form>
   </div>
 </div>
