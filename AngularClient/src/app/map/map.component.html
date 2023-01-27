@@ -3,8 +3,9 @@
   <div id="fronto">
     <form>
 
-      <input type="text" id="fname" name="firstname" placeholder="Your name..">
-      <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+      <input type="text" id="fname" [(ngModel)]="addressFrom" (keyup.enter)="updateMapFrom()" name="address">
+      <input type="text" id="lname" [(ngModel)]="addressTo" (keyup.enter)="updateMapTo()" name="address">
 
 
 

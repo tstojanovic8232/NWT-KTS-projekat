@@ -21,7 +21,7 @@ import { NavBarDriverComponent } from './nav-bar-driver/nav-bar-driver.component
 import { ConfirmComponent } from './confirm/confirm.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { BillingInfoComponent } from './billing-info/billing-info.component';
-
+import  'leaflet-routing-machine';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,8 @@ import { BillingInfoComponent } from './billing-info/billing-info.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
