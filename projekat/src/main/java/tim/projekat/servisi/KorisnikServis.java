@@ -2,6 +2,8 @@ package tim.projekat.servisi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tim.projekat.dto.UpdateDTO;
+import tim.projekat.model.Klijent;
 import tim.projekat.model.Korisnik;
 import tim.projekat.model.VerificationToken;
 import tim.projekat.repozitorijumi.KorisnikRepo;

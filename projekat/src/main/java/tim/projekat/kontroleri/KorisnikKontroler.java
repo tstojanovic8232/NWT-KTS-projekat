@@ -3,10 +3,15 @@ package tim.projekat.kontroleri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tim.projekat.dto.BillingDTO;
 import tim.projekat.dto.KorisnikEmailDTO;
+import tim.projekat.dto.LoginDTO;
+import tim.projekat.dto.UpdateDTO;
+import tim.projekat.model.Administrator;
 import tim.projekat.model.Klijent;
 import tim.projekat.model.Korisnik;
 import tim.projekat.model.Vozac;
+import tim.projekat.model.enums.NacinPlacanja;
 import tim.projekat.pojo.KVProfilPOJO;
 import tim.projekat.servisi.KorisnikServis;
 
@@ -25,13 +30,83 @@ public class KorisnikKontroler {
         KVProfilPOJO p = new KVProfilPOJO();
         if(keDTO.getRole().equals(Klijent.class.getSimpleName())) {
             k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+            System.out.println(k);
             p = new KVProfilPOJO((Klijent) k);
         }
         else if(keDTO.getRole().equals(Vozac.class.getSimpleName())) {
             k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+            System.out.println(k);
             p = new KVProfilPOJO((Vozac) k);
         }
+        System.out.println(p);
         return ResponseEntity.ok(p);
     }
+    @PostMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateDTO uDto) {
+        System.out.println("azuriramo pod");
+        Korisnik k=this.korisnikServis.getKorisnikByEmail(uDto.getEmail());
+        if(k.equals(null)){
 
+            return (ResponseEntity<?>)ResponseEntity.internalServerError();
+        }
+
+        if (uDto.getName()!=null){
+               k.setIme(uDto.getName());
+        }
+        if (uDto.getLastname()!=null){
+            k.setPrezime(uDto.getLastname());
+        }
+        if ( uDto.getCity()!=null){
+            k.setGrad(uDto.getCity());
+        }
+        if (uDto.getPhone()!=null){
+            k.setBrojTel(uDto.getPhone());
+        }
+        this.korisnikServis.save(k);
+        return ResponseEntity.ok(uDto);
+    }
+    @PostMapping("/updatePass")
+    public ResponseEntity<?> updatePass(@RequestBody LoginDTO uDto) {
+        Korisnik k=this.korisnikServis.getKorisnikByEmail(uDto.getEmail());
+        if(k.equals(null)){
+            return (ResponseEntity<?>)ResponseEntity.internalServerError();
+        }
+        k.setLozinka(uDto.getPassword());
+        this.korisnikServis.save(k);
+        return ResponseEntity.ok(k);
+    }
+    @PostMapping("/updateEmail")
+    public ResponseEntity<?> updateEmail(@RequestBody LoginDTO email) {
+        Korisnik k=this.korisnikServis.getKorisnikByEmail(email.getEmail());
+        if(k.equals(null)){
+            return (ResponseEntity<?>)ResponseEntity.internalServerError();
+        }
+        k.setEmail(email.getPassword());
+        this.korisnikServis.save(k);
+        return ResponseEntity.ok(k);
+    }
+    @PostMapping("/updateBilling")
+    public ResponseEntity<?> updateBilling(@RequestBody BillingDTO uDto) {
+        Korisnik k=this.korisnikServis.getKorisnikByEmail(uDto.getEmail());
+        if(k.equals(null)){
+            return (ResponseEntity<?>)ResponseEntity.internalServerError();
+        }
+        if(uDto.getRole().equals(Klijent.class.getSimpleName())) {
+
+              ((Klijent) k).setNacinPlacanja(NacinPlacanja.valueOf(uDto.getBillingType()));
+            if(uDto.getBillingData()!=null){
+                 ((Klijent) k).setPodaciPlacanja(uDto.getBillingData());
+              }
+
+        }
+        else if(uDto.getRole().equals(Vozac.class.getSimpleName())) {
+            ((Vozac) k).setNacinPlacanja(NacinPlacanja.valueOf(uDto.getBillingType()));
+            if(uDto.getBillingData()!=null){
+                ((Vozac) k).setPodaciPlacanja(uDto.getBillingData());
+            }
+        }
+
+        this.korisnikServis.save(k);
+        return ResponseEntity.ok(uDto);
+    }
 }

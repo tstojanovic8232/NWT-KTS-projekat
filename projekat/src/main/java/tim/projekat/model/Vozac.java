@@ -9,10 +9,7 @@ import java.util.List;
 @Access(AccessType.FIELD)
 @DiscriminatorValue("vozac")
 public class Vozac extends Korisnik {
-    private String ime;
-    private String prezime;
-    private String grad;
-    private String brojTel;
+
 
     private NacinPlacanja nacinPlacanja;
     private String podaciPlacanja;
@@ -32,11 +29,8 @@ public class Vozac extends Korisnik {
     }
 
     public Vozac(String email, String lozinka, String ime, String prezime, String grad, String brojTel, Vozilo vozilo) {
-        super(email, lozinka);
-        this.ime = ime;
-        this.prezime = prezime;
-        this.grad = grad;
-        this.brojTel = brojTel;
+        super(email, lozinka,ime,prezime,grad,brojTel);
+
         this.vozilo = vozilo;
         this.blokiran = false;
         this.uVoznji = false;
@@ -68,37 +62,7 @@ public class Vozac extends Korisnik {
         this.voznje = voznje;
     }
 
-    public String getIme() {
-        return ime;
-    }
 
-    public void setIme(String ime) {
-        this.ime = ime;
-    }
-
-    public String getPrezime() {
-        return prezime;
-    }
-
-    public void setPrezime(String prezime) {
-        this.prezime = prezime;
-    }
-
-    public String getGrad() {
-        return grad;
-    }
-
-    public void setGrad(String grad) {
-        this.grad = grad;
-    }
-
-    public String getBrojTel() {
-        return brojTel;
-    }
-
-    public void setBrojTel(String brojTel) {
-        this.brojTel = brojTel;
-    }
 
     public Boolean getuVoznji() {
         return uVoznji;
@@ -135,11 +99,7 @@ public class Vozac extends Korisnik {
     @Override
     public String toString() {
         return "Vozac{" +
-                "ime='" + ime + '\'' +
-                ", prezime='" + prezime + '\'' +
-                ", grad='" + grad + '\'' +
-                ", brojTel='" + brojTel + '\'' +
-                ", nacinPlacanja=" + nacinPlacanja +
+                "nacinPlacanja=" + nacinPlacanja +
                 ", podaciPlacanja='" + podaciPlacanja + '\'' +
                 ", uVoznji=" + uVoznji +
                 ", blokiran=" + blokiran +

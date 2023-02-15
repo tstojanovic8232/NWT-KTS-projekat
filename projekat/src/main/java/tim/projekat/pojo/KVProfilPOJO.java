@@ -2,7 +2,6 @@ package tim.projekat.pojo;
 
 import tim.projekat.model.Klijent;
 import tim.projekat.model.Vozac;
-
 public class KVProfilPOJO {
     private String name;
     private String lastname;
@@ -36,6 +35,7 @@ public class KVProfilPOJO {
         this.phone = k.getBrojTel();
         this.billingType = k.getNacinPlacanja().toString();
         this.billingInfo = k.getPodaciPlacanja();
+
     }
 
     public KVProfilPOJO(Vozac k) {
@@ -47,6 +47,7 @@ public class KVProfilPOJO {
         this.phone = k.getBrojTel();
         this.billingType = k.getNacinPlacanja().toString();
         this.billingInfo = k.getPodaciPlacanja();
+
     }
 
     public String getName() {

@@ -40,6 +40,7 @@ export class ClientProfileComponent {
 
   saveUser(user:UserProfile) {
     this.user=user;
+    console.log(this.user);
   }
 
 }

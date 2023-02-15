@@ -1,11 +1,11 @@
 <div class="tab-content">
 
   <div class="change" >
-    <form>
+    <form (ngSubmit)="updateBilling()">
       <select name="payMethod" [(ngModel)]="selectedValue">
         <option *ngFor="let b of billing" [ngValue]="b.id">{{b.name}}</option>
       </select>
-      <input type="text" [placeholder]="user.billingInfo" name="payData" />
+      <input type="text" [placeholder]="user?.billingInfo" name="payData" [(ngModel)]="billingData" />
       <button type="submit">Save changes</button>
     </form>
   </div>
