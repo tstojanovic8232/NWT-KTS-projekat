@@ -10,7 +10,7 @@ import java.util.List;
 @DiscriminatorValue("vozac")
 public class Vozac extends Korisnik {
 
-
+    private String trenutna_lokacija;
     private NacinPlacanja nacinPlacanja;
     private String podaciPlacanja;
 
@@ -28,14 +28,22 @@ public class Vozac extends Korisnik {
         super();
     }
 
-    public Vozac(String email, String lozinka, String ime, String prezime, String grad, String brojTel, Vozilo vozilo) {
-        super(email, lozinka,ime,prezime,grad,brojTel);
-
+    public Vozac(String email, String lozinka, String ime, String prezime, String grad, String brojTel, Vozilo vozilo, String lokacija) {
+        super(email, lozinka, ime, prezime, grad, brojTel);
+        this.trenutna_lokacija = lokacija;
         this.vozilo = vozilo;
         this.blokiran = false;
         this.uVoznji = false;
         this.status = false;
         this.setAktivan(true);
+    }
+
+    public String getTrenutna_lokacija() {
+        return trenutna_lokacija;
+    }
+
+    public void setTrenutna_lokacija(String trenutna_lokacija) {
+        this.trenutna_lokacija = trenutna_lokacija;
     }
 
     public Boolean getStatus() {
@@ -61,7 +69,6 @@ public class Vozac extends Korisnik {
     public void setVoznje(List<Voznja> voznje) {
         this.voznje = voznje;
     }
-
 
 
     public Boolean getuVoznji() {
@@ -99,7 +106,8 @@ public class Vozac extends Korisnik {
     @Override
     public String toString() {
         return "Vozac{" +
-                "nacinPlacanja=" + nacinPlacanja +
+                "trenutna_lokacija='" + trenutna_lokacija + '\'' +
+                ", nacinPlacanja=" + nacinPlacanja +
                 ", podaciPlacanja='" + podaciPlacanja + '\'' +
                 ", uVoznji=" + uVoznji +
                 ", blokiran=" + blokiran +
