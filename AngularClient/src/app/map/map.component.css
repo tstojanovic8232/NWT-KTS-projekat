@@ -1,18 +1,7 @@
-input[type=text] {
-  width: 20%;
-  padding: 12px 20px;
-  margin-left: 370px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 40px;
 
-
-}
 
 #fronto{
-  margin:  0 auto;
+  margin:auto auto auto auto;
   z-index: 2;
 
 }
@@ -34,3 +23,28 @@ input[type=text] {
 #map {
   height: 100%;
 }
+#lname{
+  width: 12%;
+  padding: 12px 10px;
+  margin-left: 100px;
+  margin-bottom: 200px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 40px;
+
+}
+#fname{
+  width: 12%;
+  padding: 12px 10px;
+  margin-left: 200px;
+  margin-bottom: 200px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-top: 40px;
+
+}
+

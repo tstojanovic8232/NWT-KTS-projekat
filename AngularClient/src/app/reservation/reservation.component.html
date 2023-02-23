@@ -1,0 +1,52 @@
+
+
+
+
+
+<form (ngSubmit)="goToPayment()" class="reservation">
+    <input type="text" id="fname" [(ngModel)]="addressFrom" (keyup.tab)="updateMapFrom()" name="from" placeholder="Polaziste">
+    <input type="text" id="lname" [(ngModel)]="addressTo" (keyup.tab)="updateMapTo()" name="to" placeholder="Odrediste">
+
+
+    <input type="text"  id="napomena" [(ngModel)]="form.nap" name="nap" placeholder="Napomena">
+    <div class="components_container">
+
+
+      <div class="select_component">
+
+        <select name="tip" id="option" [(ngModel)]="form.tip" >
+
+          <option class="hidden_option" selected disabled>Tip vozila</option>
+          <option value="Karavan">Karavan</option>
+          <option value="Hecbek">Hecbek</option>
+          <option value="Limuzina">Limuzina</option>
+
+        </select>
+
+      </div> <!-- End of the select_component -->
+
+    </div> <!-- End of drop_down_component -->
+    <button  type="submit" name="submit"  ariaCurrentWhenActive="page">
+      Rezervisi</button>
+
+</form>
+
+
+
+
+<div class="map-container">
+  <div class="map-frame">
+    <div id="map"></div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

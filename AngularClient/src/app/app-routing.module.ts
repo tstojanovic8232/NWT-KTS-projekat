@@ -9,6 +9,8 @@ import {ConfirmComponent} from "./confirm/confirm.component";
 import {ClientPageComponent} from "./client-page/client-page.component";
 import {MapComponent} from "./map/map.component";
 import {DriverPageComponent} from "./driver-page/driver-page.component";
+import {ReservationComponent} from "./reservation/reservation.component";
+import {BillComponent} from "./bill/bill.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -41,16 +43,17 @@ const routes: Routes = [
 
     children:
       [
-        {path:'', component: MapComponent},
+        {path:'', component: ReservationComponent},
         {
           path: 'profile',
           component: ClientProfileComponent,
         },
-        /*{
-          path: 'drivers',
-          component: DriversListComponent,
-        },
         {
+          path: 'receipt',
+          component: BillComponent,
+        },
+
+        /*{
           path: 'clients',
           component: ClientsListComponent,
         },*/

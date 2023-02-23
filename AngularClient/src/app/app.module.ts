@@ -22,6 +22,8 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { BillingInfoComponent } from './billing-info/billing-info.component';
 import  'leaflet-routing-machine';
+import { ReservationComponent } from './reservation/reservation.component';
+import { BillComponent } from './bill/bill.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import  'leaflet-routing-machine';
     ConfirmComponent,
     UserInfoComponent,
     BillingInfoComponent,
+    ReservationComponent,
+    BillComponent,
 
   ],
   imports: [

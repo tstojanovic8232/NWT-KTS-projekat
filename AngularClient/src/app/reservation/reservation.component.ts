@@ -1,18 +1,21 @@
-import {Component, OnInit, Output} from '@angular/core';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-
-import * as L from 'leaflet';
-import 'leaflet-routing-machine';
-import 'leaflet-polylinedecorator';
+import {Component, Output} from '@angular/core';
+import * as L from "leaflet";
+import {HttpClient} from "@angular/common/http";
+import {Router} from "@angular/router";
+import  {FormsModule,Form,FormGroup} from "@angular/forms";
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  selector: 'app-reservation',
+  templateUrl: './reservation.component.html',
+  styleUrls: ['./reservation.component.css']
 })
-export class MapComponent implements OnInit {
-  @Output() from:string;
-  @Output() to:string;
+export class ReservationComponent {
+  from:string;
+  to:string;
+  protected form={
+    from:"",to:"",nap:"",tip:""
+  }
+
   private map: L.Map;
   private centroid: L.LatLngExpression = [45.2396, 19.8227]; //
   addressFrom: string;
@@ -44,7 +47,8 @@ export class MapComponent implements OnInit {
   }
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private router:Router) {
+
   }
 
   ngOnInit(): void {
@@ -150,12 +154,18 @@ export class MapComponent implements OnInit {
     let str:string|number=data.lat+", "+data.lon;
 
     this.from=str;
+    this.form.from=this.addressFrom;
+
   }
   setTo(data:any){
     let str:string|number=data.lat+", "+data.lon;
 
     this.to=str;
+   this.form.to=this.addressTo;
+  }
+
+  goToPayment() {
+    this.router.navigate(['/client-home/receipt'],{state:this.form});
 
   }
 }
-
