@@ -2,12 +2,13 @@ package tim.projekat.servisi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tim.projekat.dto.UpdateDTO;
-import tim.projekat.model.Klijent;
 import tim.projekat.model.Korisnik;
 import tim.projekat.model.VerificationToken;
 import tim.projekat.repozitorijumi.KorisnikRepo;
 import tim.projekat.repozitorijumi.TokenRepo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class KorisnikServis {
@@ -16,6 +17,7 @@ public class KorisnikServis {
 
     @Autowired
     private TokenRepo tokenRepo;
+
     public void createVerificationToken(Korisnik user, String token) {
         VerificationToken myToken = new VerificationToken(token, user);
         tokenRepo.save(myToken);
@@ -34,8 +36,18 @@ public class KorisnikServis {
         System.out.println(email);
         return this.korisnikRepo.getKorisnikByEmail(email);
     }
-    public void save(Korisnik k){
-         this.korisnikRepo.save(k);
+
+    public void save(Korisnik k) {
+        this.korisnikRepo.save(k);
+    }
+
+    public List<Korisnik> findAllByType(String userType) {
+        List<Korisnik> res = new ArrayList<>();
+        List<Korisnik> li = this.korisnikRepo.findAll();
+        for (Korisnik k : li) {
+            if(k.getClass().getSimpleName().equals(userType)) res.add(k);
+        }
+        return res;
     }
 
 }

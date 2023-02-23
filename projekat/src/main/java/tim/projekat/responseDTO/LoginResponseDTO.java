@@ -1,15 +1,15 @@
-package tim.projekat.dto;
+package tim.projekat.responseDTO;
 
-public class KorisnikEmailDTO {
+public class LoginResponseDTO {
     private String email;
     private String role;
 
-    public KorisnikEmailDTO() {
-    }
-
-    public KorisnikEmailDTO(String email, String role) {
+    public LoginResponseDTO(String email, String role) {
         this.email = email;
         this.role = role;
+    }
+
+    public LoginResponseDTO() {
     }
 
     public String getEmail() {
@@ -27,13 +27,4 @@ public class KorisnikEmailDTO {
     public void setRole(String role) {
         this.role = role;
     }
-
-    @Override
-    public String toString() {
-        return "KorisnikEmailDTO{" +
-                "email='" + email + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
 }
-

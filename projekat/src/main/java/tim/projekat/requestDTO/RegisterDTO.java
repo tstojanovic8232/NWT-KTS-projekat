@@ -1,4 +1,4 @@
-package tim.projekat.dto;
+package tim.projekat.requestDTO;
 
 public class RegisterDTO {
     private String name;

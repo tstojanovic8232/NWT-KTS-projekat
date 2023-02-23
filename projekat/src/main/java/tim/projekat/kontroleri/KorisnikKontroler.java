@@ -3,16 +3,15 @@ package tim.projekat.kontroleri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tim.projekat.dto.BillingDTO;
-import tim.projekat.dto.KorisnikEmailDTO;
-import tim.projekat.dto.LoginDTO;
-import tim.projekat.dto.UpdateDTO;
-import tim.projekat.model.Administrator;
+import tim.projekat.requestDTO.BillingDTO;
+import tim.projekat.requestDTO.KorisnikEmailDTO;
+import tim.projekat.requestDTO.LoginDTO;
+import tim.projekat.requestDTO.UpdateDTO;
 import tim.projekat.model.Klijent;
 import tim.projekat.model.Korisnik;
 import tim.projekat.model.Vozac;
 import tim.projekat.model.enums.NacinPlacanja;
-import tim.projekat.pojo.KVProfilPOJO;
+import tim.projekat.responseDTO.KVProfilDTO;
 import tim.projekat.servisi.KorisnikServis;
 
 
@@ -27,16 +26,16 @@ public class KorisnikKontroler {
     @PostMapping("/data")
     public ResponseEntity<?> getUser(@RequestBody KorisnikEmailDTO keDTO) {
         Korisnik k;
-        KVProfilPOJO p = new KVProfilPOJO();
+        KVProfilDTO p = new KVProfilDTO();
         if(keDTO.getRole().equals(Klijent.class.getSimpleName())) {
             k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
             System.out.println(k);
-            p = new KVProfilPOJO((Klijent) k);
+            p = new KVProfilDTO((Klijent) k);
         }
         else if(keDTO.getRole().equals(Vozac.class.getSimpleName())) {
             k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
             System.out.println(k);
-            p = new KVProfilPOJO((Vozac) k);
+            p = new KVProfilDTO((Vozac) k);
         }
         System.out.println(p);
         return ResponseEntity.ok(p);

@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tim.projekat.dto.LoginDTO;
-import tim.projekat.dto.RegisterDTO;
+import tim.projekat.requestDTO.LoginDTO;
+import tim.projekat.requestDTO.RegisterDTO;
 import tim.projekat.model.Klijent;
 import tim.projekat.model.Korisnik;
 import tim.projekat.model.VerificationToken;
-import tim.projekat.pojo.LoginPOJO;
+import tim.projekat.responseDTO.LoginResponseDTO;
 import tim.projekat.servisi.EmailServis;
 import tim.projekat.servisi.KorisnikServis;
 
@@ -25,13 +25,13 @@ public class AuthKontroler {
     KorisnikServis korisnikServis;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<LoginPOJO> loginUser(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
         System.out.println(loginDTO.toString());
         Korisnik korisnik = this.korisnikServis.getKorisnikByEmail(loginDTO.getEmail());
-        LoginPOJO response = new LoginPOJO(korisnik.getEmail(), korisnik.getClass().getSimpleName());
+        LoginResponseDTO response = new LoginResponseDTO(korisnik.getEmail(), korisnik.getClass().getSimpleName());
         if (korisnik.getLozinka().equals(loginDTO.getPassword()) && korisnik.getAktivan().equals(true))
             return ResponseEntity.ok(response);
-        return (ResponseEntity<LoginPOJO>) ResponseEntity.internalServerError();
+        return (ResponseEntity<LoginResponseDTO>) ResponseEntity.internalServerError();
     }
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
