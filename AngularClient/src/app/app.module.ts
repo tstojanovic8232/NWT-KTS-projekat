@@ -24,7 +24,9 @@ import { BillingInfoComponent } from './billing-info/billing-info.component';
 import  'leaflet-routing-machine';
 import { ReservationComponent } from './reservation/reservation.component';
 import { BillComponent } from './bill/bill.component';
-
+import { IstorijaVoznjiComponent } from './istorija-voznji/istorija-voznji.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { IstorijaVoznjiVozacComponent } from './istorija-voznji-vozac/istorija-voznji-vozac.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +48,9 @@ import { BillComponent } from './bill/bill.component';
     BillingInfoComponent,
     ReservationComponent,
     BillComponent,
+    IstorijaVoznjiComponent,
+    IstorijaVoznjiVozacComponent,
+
 
   ],
   imports: [
@@ -53,6 +58,7 @@ import { BillComponent } from './bill/bill.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgxPaginationModule,
 
   ],
   providers: [],

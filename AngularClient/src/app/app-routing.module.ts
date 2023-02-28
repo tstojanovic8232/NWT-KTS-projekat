@@ -11,6 +11,8 @@ import {MapComponent} from "./map/map.component";
 import {DriverPageComponent} from "./driver-page/driver-page.component";
 import {ReservationComponent} from "./reservation/reservation.component";
 import {BillComponent} from "./bill/bill.component";
+import {IstorijaVoznjiComponent} from "./istorija-voznji/istorija-voznji.component";
+import {IstorijaVoznjiVozacComponent} from "./istorija-voznji-vozac/istorija-voznji-vozac.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -52,6 +54,10 @@ const routes: Routes = [
           path: 'receipt',
           component: BillComponent,
         },
+        {
+          path:'rides',
+          component: IstorijaVoznjiComponent,
+        },
 
         /*{
           path: 'clients',
@@ -66,6 +72,10 @@ const routes: Routes = [
         {
           path: 'profile',
           component: ClientProfileComponent,
+        },
+        {
+          path: 'historyClients',
+          component: IstorijaVoznjiVozacComponent,
         },
         /*{
           path: 'drivers',

@@ -1,0 +1,35 @@
+<h2>Istorija Voznji</h2>
+<div class="table-wrapper">
+  <table  #myTable class="fl-table">
+    <thead>
+    <tr>
+      <th style="border-top-left-radius: 5px">Naziv vozaca</th>
+      <th>Datum</th>
+      <th>Cena</th>
+      <th>Trajanje</th>
+      <th>Polazište</th>
+      <th style="border-top-right-radius: 5px">Odredište</th>
+    </tr>
+
+    </thead>
+    <tbody>
+
+    <tr *ngFor="let row of paginatedData">
+      <td style="border-bottom-left-radius: 5px">{{ row.clientName }}</td>
+      <td >{{ row.date }}</td>
+      <td>{{ row.price }}</td>
+      <td>{{ row.duration }}</td>
+      <td>{{ row.origin }}</td>
+      <td style="border-bottom-right-radius: 5px">{{ row.destination }}</td>
+    </tr>
+
+
+    <tbody>
+  </table>
+  <br>
+  <div align="center">
+
+  <button (click)="previousPage()">Previous</button>
+    <button  (click)="NextPage()">Next</button>
+  </div>
+</div>
