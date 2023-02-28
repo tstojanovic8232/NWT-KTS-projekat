@@ -44,7 +44,7 @@ public class VoznjaKontroler {
 
     @PostMapping("/add")
     public ResponseEntity<?> newDrive(@RequestBody VoznjaDTO vDTO) {
-        Klijent k = (Klijent) this.korisnikServis.getKorisnikByEmail("");
+        Klijent k = (Klijent) this.korisnikServis.getKorisnikByEmail(vDTO.getClient());
         if (k.equals(null))
             return (ResponseEntity<?>) ResponseEntity.internalServerError();
         // TODO: dto u voznju
@@ -58,18 +58,20 @@ public class VoznjaKontroler {
         for (Korisnik korisnik : vozacList) {
             vozaci.add((Vozac) korisnik);
         }
+        List<Vozac> vozaciCopy = new ArrayList<>(vozaci);
+
         // da li ima prijavljenih vozaca? => izbaci neaktivne
         // da li ima slobodnih vozaca?
         // ako ne, da li ima vozaca koji zavrsavaju trenutnu voznju i nemaju sledecu
         // ako ima, proveri koji je pri zavrsetku voznje => izbaci one u voznji sa voznjom koja sledi
-        for (Vozac vozac : vozaci) {
-            if (vozac.getStatus().equals(false)) vozaci.remove(vozac);
+        for (Vozac vozac : vozaciCopy) {
+            if (vozac.getStatus().equals(false)) vozaci.remove(vozaciCopy.indexOf(vozac));
             if (vozac.getuVoznji().equals(true)) {
                 List<Voznja> sledece = this.voznjaServis.getDriverUpcoming(vozac);
                 if (sledece.size() > 0) {
                     for (Voznja voznja : sledece) {
                         if (voznja.getDatumVreme().getHour() == LocalDateTime.now().getHour()) {
-                            vozaci.remove(vozac);
+                            vozaci.remove(vozaciCopy.indexOf(vozac));
                             break;
                         }
                     }

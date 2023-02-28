@@ -5,7 +5,7 @@
       <select name="payMethod" [(ngModel)]="selectedValue">
         <option *ngFor="let b of billing" [ngValue]="b.id">{{b.name}}</option>
       </select>
-      <input type="text" [placeholder]="user?.billingInfo" name="payData" [(ngModel)]="billingData" />
+      <input type="text" [placeholder]="user.billingInfo" name="payData" [(ngModel)]="billingData" />
       <button type="submit">Save changes</button>
     </form>
   </div>

@@ -17,7 +17,7 @@ export class UserService {
     this.usersUrl="http://localhost:8084/users";
   }
 
-  getUser(user : UserRole):Observable<object> {
+  getUserProfile(user : UserRole):Observable<object> {
     console.log(user);
     return this.http.post<UserRole>(this.usersUrl+"/data", user);
   }

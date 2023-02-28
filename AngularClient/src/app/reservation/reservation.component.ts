@@ -1,20 +1,22 @@
-import {Component, Output} from '@angular/core';
-import * as L from "leaflet";
+import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
-import  {FormsModule,Form,FormGroup} from "@angular/forms";
 
+
+import * as L from 'leaflet';
+import 'leaflet-routing-machine';
+import 'leaflet-polylinedecorator';
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
   styleUrls: ['./reservation.component.css']
 })
 export class ReservationComponent {
-  from:string;
-  to:string;
-  protected form={
-    from:"",to:"",nap:"",tip:""
-  }
+  km: number;
+  from: string;
+  to: string;
+  tip: string;
+  nap: string;
 
   private map: L.Map;
   private centroid: L.LatLngExpression = [45.2396, 19.8227]; //
@@ -23,7 +25,12 @@ export class ReservationComponent {
   private options: any;
   private markers: L.Marker[] = [];
   private markers2: L.Marker[] = [];
+  private fromMarker: L.Marker;
+  private toMarker: L.Marker;
 
+  // @ts-ignore
+  private routingControl: L.Routing.Control;
+  private tiles: L.TileLayer;
   private initMap(): void {
     this.map = L.map('map', {
       center: this.centroid,
@@ -47,7 +54,7 @@ export class ReservationComponent {
   }
 
 
-  constructor(private http: HttpClient,private router:Router) {
+  constructor(private http: HttpClient, private router: Router) {
 
   }
 
@@ -58,11 +65,9 @@ export class ReservationComponent {
 
 
   updateMapFrom() {
-    this.markers2 = this.markers2.filter(marker => {
-      marker.remove();
-
-      return false;
-    });
+    if (this.fromMarker) {
+      this.map.removeLayer(this.fromMarker);
+    }
 
     const url = `https://nominatim.openstreetmap.org/search?q=${this.addressFrom}&format=json`;
     this.http.get(url).subscribe(data => {
@@ -70,102 +75,82 @@ export class ReservationComponent {
       const coordinates = data[0];
       this.setFrom(coordinates);
       this.map.setView(new L.LatLng(coordinates.lat, coordinates.lon), 18);
-      const marker = L.marker([coordinates.lat, coordinates.lon], {title: this.addressFrom}).addTo(this.map);
-      this.markers2.push(marker);
-      // check if both addresses have been set
-      if (this.markers2.length == 1 && this.markers.length==1) {
-        // create routing control
+      this.fromMarker = L.marker([coordinates.lat, coordinates.lon], { title: this.addressFrom }).addTo(this.map);
 
-        var Routing: any = require('leaflet-routing-machine');
-        let control: any;
-        // @ts-ignore
-        control = L.Routing.control({
-
-          draggableWaypoints:false,
-          waypoints: [
-            L.latLng(this.markers2[0].getLatLng().lat, this.markers2[0].getLatLng().lng),
-            L.latLng(this.markers[0].getLatLng().lat, this.markers[0].getLatLng().lng)
-          ]
-        });
-        console.log(this.markers2);
-        console.log(this.markers);
-        this.markers2 = this.markers2.filter(marker => {
-          marker.remove();
-
-          return false;
-        });
-
-
-        // add routing control to the map
-        control.addTo(this.map);
+      if (this.toMarker) {
+        this.addRoutingControl();
       }
     });
+    this.setKm(1);
   }
 
   updateMapTo() {
-    this.markers = this.markers.filter(marker => {
-      marker.remove();
+    if (this.toMarker) {
+      this.map.removeLayer(this.toMarker);
+    }
 
-      return false;
-    });
-    this.markers = [];
     const url = `https://nominatim.openstreetmap.org/search?q=${this.addressTo}&format=json`;
     this.http.get(url).subscribe(data => {
       // @ts-ignore
       const coordinates = data[0];
       this.setTo(coordinates);
-
       this.map.setView(new L.LatLng(coordinates.lat, coordinates.lon), 18);
-      const marker = L.marker([coordinates.lat, coordinates.lon], {title: this.addressTo}).addTo(this.map);
-      this.markers.push(marker);
+      this.toMarker = L.marker([coordinates.lat, coordinates.lon], { title: this.addressTo }).addTo(this.map);
 
-
-      if (this.markers2.length == 1 && this.markers.length==1) {
-        // create routing control
-
-        var Routing: any = require('leaflet-routing-machine');
-        let control: any;
-        // @ts-ignore
-
-        control = L.Routing.control({
-
-          draggableWaypoints:false,
-
-          waypoints: [
-            L.latLng(this.markers2[0].getLatLng().lat, this.markers2[0].getLatLng().lng),
-            L.latLng(this.markers[0].getLatLng().lat, this.markers[0].getLatLng().lng)
-          ]
-
-
-        });
-
-
-        console.log(this.markers2);
-
-        console.log(this.markers);
-
-        // add routing control to the map
-        control.addTo(this.map);
+      if (this.fromMarker) {
+        this.addRoutingControl();
       }
-
     });
+    this.setKm(1);
   }
-  setFrom(data:any){
-    let str:string|number=data.lat+", "+data.lon;
 
-    this.from=str;
-    this.form.from=this.addressFrom;
+  addRoutingControl() {
+    if (this.routingControl) {
+      this.map.removeControl(this.routingControl);
+    }
+
+    // @ts-ignore
+    this.routingControl = L.Routing.control({
+      draggableWaypoints: false,
+      waypoints: [
+        this.fromMarker.getLatLng(),
+        this.toMarker.getLatLng()
+      ]
+    });
+
+    this.routingControl.addTo(this.map);
+  }
+
+  setKm(data: any) {
+    const min = 1;
+    const max = 10;
+    const randomInt = Math.floor(Math.random() * (max - min + 1)) + min;
+    this.km = randomInt;
+  }
+
+  setFrom(data: any) {
+    let str: string | number = data.lat + ", " + data.lon;
+
+    this.from = str;
 
   }
-  setTo(data:any){
-    let str:string|number=data.lat+", "+data.lon;
 
-    this.to=str;
-   this.form.to=this.addressTo;
+  setTo(data: any) {
+    let str: string | number = data.lat + ", " + data.lon;
+
+    this.to = str;
   }
 
   goToPayment() {
-    this.router.navigate(['/client-home/receipt'],{state:this.form});
+    this.router.navigate(['/client-home/receipt'], {
+      state: {
+        tip: this.tip,
+        nap: this.nap,
+        from: this.addressFrom,
+        to: this.addressTo,
+        km: this.km
+      }
+    });
 
   }
 }

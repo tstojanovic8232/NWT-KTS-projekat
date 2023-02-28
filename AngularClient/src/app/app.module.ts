@@ -27,6 +27,9 @@ import { BillComponent } from './bill/bill.component';
 import { IstorijaVoznjiComponent } from './istorija-voznji/istorija-voznji.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { IstorijaVoznjiVozacComponent } from './istorija-voznji-vozac/istorija-voznji-vozac.component';
+
+
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,9 +52,7 @@ import { IstorijaVoznjiVozacComponent } from './istorija-voznji-vozac/istorija-v
     ReservationComponent,
     BillComponent,
     IstorijaVoznjiComponent,
-    IstorijaVoznjiVozacComponent,
-
-
+    IstorijaVoznjiVozacComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +60,6 @@ import { IstorijaVoznjiVozacComponent } from './istorija-voznji-vozac/istorija-v
     HttpClientModule,
     FormsModule,
     NgxPaginationModule,
-
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -31,7 +31,7 @@ export class ClientProfileComponent {
     if(this.email && this.role) {
       this.userRole.email = this.email;
       this.userRole.role = this.role;
-        this.userService.getUser(this.userRole).subscribe(data => {
+        this.userService.getUserProfile(this.userRole).subscribe(data => {
             this.saveUser(data as UserProfile);
             console.log(data);
           });

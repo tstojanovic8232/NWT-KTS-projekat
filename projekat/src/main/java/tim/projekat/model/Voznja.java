@@ -4,6 +4,7 @@ import tim.projekat.requestDTO.VoznjaDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -39,6 +40,12 @@ public class Voznja {
         this.klijenti = klijenti;
         this.gotova = false;
         this.ocena = 0;
+        this.polaziste = vDTO.getFrom();
+        this.destinacija = vDTO.getTo();
+        this.napomena = vDTO.getWarn();
+        this.brojKilometara = vDTO.getKm();
+        this.cena = vDTO.getPrice();
+        this.datumVreme = LocalDateTime.parse(vDTO.getDate().split("\\.")[0]);
     }
 
     public Voznja(Vozac vozac, List<Klijent> putnici, double brojKilometara, String napomena, LocalDateTime datumVreme, double cena) {
