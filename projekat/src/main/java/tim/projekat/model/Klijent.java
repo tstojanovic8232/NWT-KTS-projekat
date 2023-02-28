@@ -1,6 +1,6 @@
 package tim.projekat.model;
 
-import tim.projekat.dto.RegisterDTO;
+import tim.projekat.requestDTO.RegisterDTO;
 import tim.projekat.model.enums.NacinPlacanja;
 import javax.persistence.*;
 import java.util.ArrayList;

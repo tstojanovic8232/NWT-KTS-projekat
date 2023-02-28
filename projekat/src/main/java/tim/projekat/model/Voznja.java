@@ -1,22 +1,24 @@
 package tim.projekat.model;
 
+import tim.projekat.requestDTO.VoznjaDTO;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.persistence.*;
 
 @Entity
 @Access(AccessType.FIELD)
-@Table(name="voznja")
+@Table(name = "voznja")
 public class Voznja {
     @ManyToOne
-    @JoinColumn(name="vozac_id", nullable=false)
+    @JoinColumn(name = "vozac_id", nullable = false)
     private Vozac vozac;
 
     @ManyToMany(targetEntity = Klijent.class)
     private List<Klijent> klijenti;
 
     private String polaziste;
-//    @ElementCollection
+    //    @ElementCollection
 //    private List<String> stanice;
     private String destinacija;     // Za sad String dok ne rešimo rad sa mapama
     private double brojKilometara;
@@ -31,6 +33,12 @@ public class Voznja {
     private Long id;
 
     public Voznja() {
+    }
+
+    public Voznja(List<Klijent> klijenti, VoznjaDTO vDTO) {
+        this.klijenti = klijenti;
+        this.gotova = false;
+        this.ocena = 0;
     }
 
     public Voznja(Vozac vozac, List<Klijent> putnici, double brojKilometara, String napomena, LocalDateTime datumVreme, double cena) {
@@ -151,11 +159,11 @@ public class Voznja {
                 '}';
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

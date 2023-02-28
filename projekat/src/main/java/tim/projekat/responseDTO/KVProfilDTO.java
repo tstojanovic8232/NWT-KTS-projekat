@@ -1,8 +1,8 @@
-package tim.projekat.pojo;
+package tim.projekat.responseDTO;
 
 import tim.projekat.model.Klijent;
 import tim.projekat.model.Vozac;
-public class KVProfilPOJO {
+public class KVProfilDTO {
     private String name;
     private String lastname;
     private String email;
@@ -12,7 +12,7 @@ public class KVProfilPOJO {
     private String billingType;
     private String billingInfo;
 
-    public KVProfilPOJO(String name, String lastname, String email, String password, String city, String phone, String billingType, String billingInfo) {
+    public KVProfilDTO(String name, String lastname, String email, String password, String city, String phone, String billingType, String billingInfo) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
@@ -23,10 +23,10 @@ public class KVProfilPOJO {
         this.billingInfo = billingInfo;
     }
 
-    public KVProfilPOJO() {
+    public KVProfilDTO() {
     }
 
-    public KVProfilPOJO(Klijent k) {
+    public KVProfilDTO(Klijent k) {
         this.name = k.getIme();
         this.lastname = k.getPrezime();
         this.email = k.getEmail();
@@ -38,7 +38,7 @@ public class KVProfilPOJO {
 
     }
 
-    public KVProfilPOJO(Vozac k) {
+    public KVProfilDTO(Vozac k) {
         this.name = k.getIme();
         this.lastname = k.getPrezime();
         this.email = k.getEmail();
