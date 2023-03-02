@@ -8,10 +8,11 @@ import javax.persistence.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tip_korisnika",
         discriminatorType = DiscriminatorType.STRING)
+@SequenceGenerator(name = "korisnik_seq", sequenceName = "korisnik_seq", allocationSize = 1)
 public class Korisnik {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "korisnik_seq")
     private Long id;
     @Column(unique = true)
     private String email;

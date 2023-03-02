@@ -7,7 +7,9 @@ import tim.projekat.model.Klijent;
 import tim.projekat.model.Korisnik;
 import tim.projekat.model.Vozac;
 import tim.projekat.model.Voznja;
+import tim.projekat.requestDTO.KorisnikEmailDTO;
 import tim.projekat.requestDTO.VoznjaDTO;
+import tim.projekat.responseDTO.KVProfilDTO;
 import tim.projekat.servisi.KorisnikServis;
 import tim.projekat.servisi.VoznjaServis;
 
@@ -22,25 +24,25 @@ import java.util.Map;
 @RequestMapping("/drives")
 public class VoznjaKontroler {
 
-    public final static List<String> lokacije = new ArrayList<String>();
+//    public final static List<String> lokacije = new ArrayList<String>();
     @Autowired
     KorisnikServis korisnikServis;
     @Autowired
     VoznjaServis voznjaServis;
 
-    @GetMapping
-    public void init() {
-        lokacije.add("45.253893, 19.847793");
-        lokacije.add("45.235225, 19.810289");
-        lokacije.add("45.240383, 19.837863");
-        lokacije.add("45.259111, 19.822304");
-        lokacije.add("45.268964, 19.811065");
-        lokacije.add("45.276600, 19.828007");
-        lokacije.add("45.265099, 19.830670");
-        lokacije.add("45.298069, 19.822174");
-        lokacije.add("45.219459, 19.853156");
-        lokacije.add("45.252390, 19.870099");
-    }
+//    @GetMapping
+//    public void init() {
+//        lokacije.add("45.253893, 19.847793");
+//        lokacije.add("45.235225, 19.810289");
+//        lokacije.add("45.240383, 19.837863");
+//        lokacije.add("45.259111, 19.822304");
+//        lokacije.add("45.268964, 19.811065");
+//        lokacije.add("45.276600, 19.828007");
+//        lokacije.add("45.265099, 19.830670");
+//        lokacije.add("45.298069, 19.822174");
+//        lokacije.add("45.219459, 19.853156");
+//        lokacije.add("45.252390, 19.870099");
+//    }
 
     @PostMapping("/add")
     public ResponseEntity<?> newDrive(@RequestBody VoznjaDTO vDTO) {
@@ -107,5 +109,30 @@ public class VoznjaKontroler {
         // TODO:
         //  ako je placanje uspesno, posalji obavestenje
         //  ako nije uspesno, obrisi voznju
+    }
+
+    @PostMapping("/getUpcoming")
+    public ResponseEntity<?> listUpcomingDrives(@RequestBody KorisnikEmailDTO keDTO) {
+        Korisnik k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+        List<Voznja> voznje = voznjaServis.getDriverUpcoming((Vozac) k);
+        return ResponseEntity.ok(voznje);
+    }
+
+    @PostMapping("/getHistory")
+    public ResponseEntity<?> listHistoryDrives(@RequestBody KorisnikEmailDTO keDTO) {
+        Korisnik k;
+        List<Voznja> voznje = new ArrayList<Voznja>();
+        if(keDTO.getRole().equals(Klijent.class.getSimpleName())) {
+            k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+            System.out.println(k);
+            voznje = voznjaServis.getClientHistory((Klijent) k);
+        }
+        else if(keDTO.getRole().equals(Vozac.class.getSimpleName())) {
+            k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+            System.out.println(k);
+            voznje = voznjaServis.getDriverHistory((Vozac) k);
+        }
+        System.out.println(voznje);
+        return ResponseEntity.ok(voznje);
     }
 }

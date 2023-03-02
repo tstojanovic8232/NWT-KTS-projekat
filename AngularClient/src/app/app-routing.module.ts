@@ -13,6 +13,7 @@ import {ReservationComponent} from "./reservation/reservation.component";
 import {BillComponent} from "./bill/bill.component";
 import {IstorijaVoznjiComponent} from "./istorija-voznji/istorija-voznji.component";
 import {IstorijaVoznjiVozacComponent} from "./istorija-voznji-vozac/istorija-voznji-vozac.component";
+import {UpcomingTableComponent} from "./upcoming-table/upcoming-table.component";
 
 const routes: Routes = [
   {path: '', component: HomePageComponent},
@@ -77,11 +78,11 @@ const routes: Routes = [
           path: 'historyClients',
           component: IstorijaVoznjiVozacComponent,
         },
-        /*{
-          path: 'drivers',
-          component: DriversListComponent,
-        },
         {
+          path: '',
+          component: UpcomingTableComponent,
+        },
+        /*{
           path: 'clients',
           component: ClientsListComponent,
         },*/

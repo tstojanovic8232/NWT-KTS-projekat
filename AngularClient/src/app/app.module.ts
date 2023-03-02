@@ -27,6 +27,7 @@ import { BillComponent } from './bill/bill.component';
 import { IstorijaVoznjiComponent } from './istorija-voznji/istorija-voznji.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { IstorijaVoznjiVozacComponent } from './istorija-voznji-vozac/istorija-voznji-vozac.component';
+import { UpcomingTableComponent } from './upcoming-table/upcoming-table.component';
 
 
 // @ts-ignore
@@ -52,7 +53,8 @@ import { IstorijaVoznjiVozacComponent } from './istorija-voznji-vozac/istorija-v
     ReservationComponent,
     BillComponent,
     IstorijaVoznjiComponent,
-    IstorijaVoznjiVozacComponent
+    IstorijaVoznjiVozacComponent,
+    UpcomingTableComponent
   ],
   imports: [
     BrowserModule,

@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Access(AccessType.FIELD)
 @Table(name="vozilo")
+@SequenceGenerator(name = "vozilo_seq", sequenceName = "vozilo_seq", allocationSize = 1)
 public class Vozilo {
     private String registracija;
     private double cena;
@@ -22,8 +23,9 @@ public class Vozilo {
     @OneToOne
     private Vozac vozac;
 
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vozilo_seq")
     private Long id;
 
     public Vozilo() {

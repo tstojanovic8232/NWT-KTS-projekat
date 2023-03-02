@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {LocalService} from "../services/local.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ReservationService} from "../services/reservation.service";
+import {DrivingService} from "../services/driving.service";
 import {DrivingReservation} from "../model/driving-reservation";
 
 @Component({
@@ -25,7 +25,7 @@ export class BillComponent implements OnInit {
     to: ""
   }
 
-  constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private reservationService: ReservationService) {
+  constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private drivingService: DrivingService) {
   }
 
   ngOnInit() {
@@ -56,7 +56,7 @@ export class BillComponent implements OnInit {
     res.warn = this.nap;
     res.client = this.localService.getData('user');
     res.price = this.cena;
-    this.reservationService.addReservation(res).subscribe(() => {
+    this.drivingService.addReservation(res).subscribe(() => {
       this.router.navigate(['/client-home']);
     })
   }

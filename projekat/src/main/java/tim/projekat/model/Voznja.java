@@ -10,7 +10,13 @@ import java.util.List;
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "voznja")
+@SequenceGenerator(name = "voznja_seq", sequenceName = "voznja_seq", allocationSize = 1)
 public class Voznja {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "voznja_seq")
+    private Long id;
+
     @ManyToOne
     @JoinColumn(name = "vozac_id", nullable = false)
     private Vozac vozac;
@@ -29,9 +35,6 @@ public class Voznja {
     private Boolean gotova;
     private int ocena;
 
-    @Id
-    @GeneratedValue
-    private Long id;
 
     public Voznja() {
     }

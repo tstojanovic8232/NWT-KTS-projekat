@@ -22,6 +22,7 @@ public class Vozac extends Korisnik {
     private Vozilo vozilo;
 
     @OneToMany
+    @JoinColumn(name = "vozac_id")
     private List<Voznja> voznje;
 
     public Vozac() {

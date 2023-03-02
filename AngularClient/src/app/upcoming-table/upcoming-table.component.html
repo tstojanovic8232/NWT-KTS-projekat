@@ -1,5 +1,6 @@
 
-<h2>Istorija Voznji</h2>
+<h2 style="font-family: sans-serif">Buduce voznje</h2>
+
 <div class="table-wrapper">
   <table  #myTable class="fl-table">
     <thead>
@@ -8,19 +9,22 @@
       <th>Datum</th>
       <th>Cena</th>
       <th>Polazište</th>
-      <th style="border-top-right-radius: 5px">Odredište</th>
+      <th >Odredište</th>
+      <th style="border-top-right-radius: 5px">Zapocnite voznju</th>
     </tr>
 
     </thead>
     <tbody>
 
-    <tr *ngFor="let row of paginatedData">
+    <tr *ngFor="let row of data" style="border-top-right-radius: 5px">
       <td style="border-bottom-left-radius: 5px">{{ row.clientName }}</td>
       <td >{{ row.date }}</td>
       <td>{{ row.price }}</td>
       <td>{{ row.origin }}</td>
-      <td style="border-bottom-right-radius: 5px">{{ row.destination }}</td>
-    </tr>
+
+      <td >{{ row.destination }}</td>
+      <td style="border-bottom-right-radius: 5px"><button>start</button></td>
+    </tr >
 
 
     <tbody>
@@ -28,7 +32,7 @@
   <br>
   <div align="center">
 
-    <button (click)="previousPage()">Previous</button>
-    <button  (click)="NextPage()">Next</button>
+
   </div>
 </div>
+
