@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-polylinedecorator';
+
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
@@ -31,6 +32,7 @@ export class ReservationComponent {
   // @ts-ignore
   private routingControl: L.Routing.Control;
   private tiles: L.TileLayer;
+
   private initMap(): void {
     this.map = L.map('map', {
       center: this.centroid,
@@ -75,7 +77,7 @@ export class ReservationComponent {
       const coordinates = data[0];
       this.setFrom(coordinates);
       this.map.setView(new L.LatLng(coordinates.lat, coordinates.lon), 18);
-      this.fromMarker = L.marker([coordinates.lat, coordinates.lon], { title: this.addressFrom }).addTo(this.map);
+      this.fromMarker = L.marker([coordinates.lat, coordinates.lon], {title: this.addressFrom}).addTo(this.map);
 
       if (this.toMarker) {
         this.addRoutingControl();
@@ -95,7 +97,7 @@ export class ReservationComponent {
       const coordinates = data[0];
       this.setTo(coordinates);
       this.map.setView(new L.LatLng(coordinates.lat, coordinates.lon), 18);
-      this.toMarker = L.marker([coordinates.lat, coordinates.lon], { title: this.addressTo }).addTo(this.map);
+      this.toMarker = L.marker([coordinates.lat, coordinates.lon], {title: this.addressTo}).addTo(this.map);
 
       if (this.fromMarker) {
         this.addRoutingControl();
@@ -130,14 +132,11 @@ export class ReservationComponent {
 
   setFrom(data: any) {
     let str: string | number = data.lat + ", " + data.lon;
-
     this.from = str;
-
   }
 
   setTo(data: any) {
     let str: string | number = data.lat + ", " + data.lon;
-
     this.to = str;
   }
 
@@ -148,7 +147,8 @@ export class ReservationComponent {
         nap: this.nap,
         from: this.addressFrom,
         to: this.addressTo,
-        km: this.km
+        km: this.km,
+        coords: {from: this.from, to: this.to}
       }
     });
 

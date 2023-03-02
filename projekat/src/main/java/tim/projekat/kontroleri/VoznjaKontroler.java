@@ -100,11 +100,12 @@ public class VoznjaKontroler {
             }
             v.setVozac(min.getKey());
             this.voznjaServis.save(v);
+
         }
 
+        return ResponseEntity.ok(vDTO);
         // TODO:
         //  ako je placanje uspesno, posalji obavestenje
         //  ako nije uspesno, obrisi voznju
-        return ResponseEntity.ok(v);
     }
 }

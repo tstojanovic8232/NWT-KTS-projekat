@@ -15,6 +15,15 @@ export class BillComponent implements OnInit {
   nap: string;
   from: string;
   to: string;
+  cena: number;
+  coords: {
+    from: string,
+    to: string
+  }
+  = {
+    from: "",
+    to: ""
+  }
 
   constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private reservationService: ReservationService) {
   }
@@ -25,25 +34,28 @@ export class BillComponent implements OnInit {
     this.from = history.state.from;
     this.to = history.state.to;
     this.km = history.state.km;
+    this.coords.from=history.state.coords.from;
+    this.coords.to=history.state.coords.to;
+    this.cena = this.km * 120;
     history.state.tip = undefined;
     history.state.nap = undefined;
     history.state.from = undefined;
     history.state.to = undefined;
     history.state.km = undefined;
-
+    history.state.coords = undefined;
   }
 
   reserveDrive() {
     const currentDate = new Date();
     currentDate.setMinutes(currentDate.getMinutes() + 10);
-    let res : DrivingReservation = new DrivingReservation();
-    res.km=this.km;
-    res.from=this.from;
-    res.to=this.to;
-    res.date=currentDate.toISOString();
-    res.warn=this.nap;
-    res.client=this.localService.getData('user');
-    res.price=this.km*120;
+    let res: DrivingReservation = new DrivingReservation();
+    res.km = this.km;
+    res.from = this.coords.from;
+    res.to = this.coords.to;
+    res.date = currentDate.toISOString();
+    res.warn = this.nap;
+    res.client = this.localService.getData('user');
+    res.price = this.cena;
     this.reservationService.addReservation(res).subscribe(() => {
       this.router.navigate(['/client-home']);
     })
