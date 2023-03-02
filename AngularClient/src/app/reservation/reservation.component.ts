@@ -2,10 +2,26 @@ import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 
-
+import 'leaflet-velocity/dist/leaflet-velocity.min.js';
 import * as L from 'leaflet';
+
+import DriftMarker from "leaflet-drift-marker";
 import 'leaflet-routing-machine';
 import 'leaflet-polylinedecorator';
+
+
+
+import {FeatureGroup, marker} from "leaflet";
+import {mark} from "@angular/compiler-cli/src/ngtsc/perf/src/clock";
+
+
+const icon = L.icon({
+  iconSize: [25, 41],
+  iconAnchor: [10, 41],
+  popupAnchor: [2, -40],
+  iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
+});
 
 @Component({
   selector: 'app-reservation',
@@ -32,6 +48,13 @@ export class ReservationComponent {
   // @ts-ignore
   private routingControl: L.Routing.Control;
   private tiles: L.TileLayer;
+
+
+  private pom: any;
+
+  // @ts-ignore
+
+
 
   private initMap(): void {
     this.map = L.map('map', {
@@ -106,22 +129,107 @@ export class ReservationComponent {
     this.setKm(1);
   }
 
+  simulateDrive() {
+    if (this.fromMarker || this.toMarker) {
+      this.map.removeLayer(this.fromMarker);
+      this.map.removeLayer(this.toMarker);
+    }
+    console.log('pomeram se');
+
+
+    const waypoints = this.routingControl.getWaypoints();
+
+    const markers = waypoints.map((wp: { latLng: any; }) => {
+      return new DriftMarker(wp.latLng).addTo(this.map);
+    });
+
+    const destination = waypoints[waypoints.length - 1];
+
+
+    var marker = L.marker(this.fromMarker.getLatLng(), {icon: icon}).addTo(this.map);
+
+    this.routingControl.on('routeselected', () => {
+      markers.forEach((marker: { remove: () => void; }) => {
+        marker.remove();
+      });
+    });
+    var newMarker = L.marker(this.toMarker.getLatLng()).addTo(this.map);
+    L.Routing.control({
+      waypoints: [
+        L.latLng(this.fromMarker.getLatLng()),
+        L.latLng(this.toMarker.getLatLng())
+      ],
+      lineOptions: {
+        extendToWaypoints: true,
+        missingRouteTolerance: 100,
+        styles: [
+          {
+            color: '#1E90FF',
+            opacity: 0.7,
+            weight: 5
+          }
+        ]
+      }
+    }).on('routesfound', function (e: { routes: { coordinates: any[]; }[]; }) {
+      var routes = e.routes;
+      console.log(routes);
+
+      e.routes[0].coordinates.forEach(function (coord, index) {
+        setTimeout(function () {
+          marker.setLatLng([coord.lat, coord.lng]);
+        }, 100 * index)
+      })
+
+    }).addTo(this.map);
+
+  }
+
   addRoutingControl() {
     if (this.routingControl) {
       this.map.removeControl(this.routingControl);
     }
 
+
+    let plan = L.Routing.plan(
+      [
+        this.fromMarker.getLatLng(),
+        this.toMarker.getLatLng()
+      ], {
+        createMarker: (i: any, wp: any, nWps: any) => {
+          return new DriftMarker(wp.latLng.toArray()).addTo(this.map);
+        }
+
+      })
+
     // @ts-ignore
     this.routingControl = L.Routing.control({
-      draggableWaypoints: false,
       waypoints: [
         this.fromMarker.getLatLng(),
         this.toMarker.getLatLng()
-      ]
+      ],
+      plan: plan,
+      routeWhileDragging: true,
+      showAlternatives: true,
+      lineOptions: {
+        extendToWaypoints: true,
+        missingRouteTolerance: 100,
+        styles: [
+          {
+            color: '#1E90FF',
+            opacity: 0.7,
+            weight: 5
+          }
+        ]
+      },
+
+
     });
 
     this.routingControl.addTo(this.map);
+
+
   }
+
 
   setKm(data: any) {
     const min = 1;
@@ -153,4 +261,7 @@ export class ReservationComponent {
     });
 
   }
+
+
 }
+

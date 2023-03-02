@@ -101,8 +101,9 @@ export class MapComponent implements OnInit {
     }
 
     // @ts-ignore
+    // @ts-ignore
     this.routingControl = L.Routing.control({
-      draggableWaypoints: false,
+
       waypoints: [
         this.fromMarker.getLatLng(),
         this.toMarker.getLatLng()
