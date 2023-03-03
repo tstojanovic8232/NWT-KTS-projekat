@@ -32,6 +32,7 @@ export class UpcomingTableComponent implements OnInit{
   }
 
   setData(data : any) {
+    console.log(data);
     this.data=data;
   }
 }

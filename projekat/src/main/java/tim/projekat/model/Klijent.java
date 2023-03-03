@@ -14,7 +14,10 @@ public class Klijent extends Korisnik {
     private String podaciPlacanja;
     private Boolean uVoznji;    // Da li je trenutno u voznji
     private Boolean blokiran;   // Da li je blokiran od strane administratora
-    @ManyToMany(targetEntity = Voznja.class, mappedBy = "klijenti")
+    @ManyToMany
+    @JoinTable(name = "voznje_klijenti",
+            joinColumns = @JoinColumn(name = "klijent_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "voznja_id", referencedColumnName = "id"))
     private List<Voznja> voznje;
 
 
@@ -81,6 +84,10 @@ public class Klijent extends Korisnik {
 
     public void setVoznje(List<Voznja> voznje) {
         this.voznje = voznje;
+    }
+
+    public void addVoznja(Voznja voznja) {
+        this.voznje.add(voznja);
     }
 
     @Override

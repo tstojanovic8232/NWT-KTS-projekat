@@ -3,13 +3,11 @@ package tim.projekat.kontroleri;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tim.projekat.model.Klijent;
-import tim.projekat.model.Korisnik;
-import tim.projekat.model.Vozac;
-import tim.projekat.model.Voznja;
+import tim.projekat.model.*;
 import tim.projekat.requestDTO.KorisnikEmailDTO;
 import tim.projekat.requestDTO.VoznjaDTO;
-import tim.projekat.responseDTO.KVProfilDTO;
+import tim.projekat.responseDTO.DrivingEntryDTO;
+import tim.projekat.servisi.GeocodingService;
 import tim.projekat.servisi.KorisnikServis;
 import tim.projekat.servisi.VoznjaServis;
 
@@ -24,11 +22,15 @@ import java.util.Map;
 @RequestMapping("/drives")
 public class VoznjaKontroler {
 
-//    public final static List<String> lokacije = new ArrayList<String>();
+    //    public final static List<String> lokacije = new ArrayList<String>();
     @Autowired
     KorisnikServis korisnikServis;
     @Autowired
     VoznjaServis voznjaServis;
+
+    @Autowired
+    private GeocodingService geocodingService;
+
 
 //    @GetMapping
 //    public void init() {
@@ -50,9 +52,7 @@ public class VoznjaKontroler {
         if (k.equals(null))
             return (ResponseEntity<?>) ResponseEntity.internalServerError();
         // TODO: dto u voznju
-        List<Klijent> klijentList = new ArrayList<>();
-        klijentList.add(k);
-        Voznja v = new Voznja(klijentList, vDTO);
+        Voznja v = new Voznja(vDTO);
 
         // preuzmi sve vozace i proveri parametre
         List<Korisnik> vozacList = this.korisnikServis.findAllByType("Vozac");
@@ -100,7 +100,10 @@ public class VoznjaKontroler {
                     min = entry;
                 }
             }
-            v.setVozac(min.getKey());
+            min.getKey().addVoznja(v);
+            k.addVoznja(v);
+            this.korisnikServis.save(k);
+            this.korisnikServis.save(min.getKey());
             this.voznjaServis.save(v);
 
         }
@@ -115,24 +118,59 @@ public class VoznjaKontroler {
     public ResponseEntity<?> listUpcomingDrives(@RequestBody KorisnikEmailDTO keDTO) {
         Korisnik k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
         List<Voznja> voznje = voznjaServis.getDriverUpcoming((Vozac) k);
-        return ResponseEntity.ok(voznje);
+        List<DrivingEntryDTO> voznjeFront = new ArrayList<>();
+        for (Voznja v : voznje) {
+            Klijent klijent = this.korisnikServis.getKlijent(v);
+            String[] vKoord = v.getPolaziste().split(",");
+            Address address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
+            String pol = address.toString();
+            System.out.println(address.getDisplayName());
+            vKoord = v.getDestinacija().split(",");
+            address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
+            String odr = address.toString();
+            voznjeFront.add(new DrivingEntryDTO(v, klijent, pol, odr));
+        }
+        System.out.println(voznjeFront);
+        return ResponseEntity.ok(voznjeFront);
     }
 
     @PostMapping("/getHistory")
     public ResponseEntity<?> listHistoryDrives(@RequestBody KorisnikEmailDTO keDTO) {
         Korisnik k;
         List<Voznja> voznje = new ArrayList<Voznja>();
-        if(keDTO.getRole().equals(Klijent.class.getSimpleName())) {
+        List<DrivingEntryDTO> voznjeFront = new ArrayList<>();
+        if (keDTO.getRole().equals(Klijent.class.getSimpleName())) {
             k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
             System.out.println(k);
             voznje = voznjaServis.getClientHistory((Klijent) k);
-        }
-        else if(keDTO.getRole().equals(Vozac.class.getSimpleName())) {
+
+            for (Voznja v : voznje) {
+                Vozac vozac = this.korisnikServis.getVozac(v);
+                String[] vKoord = v.getPolaziste().split(",");
+                Address address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
+                String pol = address.toString();
+                vKoord = v.getDestinacija().split(",");
+                address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
+                String odr = address.toString();
+                voznjeFront.add(new DrivingEntryDTO(v, vozac, pol, odr));
+            }
+        } else if (keDTO.getRole().equals(Vozac.class.getSimpleName())) {
             k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
             System.out.println(k);
             voznje = voznjaServis.getDriverHistory((Vozac) k);
+
+            for (Voznja v : voznje) {
+                Klijent klijent = this.korisnikServis.getKlijent(v);
+                String[] vKoord = v.getPolaziste().split(",");
+                Address address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
+                String pol = address.toString();
+                vKoord = v.getDestinacija().split(",");
+                address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
+                String odr = address.toString();
+                voznjeFront.add(new DrivingEntryDTO(v, klijent, pol, odr));
+            }
         }
-        System.out.println(voznje);
-        return ResponseEntity.ok(voznje);
+        System.out.println(voznjeFront);
+        return ResponseEntity.ok(voznjeFront);
     }
 }

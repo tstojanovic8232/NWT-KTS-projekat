@@ -17,13 +17,6 @@ public class Voznja {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "voznja_seq")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "vozac_id", nullable = false)
-    private Vozac vozac;
-
-    @ManyToMany(targetEntity = Klijent.class)
-    private List<Klijent> klijenti;
-
     private String polaziste;
     //    @ElementCollection
 //    private List<String> stanice;
@@ -39,8 +32,7 @@ public class Voznja {
     public Voznja() {
     }
 
-    public Voznja(List<Klijent> klijenti, VoznjaDTO vDTO) {
-        this.klijenti = klijenti;
+    public Voznja(VoznjaDTO vDTO) {
         this.gotova = false;
         this.ocena = 0;
         this.polaziste = vDTO.getFrom();
@@ -51,9 +43,8 @@ public class Voznja {
         this.datumVreme = LocalDateTime.parse(vDTO.getDate().split("\\.")[0]);
     }
 
-    public Voznja(Vozac vozac, List<Klijent> putnici, double brojKilometara, String napomena, LocalDateTime datumVreme, double cena) {
-        this.vozac = vozac;
-        this.klijenti = putnici;
+    public Voznja(double brojKilometara, String napomena, LocalDateTime datumVreme, double cena) {
+
         this.brojKilometara = brojKilometara;
         this.napomena = napomena;
         this.datumVreme = datumVreme;
@@ -62,22 +53,6 @@ public class Voznja {
         this.ocena = 0;
     }
 
-
-    public Vozac getVozac() {
-        return vozac;
-    }
-
-    public void setVozac(Vozac vozac) {
-        this.vozac = vozac;
-    }
-
-    public List<Klijent> getPutnici() {
-        return klijenti;
-    }
-
-    public void setPutnici(List<Klijent> putnici) {
-        this.klijenti = putnici;
-    }
 
     public double getBrojKilometara() {
         return brojKilometara;
@@ -154,9 +129,7 @@ public class Voznja {
     @Override
     public String toString() {
         return "Voznja{" +
-                "vozac=" + vozac +
-                ", putnici=" + klijenti +
-                ", polaziste='" + polaziste + '\'' +
+                "polaziste='" + polaziste + '\'' +
 //                ", stanice=" + stanice +
                 ", destinacija='" + destinacija + '\'' +
                 ", brojKilometara=" + brojKilometara +

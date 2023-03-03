@@ -7,6 +7,7 @@ import tim.projekat.model.Vozac;
 import tim.projekat.model.Voznja;
 import tim.projekat.repozitorijumi.VoznjaRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,19 +24,43 @@ public class VoznjaServis {
         this.voznjaRepo.save(v);
     }
 
-    public List<Voznja> getClientHistory(Klijent k){
-        return this.voznjaRepo.getVoznjasByKlijentiContainsAndGotovaTrue(k);
+    public List<Voznja> getClientHistory(Klijent k) {
+        List<Voznja> klijentV = k.getVoznje();
+        List<Voznja> sveGotoveV = this.voznjaRepo.getVoznjasByGotovaTrue();
+        List<Voznja> klijentGV = new ArrayList<Voznja>();
+        for (Voznja voznja : klijentV) {
+            if (sveGotoveV.contains(voznja)) klijentGV.add(voznja);
+        }
+        return klijentGV;
     }
 
-    public List<Voznja> getClientUpcoming(Klijent k){
-        return this.voznjaRepo.getVoznjasByKlijentiContainsAndGotovaFalse(k);
+    public List<Voznja> getClientUpcoming(Klijent k) {
+        List<Voznja> klijentV = k.getVoznje();
+        List<Voznja> sveBuduceV = this.voznjaRepo.getVoznjasByGotovaFalse();
+        List<Voznja> klijentBV = new ArrayList<Voznja>();
+        for (Voznja voznja : klijentV) {
+            if (sveBuduceV.contains(voznja)) klijentBV.add(voznja);
+        }
+        return klijentBV;
     }
 
-    public List<Voznja> getDriverUpcoming(Vozac v){
-        return this.voznjaRepo.getVoznjasByVozacAndGotovaFalse(v);
+    public List<Voznja> getDriverUpcoming(Vozac v) {
+        List<Voznja> vozacV = v.getVoznje();
+        List<Voznja> sveBuduceV = this.voznjaRepo.getVoznjasByGotovaFalse();
+        List<Voznja> vozacBV = new ArrayList<Voznja>();
+        for (Voznja voznja : vozacV) {
+            if (sveBuduceV.contains(voznja)) vozacBV.add(voznja);
+        }
+        return vozacBV;
     }
 
-    public List<Voznja> getDriverHistory(Vozac v){
-        return this.voznjaRepo.getVoznjasByVozacAndGotovaTrue(v);
+    public List<Voznja> getDriverHistory(Vozac v) {
+        List<Voznja> vozacV = v.getVoznje();
+        List<Voznja> sveGotoveV = this.voznjaRepo.getVoznjasByGotovaTrue();
+        List<Voznja> vozacGV = new ArrayList<Voznja>();
+        for (Voznja voznja : vozacV) {
+            if (sveGotoveV.contains(voznja)) vozacGV.add(voznja);
+        }
+        return vozacGV;
     }
 }

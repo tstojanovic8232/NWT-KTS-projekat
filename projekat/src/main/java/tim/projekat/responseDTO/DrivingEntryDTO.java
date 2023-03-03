@@ -1,5 +1,11 @@
 package tim.projekat.responseDTO;
 
+import tim.projekat.model.Klijent;
+import tim.projekat.model.Korisnik;
+import tim.projekat.model.Voznja;
+
+import java.time.format.DateTimeFormatter;
+
 public class DrivingEntryDTO {
     String clientName;
     String date;
@@ -18,6 +24,13 @@ public class DrivingEntryDTO {
         this.destination = destination;
     }
 
+    public DrivingEntryDTO(Voznja voznja, Korisnik k, String pol, String odr) {
+        this.clientName = k.getIme() + " " + k.getPrezime();
+        this.date = voznja.getDatumVreme().format(DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm"));
+        this.price = String.valueOf(voznja.getCena());
+        this.origin = pol;
+        this.destination = odr;
+    }
     public String getClientName() {
         return clientName;
     }

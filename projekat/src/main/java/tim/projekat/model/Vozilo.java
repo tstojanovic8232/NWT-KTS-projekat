@@ -15,13 +15,10 @@ public class Vozilo {
         return "Vozilo{" +
                 "registracija='" + registracija + '\'' +
                 ", cena=" + cena +
-                ", vozac=" + vozac +
                 ", id=" + id +
                 '}';
     }
 
-    @OneToOne
-    private Vozac vozac;
 
 
     @Id
@@ -50,14 +47,6 @@ public class Vozilo {
 
     public void setCena(double cena) {
         this.cena = cena;
-    }
-
-    public Vozac getVozac() {
-        return vozac;
-    }
-
-    public void setVozac(Vozac vozac) {
-        this.vozac = vozac;
     }
 
     public void setId(Long id) {

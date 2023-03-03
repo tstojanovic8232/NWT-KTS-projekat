@@ -2,8 +2,7 @@ package tim.projekat.servisi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tim.projekat.model.Korisnik;
-import tim.projekat.model.VerificationToken;
+import tim.projekat.model.*;
 import tim.projekat.repozitorijumi.KorisnikRepo;
 import tim.projekat.repozitorijumi.TokenRepo;
 
@@ -48,6 +47,14 @@ public class KorisnikServis {
             if(k.getClass().getSimpleName().equals(userType)) res.add(k);
         }
         return res;
+    }
+
+    public Klijent getKlijent(Voznja v) {
+        return (Klijent) this.korisnikRepo.getKlijentByVoznjeContains(v.getId());
+    }
+
+    public Vozac getVozac(Voznja v) {
+        return (Vozac) this.korisnikRepo.getVozacByVoznjeContains(v.getId());
     }
 
 }
