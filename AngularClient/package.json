@@ -20,7 +20,6 @@
     "@angular/router": "^15.0.0",
     "@types/leaflet-polylinedecorator": "^1.6.1",
     "@types/leaflet-routing-machine": "^3.2.4",
-    "angular-geocoder": "^14.18.0",
     "leaflet": "^1.9.3",
     "leaflet-control-geocoder": "^2.4.0",
     "leaflet-drift-marker": "^2.0.0",
