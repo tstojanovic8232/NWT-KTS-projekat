@@ -1,37 +1,33 @@
 package tim.projekat.model;
 
 public class Address {
-    private String displayName;
-    private String countryCode;
+    private String road;
+    private String house_number;
     private String city;
-    private String state;
-    private String postcode;
 
     public Address() {
     }
 
-    public Address(String displayName, String countryCode, String city, String state, String postcode) {
-        this.displayName = displayName;
-        this.countryCode = countryCode;
+    public Address(String road, String house_number, String city) {
+        this.road = road;
+        this.house_number = house_number;
         this.city = city;
-        this.state = state;
-        this.postcode = postcode;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getRoad() {
+        return road;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setRoad(String road) {
+        this.road = road;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public String getHouse_number() {
+        return house_number;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
+    public void setHouse_number(String house_number) {
+        this.house_number = house_number;
     }
 
     public String getCity() {
@@ -42,24 +38,11 @@ public class Address {
         this.city = city;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
-    }
-
     @Override
     public String toString() {
-        return displayName + ", " + city;
+        if (house_number != null)
+            return road + " " + house_number + ", " + city;
+        else
+            return road + ", " + city;
     }
 }

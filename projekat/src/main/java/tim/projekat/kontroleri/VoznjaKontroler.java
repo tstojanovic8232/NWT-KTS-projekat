@@ -121,13 +121,16 @@ public class VoznjaKontroler {
         List<DrivingEntryDTO> voznjeFront = new ArrayList<>();
         for (Voznja v : voznje) {
             Klijent klijent = this.korisnikServis.getKlijent(v);
-            String[] vKoord = v.getPolaziste().split(",");
-            Address address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
-            String pol = address.toString();
-            System.out.println(address.getDisplayName());
-            vKoord = v.getDestinacija().split(",");
-            address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
-            String odr = address.toString();
+            String[] vKoord = v.getPolaziste().split(", ");
+            double lat = Double.parseDouble(vKoord[0]);
+            double lon= Double.parseDouble(vKoord[1]);
+            APIResponse apiResponse = geocodingService.geocode(lat, lon);
+            String pol = apiResponse.getAddress().toString();
+            vKoord = v.getDestinacija().split(", ");
+            lat = Double.parseDouble(vKoord[0]);
+            lon= Double.parseDouble(vKoord[1]);
+            apiResponse = geocodingService.geocode(lat, lon);
+            String odr = apiResponse.getAddress().toString();
             voznjeFront.add(new DrivingEntryDTO(v, klijent, pol, odr));
         }
         System.out.println(voznjeFront);
@@ -146,12 +149,16 @@ public class VoznjaKontroler {
 
             for (Voznja v : voznje) {
                 Vozac vozac = this.korisnikServis.getVozac(v);
-                String[] vKoord = v.getPolaziste().split(",");
-                Address address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
-                String pol = address.toString();
-                vKoord = v.getDestinacija().split(",");
-                address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
-                String odr = address.toString();
+                String[] vKoord = v.getPolaziste().split(", ");
+                double lat = Double.parseDouble(vKoord[0]);
+                double lon= Double.parseDouble(vKoord[1]);
+                APIResponse apiResponse = geocodingService.geocode(lat, lon);
+                String pol = apiResponse.getAddress().toString();
+                vKoord = v.getDestinacija().split(", ");
+                lat = Double.parseDouble(vKoord[0]);
+                lon= Double.parseDouble(vKoord[1]);
+                apiResponse = geocodingService.geocode(lat, lon);
+                String odr = apiResponse.getAddress().toString();
                 voznjeFront.add(new DrivingEntryDTO(v, vozac, pol, odr));
             }
         } else if (keDTO.getRole().equals(Vozac.class.getSimpleName())) {
@@ -161,12 +168,16 @@ public class VoznjaKontroler {
 
             for (Voznja v : voznje) {
                 Klijent klijent = this.korisnikServis.getKlijent(v);
-                String[] vKoord = v.getPolaziste().split(",");
-                Address address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
-                String pol = address.toString();
-                vKoord = v.getDestinacija().split(",");
-                address = geocodingService.geocode(Double.parseDouble(vKoord[0]), Double.parseDouble(vKoord[1]));
-                String odr = address.toString();
+                String[] vKoord = v.getPolaziste().split(", ");
+                double lat = Double.parseDouble(vKoord[0]);
+                double lon= Double.parseDouble(vKoord[1]);
+                APIResponse apiResponse = geocodingService.geocode(lat, lon);
+                String pol = apiResponse.getAddress().toString();
+                vKoord = v.getDestinacija().split(", ");
+                lat = Double.parseDouble(vKoord[0]);
+                lon= Double.parseDouble(vKoord[1]);
+                apiResponse = geocodingService.geocode(lat, lon);
+                String odr = apiResponse.getAddress().toString();
                 voznjeFront.add(new DrivingEntryDTO(v, klijent, pol, odr));
             }
         }

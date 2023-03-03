@@ -56,7 +56,7 @@ const routes: Routes = [
           component: BillComponent,
         },
         {
-          path:'rides',
+          path:'history',
           component: IstorijaVoznjiComponent,
         },
 
@@ -75,7 +75,7 @@ const routes: Routes = [
           component: ClientProfileComponent,
         },
         {
-          path: 'historyClients',
+          path: 'history',
           component: IstorijaVoznjiVozacComponent,
         },
         {
