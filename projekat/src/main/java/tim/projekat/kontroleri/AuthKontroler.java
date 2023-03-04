@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tim.projekat.model.Vozac;
 import tim.projekat.requestDTO.LoginDTO;
 import tim.projekat.requestDTO.RegisterDTO;
 import tim.projekat.model.Klijent;
@@ -30,7 +31,13 @@ public class AuthKontroler {
         Korisnik korisnik = this.korisnikServis.getKorisnikByEmail(loginDTO.getEmail());
         LoginResponseDTO response = new LoginResponseDTO(korisnik.getEmail(), korisnik.getClass().getSimpleName());
         if (korisnik.getLozinka().equals(loginDTO.getPassword()) && korisnik.getAktivan().equals(true))
+        {
+            if(korisnik.getClass().equals(Vozac.class)) {
+                Vozac v = (Vozac) korisnik;
+                this.korisnikServis.switchStatus(v, true);
+            }
             return ResponseEntity.ok(response);
+        }
         return (ResponseEntity<LoginResponseDTO>) ResponseEntity.internalServerError();
     }
 

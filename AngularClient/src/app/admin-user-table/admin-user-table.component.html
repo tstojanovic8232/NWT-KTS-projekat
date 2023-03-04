@@ -1,0 +1,43 @@
+
+<div class="table-wrapper">
+  <table  #myTable class="fl-table">
+    <thead>
+    <tr>
+      <th style="border-top-left-radius: 5px">Email</th>
+      <th>Name</th>
+      <th>City</th>
+      <th>Phone number</th>
+      <th >Enabled</th>
+      <th>Billing</th>
+      <th>In ride?</th>
+      <th style="border-top-right-radius: 5px">Blocked</th>
+      <th *ngIf="isDriver">Online status</th>
+      <th *ngIf="isDriver" style="border-top-right-radius: 5px">Current location</th>
+    </tr>
+
+    </thead>
+    <tbody>
+
+    <tr *ngFor="let row of data" style="border-top-right-radius: 5px">
+      <td style="border-bottom-left-radius: 5px">{{ row }}</td>
+      <td >{{ row }}</td>
+      <td>{{ row }}</td>
+      <td>{{ row }}</td>
+      <td >{{ row }}</td>
+      <td>{{ row }}</td>
+      <td>{{ row }}</td>
+      <td style="border-bottom-right-radius: 5px">{{ row }}</td>
+      <td *ngIf="isDriver">{{ row }}</td>
+      <td *ngIf="isDriver" style="border-bottom-right-radius: 5px">{{ row }}</td>
+    </tr >
+
+
+    <tbody>
+  </table>
+  <br>
+  <div>
+
+
+  </div>
+</div>
+

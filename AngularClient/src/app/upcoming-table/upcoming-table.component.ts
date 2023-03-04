@@ -16,6 +16,11 @@ export class UpcomingTableComponent implements OnInit{
 
   constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private drivingService: DrivingService) {
 
+
+
+  }
+
+  ngOnInit() {
     let user:UserRole = new UserRole();
     let email = this.localService.getData('user');
     let role = this.localService.getData('role');
@@ -24,11 +29,8 @@ export class UpcomingTableComponent implements OnInit{
       user.role = role;
     }
     this.drivingService.getUpcoming(user).subscribe(data=>{
-      this.setData(data as DrivingEntry[]);
-    })
-  }
-
-  ngOnInit() {
+    this.setData(data as DrivingEntry[]);
+  })
   }
 
   setData(data : any) {

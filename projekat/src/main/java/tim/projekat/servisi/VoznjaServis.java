@@ -8,7 +8,9 @@ import tim.projekat.model.Voznja;
 import tim.projekat.repozitorijumi.VoznjaRepo;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VoznjaServis {
@@ -31,6 +33,9 @@ public class VoznjaServis {
         for (Voznja voznja : klijentV) {
             if (sveGotoveV.contains(voznja)) klijentGV.add(voznja);
         }
+        klijentGV = klijentGV.stream()
+                .sorted(Comparator.comparing(Voznja::getDatumVreme))
+                .collect(Collectors.toList());
         return klijentGV;
     }
 
@@ -41,6 +46,9 @@ public class VoznjaServis {
         for (Voznja voznja : klijentV) {
             if (sveBuduceV.contains(voznja)) klijentBV.add(voznja);
         }
+        klijentBV = klijentBV.stream()
+                .sorted(Comparator.comparing(Voznja::getDatumVreme))
+                .collect(Collectors.toList());
         return klijentBV;
     }
 
@@ -51,6 +59,9 @@ public class VoznjaServis {
         for (Voznja voznja : vozacV) {
             if (sveBuduceV.contains(voznja)) vozacBV.add(voznja);
         }
+        vozacBV = vozacBV.stream()
+                .sorted(Comparator.comparing(Voznja::getDatumVreme))
+                .collect(Collectors.toList());
         return vozacBV;
     }
 
@@ -61,6 +72,9 @@ public class VoznjaServis {
         for (Voznja voznja : vozacV) {
             if (sveGotoveV.contains(voznja)) vozacGV.add(voznja);
         }
+        vozacGV = vozacGV.stream()
+                .sorted(Comparator.comparing(Voznja::getDatumVreme))
+                .collect(Collectors.toList());
         return vozacGV;
     }
 }

@@ -14,15 +14,20 @@ import {BillComponent} from "./bill/bill.component";
 import {IstorijaVoznjiComponent} from "./istorija-voznji/istorija-voznji.component";
 import {IstorijaVoznjiVozacComponent} from "./istorija-voznji-vozac/istorija-voznji-vozac.component";
 import {UpcomingTableComponent} from "./upcoming-table/upcoming-table.component";
+import {AboutComponent} from "./about/about.component";
+import {AdminUserTableComponent} from "./admin-user-table/admin-user-table.component";
 
 const routes: Routes = [
-  {path: '', component: HomePageComponent},
+  {path: '', component: HomePageComponent,
+  children:[
+    {path: 'about', component: AboutComponent},
+    {path: '', component: MapComponent},
+  ]},
   {path: 'login', component: LoginComponent},
   {
     path: 'register', component: RegistrationComponent
   },
   {path: 'confirm', component: ConfirmComponent},
-
   {
     path: 'admin', component: AdminPageComponent,
     children:
@@ -31,14 +36,14 @@ const routes: Routes = [
           path: 'profile',
           component: ClientProfileComponent,
         },
-        /*{
+        {
           path: 'drivers',
-          component: DriversListComponent,
+          component: AdminUserTableComponent,
         },
         {
           path: 'clients',
-          component: ClientsListComponent,
-        },*/
+          component: AdminUserTableComponent,
+        },
       ],
   },
   {

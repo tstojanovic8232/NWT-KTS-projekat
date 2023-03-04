@@ -57,4 +57,16 @@ public class KorisnikServis {
         return (Vozac) this.korisnikRepo.getVozacByVoznjeContains(v.getId());
     }
 
+    public void switchStatus(Vozac v, boolean status) {
+        v.setStatus(status);
+        this.korisnikRepo.save(v);
+    }
+
+    public List<Klijent> getClients() {
+        return this.korisnikRepo.getAllClients();
+    }
+
+    public List<Vozac> getDrivers() {
+        return this.korisnikRepo.getAllDrivers();
+    }
 }
