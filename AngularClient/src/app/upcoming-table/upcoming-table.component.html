@@ -16,14 +16,14 @@
     </thead>
     <tbody>
 
-    <tr *ngFor="let row of data" style="border-top-right-radius: 5px">
+    <tr *ngFor="let row of data;let i=index" style="border-top-right-radius: 5px">
       <td style="border-bottom-left-radius: 5px">{{ row.clientName }}</td>
       <td >{{ row.date }}</td>
       <td>{{ row.price }}</td>
       <td>{{ row.origin }}</td>
 
       <td >{{ row.destination }}</td>
-      <td style="border-bottom-right-radius: 5px"><button>start</button></td>
+      <td style="border-bottom-right-radius: 5px"><button type="button" (click)="startDrive(i)">start</button></td>
     </tr >
 
 

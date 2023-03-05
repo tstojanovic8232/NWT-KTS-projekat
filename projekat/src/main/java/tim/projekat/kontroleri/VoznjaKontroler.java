@@ -102,9 +102,10 @@ public class VoznjaKontroler {
             }
             min.getKey().addVoznja(v);
             k.addVoznja(v);
+            this.voznjaServis.save(v);
             this.korisnikServis.save(k);
             this.korisnikServis.save(min.getKey());
-            this.voznjaServis.save(v);
+
 
         }
 
@@ -123,12 +124,12 @@ public class VoznjaKontroler {
             Klijent klijent = this.korisnikServis.getKlijent(v);
             String[] vKoord = v.getPolaziste().split(", ");
             double lat = Double.parseDouble(vKoord[0]);
-            double lon= Double.parseDouble(vKoord[1]);
+            double lon = Double.parseDouble(vKoord[1]);
             APIResponse apiResponse = geocodingService.geocode(lat, lon);
             String pol = apiResponse.getAddress().toString();
             vKoord = v.getDestinacija().split(", ");
             lat = Double.parseDouble(vKoord[0]);
-            lon= Double.parseDouble(vKoord[1]);
+            lon = Double.parseDouble(vKoord[1]);
             apiResponse = geocodingService.geocode(lat, lon);
             String odr = apiResponse.getAddress().toString();
             voznjeFront.add(new DrivingEntryDTO(v, klijent, pol, odr));
@@ -151,12 +152,12 @@ public class VoznjaKontroler {
                 Vozac vozac = this.korisnikServis.getVozac(v);
                 String[] vKoord = v.getPolaziste().split(", ");
                 double lat = Double.parseDouble(vKoord[0]);
-                double lon= Double.parseDouble(vKoord[1]);
+                double lon = Double.parseDouble(vKoord[1]);
                 APIResponse apiResponse = geocodingService.geocode(lat, lon);
                 String pol = apiResponse.getAddress().toString();
                 vKoord = v.getDestinacija().split(", ");
                 lat = Double.parseDouble(vKoord[0]);
-                lon= Double.parseDouble(vKoord[1]);
+                lon = Double.parseDouble(vKoord[1]);
                 apiResponse = geocodingService.geocode(lat, lon);
                 String odr = apiResponse.getAddress().toString();
                 voznjeFront.add(new DrivingEntryDTO(v, vozac, pol, odr));
@@ -170,12 +171,12 @@ public class VoznjaKontroler {
                 Klijent klijent = this.korisnikServis.getKlijent(v);
                 String[] vKoord = v.getPolaziste().split(", ");
                 double lat = Double.parseDouble(vKoord[0]);
-                double lon= Double.parseDouble(vKoord[1]);
+                double lon = Double.parseDouble(vKoord[1]);
                 APIResponse apiResponse = geocodingService.geocode(lat, lon);
                 String pol = apiResponse.getAddress().toString();
                 vKoord = v.getDestinacija().split(", ");
                 lat = Double.parseDouble(vKoord[0]);
-                lon= Double.parseDouble(vKoord[1]);
+                lon = Double.parseDouble(vKoord[1]);
                 apiResponse = geocodingService.geocode(lat, lon);
                 String odr = apiResponse.getAddress().toString();
                 voznjeFront.add(new DrivingEntryDTO(v, klijent, pol, odr));
@@ -184,4 +185,41 @@ public class VoznjaKontroler {
         System.out.println(voznjeFront);
         return ResponseEntity.ok(voznjeFront);
     }
+
+    @PostMapping("/start")
+    public ResponseEntity<?> StartDrive(@RequestBody KorisnikEmailDTO keDTO) {
+        Vozac v=(Vozac)this.korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+        if(v==null){
+            return (ResponseEntity<?>) ResponseEntity.internalServerError();
+        }
+        List<Voznja>li=this.voznjaServis.getDriverUpcoming(v);
+        Voznja voznja=li.get(0);
+        Klijent k=this.korisnikServis.getKlijent(voznja);
+        v.setuVoznji(true);
+        k.setuVoznji(true);
+        this.korisnikServis.save(k);
+        this.korisnikServis.save(v);
+        return ResponseEntity.ok(voznja);
+    }
+
+    @PostMapping("/stop")
+    public ResponseEntity<?> EndDrive(@RequestBody KorisnikEmailDTO keDTO) {
+
+        Vozac v=(Vozac)this.korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+        if(v==null){
+            return (ResponseEntity<?>) ResponseEntity.internalServerError();
+        }
+        List<Voznja>li=this.voznjaServis.getDriverUpcoming(v);
+        Voznja voznja=li.get(0);
+        Klijent k=this.korisnikServis.getKlijent(voznja);
+        v.setuVoznji(false);
+        k.setuVoznji(false);
+        voznja.setGotova(true);
+        this.korisnikServis.save(k);
+        this.korisnikServis.save(v);
+        this.voznjaServis.save(voznja);
+        return ResponseEntity.ok(voznja);
+    }
+
+
 }

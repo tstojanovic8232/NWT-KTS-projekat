@@ -28,4 +28,16 @@ export class DrivingService {
     console.log(user);
     return this.http.post<UserRole>(this.usersUrl+"/getHistory", user);
   }
+
+  startDriving(user : UserRole):Observable<object> {
+    console.log(user);
+    return this.http.post<UserRole>(this.usersUrl+"/start", user);
+  }
+
+  stopDriving(user : UserRole):Observable<object> {
+    console.log(user);
+    return this.http.post<UserRole>(this.usersUrl+"/stop", user);
+  }
+
+
 }

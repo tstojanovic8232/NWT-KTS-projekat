@@ -4,11 +4,11 @@
   <table  #myTable class="fl-table">
     <thead>
     <tr>
-      <th style="border-top-left-radius: 5px">Naziv klijenta</th>
-      <th>Datum</th>
-      <th>Cena</th>
-      <th>Polazište</th>
-      <th style="border-top-right-radius: 5px">Odredište</th>
+      <th style="border-top-left-radius: 5px"><button type="button" class="sort" (click)="sortKlijent()" >Naziv klijenta</button></th>
+      <th><button type="button" class="sort" (click)="sortDatum()">Datum</button></th>
+      <th><button type="button" class="sort" (click)="sortCena()">Cena</button></th>
+      <th><button type="button" class="sort" (click)="sortPolaziste()">Polazište</button></th>
+      <th style="border-top-right-radius: 5px"><button type="button" class="sort" (click)="sortOdrediste()">Odredište</button></th>
     </tr>
 
     </thead>
@@ -26,9 +26,9 @@
     <tbody>
   </table>
   <br>
-  <div align="center">
+  <div align="center" >
 
-    <button (click)="previousPage()">Previous</button>
-    <button  (click)="NextPage()">Next</button>
+    <button (click)="previousPage()" class="button">Previous</button>
+    <button  (click)="NextPage()" class="button">Next</button>
   </div>
 </div>

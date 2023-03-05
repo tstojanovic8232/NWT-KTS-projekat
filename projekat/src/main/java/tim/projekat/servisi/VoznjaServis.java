@@ -34,7 +34,7 @@ public class VoznjaServis {
             if (sveGotoveV.contains(voznja)) klijentGV.add(voznja);
         }
         klijentGV = klijentGV.stream()
-                .sorted(Comparator.comparing(Voznja::getDatumVreme))
+                .sorted(Comparator.comparing(Voznja::getDatumVreme,Comparator.reverseOrder()))
                 .collect(Collectors.toList());
         return klijentGV;
     }
@@ -73,7 +73,7 @@ public class VoznjaServis {
             if (sveGotoveV.contains(voznja)) vozacGV.add(voznja);
         }
         vozacGV = vozacGV.stream()
-                .sorted(Comparator.comparing(Voznja::getDatumVreme))
+                .sorted(Comparator.comparing(Voznja::getDatumVreme,Comparator.reverseOrder()))
                 .collect(Collectors.toList());
         return vozacGV;
     }

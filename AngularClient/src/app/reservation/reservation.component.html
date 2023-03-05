@@ -19,11 +19,12 @@
       </select>
     </div> <!-- End of the select_component -->
   </div> <!-- End of drop_down_component -->
-  <button type="submit" name="submit" ariaCurrentWhenActive="page" [disabled]="!reservationForm.form.valid">
-    Rezervisi
-  </button>
-
-  <button type="button" (click)="simulateDrive()">Simulate Drive</button>
+  <div id="dugmici">
+    <button id="1" type="submit" name="submit" ariaCurrentWhenActive="page" [disabled]="!reservationForm.form.valid">
+      Rezervisi
+    </button>
+    <button id="2" type="button" id="sim" (click)="simulateDrive()">Simulate Drive</button>
+  </div>
 </form>
 
 
@@ -33,6 +34,10 @@
     <div id="map"></div>
   </div>
 </div>
+
+
+
+
 
 
 

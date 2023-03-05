@@ -43,7 +43,7 @@ VALUES (nextval('korisnik_seq'), 'nikica@gmail.com', '999', TRUE, 'vozac', 'Novi
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja, status, trenutna_lokacija, u_voznji)
 VALUES (nextval('korisnik_seq'), 'anica@gmail.com', '000', TRUE, 'vozac', 'Novi Sad', '064/1834927', 'Anica', 'Anic', 2,
-        'anica@gmail.com', TRUE, '45.240383, 19.837863', TRUE);
+        'anica@gmail.com', TRUE, '45.240383, 19.837863', FALSE);
 
 -- voznje
 INSERT INTO voznja (id, vozac_id, polaziste, destinacija, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena)

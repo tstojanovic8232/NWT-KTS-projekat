@@ -37,4 +37,15 @@ export class UpcomingTableComponent implements OnInit{
     console.log(data);
     this.data=data;
   }
+
+  startDrive(i:number) {
+     this.router.navigate(['driver-home/driving'],{
+       state:{
+         from:this.data[i].origin,
+         to:this.data[i].destination
+       }
+     });
+
+
+  }
 }

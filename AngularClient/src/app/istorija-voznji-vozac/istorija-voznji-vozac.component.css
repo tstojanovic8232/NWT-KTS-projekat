@@ -26,7 +26,7 @@ td:nth-child(2) {
   margin: 10px 70px 70px;
 
 }
-button {
+.button {
   background-color: #6BBE92;
   width: 150px;
   border-radius: 8px;
@@ -77,7 +77,11 @@ button {
 .fl-table tr:nth-child(even) {
   background: #F8F8F8;
 }
-
+.sort{
+  background-color: transparent;
+  border-width: 0;
+  color: white;
+}
 /* Responsive */
 
 @media (max-width: 767px) {

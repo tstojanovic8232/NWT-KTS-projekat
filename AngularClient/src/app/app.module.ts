@@ -28,8 +28,12 @@ import { IstorijaVoznjiComponent } from './istorija-voznji/istorija-voznji.compo
 import { NgxPaginationModule } from 'ngx-pagination';
 import { IstorijaVoznjiVozacComponent } from './istorija-voznji-vozac/istorija-voznji-vozac.component';
 import { UpcomingTableComponent } from './upcoming-table/upcoming-table.component';
+
 import { BooleanToStatusPipe } from './pipes/boolean-to-status.pipe';
 import { AdminUserTableComponent } from './admin-user-table/admin-user-table.component';
+
+import { ZapocniVoznjuComponent } from './zapocni-voznju/zapocni-voznju.component';
+
 
 
 // @ts-ignore
@@ -57,8 +61,11 @@ import { AdminUserTableComponent } from './admin-user-table/admin-user-table.com
     IstorijaVoznjiComponent,
     IstorijaVoznjiVozacComponent,
     UpcomingTableComponent,
+
     BooleanToStatusPipe,
-    AdminUserTableComponent
+    AdminUserTableComponent,
+    ZapocniVoznjuComponent
+
   ],
   imports: [
     BrowserModule,

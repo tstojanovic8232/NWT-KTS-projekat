@@ -1,11 +1,14 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import * as L from "leaflet";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import DriftMarker from "leaflet-drift-marker";
+
 
 import 'leaflet-velocity/dist/leaflet-velocity.min.js';
-import * as L from 'leaflet';
 
-import DriftMarker from "leaflet-drift-marker";
+
+
 import 'leaflet-routing-machine';
 import 'leaflet-polylinedecorator';
 
@@ -14,6 +17,9 @@ import 'leaflet-polylinedecorator';
 import {FeatureGroup, marker} from "leaflet";
 import {mark} from "@angular/compiler-cli/src/ngtsc/perf/src/clock";
 import {NONE_TYPE} from "@angular/compiler";
+import {DrivingService} from "../services/driving.service";
+import {UserRole} from "../model/user-role";
+import {LocalService} from "../services/local.service";
 
 
 const icon = L.icon({
@@ -23,23 +29,27 @@ const icon = L.icon({
   iconUrl: "assets/car.png",
   shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
 });
-
 @Component({
-  selector: 'app-reservation',
-  templateUrl: './reservation.component.html',
-  styleUrls: ['./reservation.component.css']
+  selector: 'app-zapocni-voznju',
+  templateUrl: './zapocni-voznju.component.html',
+  styleUrls: ['./zapocni-voznju.component.css']
 })
-export class ReservationComponent {
-  km: number;
-  from: string;
-  to: string;
-  tip: string;
-  nap: string;
+export class ZapocniVoznjuComponent {
+
+  @ViewChild('c', { static: true }) myButton: ElementRef;
+
+
+
+
+  // In your function
+
+
+  addressFrom:string;
+addressTo:string;
 
   private map: L.Map;
   private centroid: L.LatLngExpression = [45.2396, 19.8227]; //
-  addressFrom: string;
-  addressTo: string;
+
   private options: any;
   private markers: L.Marker[] = [];
   private markers2: L.Marker[] = [];
@@ -54,6 +64,12 @@ export class ReservationComponent {
   private pom: any;
 
   // @ts-ignore
+  private myObject: any;
+  se: string="";
+  clicked: false;
+  item: string;
+
+  buttonClicked = false;
 
 
 
@@ -77,18 +93,52 @@ export class ReservationComponent {
 
     tiles.addTo(this.map);
 
+    this.map.on('load', () => {
+      setTimeout(() => {
+        this.simulateDrive();
+      }, 5000); // Delay execution for 1 second to ensure all markers and layers are loaded
+    });
+
   }
 
+  user:UserRole=new UserRole();
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router,private drivingService:DrivingService,private localService:LocalService) {
 
   }
+
 
   ngOnInit(): void {
+    this.addressFrom=history.state.from;
+    this.addressTo=history.state.to;
+    history.state.from=undefined;
+    history.state.to=undefined;
+    let email=this.localService.getData("user");
+    let role=this.localService.getData("role");
+    if(email && role){
+      this.user.email=email;
+      this.user.role=role;
+    }
     this.initMap();
+    this.updateMapFrom();
+    this.updateMapTo();
+    this.se="sss";
+
 
   }
 
+  ngAfterViewInit() {
+    // Trigger the click event on the button element
+    this.myButton.nativeElement.click();
+  }
+
+
+
+
+
+  fun(){
+    console.log('sdsad')
+  }
 
   updateMapFrom() {
     if (this.fromMarker) {
@@ -99,7 +149,7 @@ export class ReservationComponent {
     this.http.get(url).subscribe(data => {
       // @ts-ignore
       const coordinates = data[0];
-      this.setFrom(coordinates);
+
       this.map.setView(new L.LatLng(coordinates.lat, coordinates.lon), 18);
       this.fromMarker = L.marker([coordinates.lat, coordinates.lon], {title: this.addressFrom}).addTo(this.map);
 
@@ -107,7 +157,7 @@ export class ReservationComponent {
         this.addRoutingControl();
       }
     });
-    this.setKm(1);
+
   }
 
   updateMapTo() {
@@ -119,7 +169,7 @@ export class ReservationComponent {
     this.http.get(url).subscribe(data => {
       // @ts-ignore
       const coordinates = data[0];
-      this.setTo(coordinates);
+
       this.map.setView(new L.LatLng(coordinates.lat, coordinates.lon), 18);
       this.toMarker = L.marker([coordinates.lat, coordinates.lon], {title: this.addressTo}).addTo(this.map);
 
@@ -127,58 +177,67 @@ export class ReservationComponent {
         this.addRoutingControl();
       }
     });
-    this.setKm(1);
+
   }
 
 
   simulateDrive() {
-    console.log('pomeram se');
-    const self=this;
-
-    this.map.removeLayer(this.toMarker.remove());
-    const waypoints = this.routingControl.getWaypoints();
-    const markers = waypoints.map((wp: { latLng: any; }) => {
-      return new DriftMarker(wp.latLng).addTo(this.map);
+    this.drivingService.startDriving(this.user).subscribe(data=>{
+      console.log(data);
     });
-    const destination = waypoints[waypoints.length - 1];
-    var marker = L.marker(this.fromMarker.getLatLng(), {icon: icon}).addTo(this.map);
 
-    var fromMarker = this.fromMarker;
-    var toMarker = this.toMarker;
+      console.log('pomeram se');
+    const btn = document.getElementById('2') as HTMLButtonElement | null;
 
 
-    L.Routing.control({
-      waypoints: [
-        L.latLng(fromMarker.getLatLng()),
-        L.latLng(toMarker.getLatLng())
-      ],
-      lineOptions: {
-        extendToWaypoints: true,
-        missingRouteTolerance: 100,
-        styles: [
-          {
-            color: '#1E90FF',
-            opacity: 0.7,
-            weight: 5
-          }
-        ]
-      }
-    }).on('routesfound', function (e: { routes: { coordinates: any[]; }[]; }) {
-      var routes = e.routes;
-      console.log(routes);
+// ✅ Set disabled attribute
 
-      e.routes[0].coordinates.forEach(function (coord, index) {
-        setTimeout(function () {
-          marker.setLatLng([coord.lat, coord.lng]);
+    btn?.setAttribute('disabled', '');
+      const self = this;
+      const waypoints = this.routingControl.getWaypoints();
 
-          if (index == e.routes[0].coordinates.length - 1) {
-            // Animation is complete, remove markers
 
-          }
-        }, 50 * index)
-      })
+      const destination = waypoints[waypoints.length - 1];
+      var marker = L.marker(this.fromMarker.getLatLng(), {icon: icon}).addTo(this.map);
 
-    }).addTo(this.map);
+      var fromMarker = this.fromMarker;
+      var toMarker = this.toMarker;
+
+
+      L.Routing.control({
+        waypoints: [
+          L.latLng(fromMarker.getLatLng()),
+          L.latLng(toMarker.getLatLng())
+        ],
+        lineOptions: {
+          extendToWaypoints: true,
+          missingRouteTolerance: 100,
+          styles: [
+            {
+              color: '#1E90FF',
+              opacity: 0.7,
+              weight: 5
+            }
+          ]
+        }
+      }).on('routesfound', function (e: { routes: { coordinates: any[]; }[]; }) {
+        var routes = e.routes;
+        console.log(routes);
+
+        e.routes[0].coordinates.forEach(function (coord, index) {
+          setTimeout(function () {
+            marker.setLatLng([coord.lat, coord.lng]);
+
+            if (index == e.routes[0].coordinates.length - 1) {
+              // Animation is complete, remove markers
+
+            }
+          }, 50 * index)
+        })
+
+      }).addTo(this.map);
+    this.buttonClicked = true; // set buttonClicked to true
+
   }
 
 
@@ -200,6 +259,7 @@ export class ReservationComponent {
       })
 
     // @ts-ignore
+
     this.routingControl = L.Routing.control({
       waypoints: [
         this.fromMarker.getLatLng(),
@@ -211,7 +271,6 @@ export class ReservationComponent {
       lineOptions: {
         extendToWaypoints: true,
         missingRouteTolerance: 100,
-
         styles: [
           {
             color: '#1E90FF',
@@ -228,39 +287,14 @@ export class ReservationComponent {
 
 
   }
-
-
-  setKm(data: any) {
-    const min = 1;
-    const max = 10;
-    const randomInt = Math.floor(Math.random() * (max - min + 1)) + min;
-    this.km = randomInt;
+  isDisable(item: boolean) : boolean {
+    return item  === false;
   }
 
-  setFrom(data: any) {
-    let str: string | number = data.lat + ", " + data.lon;
-    this.from = str;
-  }
 
-  setTo(data: any) {
-    let str: string | number = data.lat + ", " + data.lon;
-    this.to = str;
-  }
-
-  goToPayment() {
-    this.router.navigate(['/client-home/receipt'], {
-      state: {
-        tip: this.tip,
-        nap: this.nap,
-        from: this.addressFrom,
-        to: this.addressTo,
-        km: this.km,
-        coords: {from: this.from, to: this.to}
-      }
+  zavrsiVoznju() {
+    this.drivingService.stopDriving(this.user).subscribe(()=>{
+      this.router.navigate(['/driver-home']);
     });
-
   }
-
-
 }
-

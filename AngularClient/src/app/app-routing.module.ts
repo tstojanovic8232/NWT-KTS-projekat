@@ -14,8 +14,12 @@ import {BillComponent} from "./bill/bill.component";
 import {IstorijaVoznjiComponent} from "./istorija-voznji/istorija-voznji.component";
 import {IstorijaVoznjiVozacComponent} from "./istorija-voznji-vozac/istorija-voznji-vozac.component";
 import {UpcomingTableComponent} from "./upcoming-table/upcoming-table.component";
+
 import {AboutComponent} from "./about/about.component";
 import {AdminUserTableComponent} from "./admin-user-table/admin-user-table.component";
+
+import {ZapocniVoznjuComponent} from "./zapocni-voznju/zapocni-voznju.component";
+
 
 const routes: Routes = [
   {path: '', component: HomePageComponent,
@@ -87,10 +91,10 @@ const routes: Routes = [
           path: '',
           component: UpcomingTableComponent,
         },
-        /*{
-          path: 'clients',
-          component: ClientsListComponent,
-        },*/
+        {
+          path: 'driving',
+          component: ZapocniVoznjuComponent,
+        },
       ],
   }
   //{ path: '**', component: PageNotFoundComponent}

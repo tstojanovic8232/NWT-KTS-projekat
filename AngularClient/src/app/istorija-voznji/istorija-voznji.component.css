@@ -26,7 +26,7 @@ td:nth-child(2) {
   margin: 10px 70px 70px;
 
 }
-button {
+.button {
   background-color: #6BBE92;
   width: 150px;
   border-radius: 8px;
@@ -40,7 +40,11 @@ button {
   margin-right: 20px;
 
 }
-
+.sort{
+  background-color: transparent;
+  border-width: 0;
+  color: white;
+}
 .fl-table {
   border-radius: 10px;
   font-size: 16px;
@@ -80,6 +84,9 @@ button {
 
 /* Responsive */
 
+.sort{
+  background-color: transparent;
+}
 @media (max-width: 767px) {
   .fl-table {
     display: block;
@@ -144,4 +151,6 @@ button {
     display: block;
     text-align: center;
   }
+
+
 }

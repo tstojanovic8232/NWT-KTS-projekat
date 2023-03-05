@@ -16,6 +16,8 @@ export class IstorijaVoznjiVozacComponent implements OnInit{
 
   currentPage = 1;
   itemsPerPage = 2;
+  private isAscending: boolean;
+
 
   constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private drivingService: DrivingService) {
     let user:UserRole = new UserRole();
@@ -59,5 +61,50 @@ export class IstorijaVoznjiVozacComponent implements OnInit{
       this.currentPage--;
       this.table.nativeElement.scrollIntoView();
     }
+  }
+
+  sortKlijent() {
+    if (this.isAscending) {
+    this.data.sort((a, b) => a.clientName.localeCompare(b.clientName));
+    } else {
+      this.data.sort((a, b) => b.clientName.localeCompare(a.clientName));
+    }
+    this.isAscending = !this.isAscending;
+  }
+
+  sortDatum() {
+    if (this.isAscending) {
+      this.data.sort((a, b) => a.date.localeCompare(b.date));
+    } else {
+      this.data.sort((a, b) => b.date.localeCompare(a.date));
+    }
+    this.isAscending = !this.isAscending;
+  }
+
+  sortCena() {
+    if (this.isAscending) {
+      this.data.sort((a, b) => a.price.localeCompare(b.price));
+    } else {
+      this.data.sort((a, b) => b.price.localeCompare(a.price));
+    }
+    this.isAscending = !this.isAscending;
+  }
+
+  sortPolaziste() {
+    if (this.isAscending) {
+      this.data.sort((a, b) => a.origin.localeCompare(b.origin));
+    } else {
+      this.data.sort((a, b) => b.origin.localeCompare(a.origin));
+    }
+    this.isAscending = !this.isAscending;
+  }
+
+  sortOdrediste() {
+    if (this.isAscending) {
+      this.data.sort((a, b) => a.destination.localeCompare(b.destination));
+    } else {
+      this.data.sort((a, b) => b.destination.localeCompare(a.destination));
+    }
+    this.isAscending = !this.isAscending;
   }
 }

@@ -4,6 +4,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import 'leaflet-polylinedecorator';
+import DriftMarker from "leaflet-drift-marker";
 
 @Component({
   selector: 'app-map',
@@ -68,12 +69,13 @@ export class MapComponent implements OnInit {
       const coordinates = data[0];
       this.setFrom(coordinates);
       this.map.setView(new L.LatLng(coordinates.lat, coordinates.lon), 18);
-      this.fromMarker = L.marker([coordinates.lat, coordinates.lon], { title: this.addressFrom }).addTo(this.map);
+      this.fromMarker = L.marker([coordinates.lat, coordinates.lon], {title: this.addressFrom}).addTo(this.map);
 
       if (this.toMarker) {
         this.addRoutingControl();
       }
     });
+
   }
 
   updateMapTo() {
@@ -87,12 +89,13 @@ export class MapComponent implements OnInit {
       const coordinates = data[0];
       this.setTo(coordinates);
       this.map.setView(new L.LatLng(coordinates.lat, coordinates.lon), 18);
-      this.toMarker = L.marker([coordinates.lat, coordinates.lon], { title: this.addressTo }).addTo(this.map);
+      this.toMarker = L.marker([coordinates.lat, coordinates.lon], {title: this.addressTo}).addTo(this.map);
 
       if (this.fromMarker) {
         this.addRoutingControl();
       }
     });
+
   }
 
   addRoutingControl() {
@@ -100,17 +103,45 @@ export class MapComponent implements OnInit {
       this.map.removeControl(this.routingControl);
     }
 
-    // @ts-ignore
+
+    let plan = L.Routing.plan(
+      [
+        this.fromMarker.getLatLng(),
+        this.toMarker.getLatLng()
+      ], {
+        createMarker: (i: any, wp: any, nWps: any) => {
+          return new DriftMarker(wp.latLng.toArray()).addTo(this.map);
+        }
+
+      })
+
     // @ts-ignore
     this.routingControl = L.Routing.control({
-
       waypoints: [
         this.fromMarker.getLatLng(),
         this.toMarker.getLatLng()
-      ]
+      ],
+      plan: plan,
+      routeWhileDragging: true,
+      showAlternatives: true,
+      lineOptions: {
+        extendToWaypoints: true,
+        missingRouteTolerance: 100,
+        styles: [
+          {
+            color: '#1E90FF',
+            opacity: 0.7,
+            weight: 5
+          }
+        ]
+      },
+
+
     });
 
     this.routingControl.addTo(this.map);
+
+
   }
   setFrom(data:any){
     let str:string|number=data.lat+", "+data.lon;
