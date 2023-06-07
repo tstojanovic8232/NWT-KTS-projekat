@@ -10,20 +10,20 @@
       <th>Cena</th>
       <th>Polazište</th>
       <th >Odredište</th>
-      <th style="border-top-right-radius: 5px">Zapocnite voznju</th>
+      <th style="border-top-right-radius: 5px"></th>
     </tr>
 
     </thead>
     <tbody>
 
-    <tr *ngFor="let row of data;let i=index" style="border-top-right-radius: 5px">
+    <tr *ngFor="let row of data;let i = index" style="border-top-right-radius: 5px">
       <td style="border-bottom-left-radius: 5px">{{ row.clientName }}</td>
       <td >{{ row.date }}</td>
       <td>{{ row.price }}</td>
       <td>{{ row.origin }}</td>
-
       <td >{{ row.destination }}</td>
-      <td style="border-bottom-right-radius: 5px"><button type="button" (click)="startDrive(i)">start</button></td>
+      <td style="border-bottom-right-radius: 5px"><button type="button" (click)="startDrive(i)" *ngIf="i==0" [disabled]="isOnline">start</button></td>
+
     </tr >
 
 
