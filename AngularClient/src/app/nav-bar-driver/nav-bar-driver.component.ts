@@ -35,7 +35,6 @@ export class NavBarDriverComponent {
     this.userService.getStatus(this.userRole).subscribe(data => {
       this.setStatus(data);
     });
-
   }
   setStatus(data:any) {
     if (typeof data == 'boolean') {
@@ -54,10 +53,9 @@ export class NavBarDriverComponent {
   }
 
   switchStatus() {
-
-    this.userService.onSwitchChange(this.switchState, this.userRole.email).subscribe(() => {
-
-    });
+    let switchString = this.switchState.toString();
+    this.localService.saveData("status",switchString);
+    this.userService.onSwitchChange(this.switchState, this.userRole.email).subscribe();
   }
 
 }

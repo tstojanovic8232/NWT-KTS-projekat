@@ -13,6 +13,7 @@ import {UserRole} from "../model/user-role";
 export class UpcomingTableComponent implements OnInit{
   @ViewChild('myTable') table: ElementRef;
   data: DrivingEntry[];
+  isOnline: boolean;
 
   constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private drivingService: DrivingService) {
 

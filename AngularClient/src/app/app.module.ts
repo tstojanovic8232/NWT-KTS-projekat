@@ -38,6 +38,7 @@ import { BooleanToStatusPipe } from './pipes/boolean-to-status.pipe';
 import { AdminUserTableComponent } from './admin-user-table/admin-user-table.component';
 
 import { ZapocniVoznjuComponent } from './zapocni-voznju/zapocni-voznju.component';
+import { UserFullNamePipe } from './pipes/user-full-name.pipe';
 
 
 
@@ -69,7 +70,8 @@ import { ZapocniVoznjuComponent } from './zapocni-voznju/zapocni-voznju.componen
 
     BooleanToStatusPipe,
     AdminUserTableComponent,
-    ZapocniVoznjuComponent
+    ZapocniVoznjuComponent,
+    UserFullNamePipe
 
   ],
   imports: [

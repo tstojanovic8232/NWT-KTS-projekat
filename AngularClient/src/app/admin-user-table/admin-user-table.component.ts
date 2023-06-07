@@ -2,8 +2,9 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {LocalService} from "../services/local.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DrivingService} from "../services/driving.service";
-import {UserProfile} from "../model/user-profile";
+import {UserFull} from "../model/user-full";
 import {UserService} from "../services/user.service";
+import {UserFullNamePipe} from "../pipes/user-full-name.pipe"
 
 @Component({
   selector: 'app-admin-user-table',
@@ -12,7 +13,7 @@ import {UserService} from "../services/user.service";
 })
 export class AdminUserTableComponent {
   @ViewChild('myTable') table: ElementRef;
-  data: UserProfile[];
+  data: UserFull[];
   isDriver: boolean;
 
   constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService) {
@@ -26,10 +27,10 @@ export class AdminUserTableComponent {
     else this.isDriver = false;
 
     if(this.isDriver) this.userService.getDrivers().subscribe(data => {
-      this.setData(data as UserProfile[])
+      this.setData(data as UserFull[])
     })
     else this.userService.getClients().subscribe(data => {
-      this.setData(data as UserProfile[])
+      this.setData(data as UserFull[])
     })
   }
 

@@ -7,12 +7,13 @@
       <th>Name</th>
       <th>City</th>
       <th>Phone number</th>
-      <th >Enabled</th>
       <th>Billing</th>
       <th>In ride?</th>
-      <th style="border-top-right-radius: 5px">Blocked</th>
+      <th>Enabled</th>
+      <th>Blocked</th>
       <th *ngIf="isDriver">Online status</th>
       <th *ngIf="isDriver" style="border-top-right-radius: 5px">Current location</th>
+      <th style="border-top-right-radius: 5px">Actions</th>
     </tr>
 
     </thead>
@@ -20,7 +21,7 @@
 
     <tr *ngFor="let row of data" style="border-top-right-radius: 5px">
       <td style="border-bottom-left-radius: 5px">{{ row }}</td>
-      <td >{{ row }}</td>
+      <td >{{ ime | fullname: prezime }}</td>
       <td>{{ row }}</td>
       <td>{{ row }}</td>
       <td >{{ row }}</td>
@@ -29,6 +30,7 @@
       <td style="border-bottom-right-radius: 5px">{{ row }}</td>
       <td *ngIf="isDriver">{{ row }}</td>
       <td *ngIf="isDriver" style="border-bottom-right-radius: 5px">{{ row }}</td>
+      <td><a><i class="fa fa-history" aria-hidden="true"></i></a><a><i class="fa fa-ban" aria-hidden="true"></i></a></td>
     </tr >
 
 
