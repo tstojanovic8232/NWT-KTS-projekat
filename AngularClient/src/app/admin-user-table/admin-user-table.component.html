@@ -1,6 +1,5 @@
-
 <div class="table-wrapper">
-  <table  #myTable class="fl-table">
+  <table #myTable class="fl-table">
     <thead>
     <tr>
       <th style="border-top-left-radius: 5px">Email</th>
@@ -15,31 +14,26 @@
       <th *ngIf="isDriver" style="border-top-right-radius: 5px">Current location</th>
       <th style="border-top-right-radius: 5px">Actions</th>
     </tr>
-
     </thead>
     <tbody>
-
     <tr *ngFor="let row of data" style="border-top-right-radius: 5px">
-      <td style="border-bottom-left-radius: 5px">{{ row }}</td>
-      <td >{{ ime | fullname: prezime }}</td>
-      <td>{{ row }}</td>
-      <td>{{ row }}</td>
-      <td >{{ row }}</td>
-      <td>{{ row }}</td>
-      <td>{{ row }}</td>
-      <td style="border-bottom-right-radius: 5px">{{ row }}</td>
-      <td *ngIf="isDriver">{{ row }}</td>
-      <td *ngIf="isDriver" style="border-bottom-right-radius: 5px">{{ row }}</td>
-      <td><a><i class="fa fa-history" aria-hidden="true"></i></a><a><i class="fa fa-ban" aria-hidden="true"></i></a></td>
-    </tr >
-
-
-    <tbody>
+      <td style="border-bottom-left-radius: 5px">{{ row.email }}</td>
+      <td style="border-bottom-left-radius: 5px">{{ row.ime }}</td>
+      <td>{{ row.grad }}</td>
+      <td>{{ row.brojTel }}</td>
+      <td>{{ row.nacinPlacanja }}</td>
+      <td>{{ row.uVoznji }}</td>
+      <td>{{ row.aktivan }}</td>
+      <td style="border-bottom-right-radius: 5px">{{ row.blokiran }}</td>
+      <td *ngIf="isDriver">{{ row.status }}</td>
+      <td *ngIf="isDriver" style="border-bottom-right-radius: 5px">{{ row.trenutnaLokacija }}</td>
+      <td>
+        <a><i class="fa fa-history" aria-hidden="true"></i></a>
+        <a><i class="fa fa-ban" aria-hidden="true"></i></a>
+      </td>
+    </tr>
+    </tbody>
   </table>
   <br>
-  <div>
-
-
-  </div>
+  <div></div>
 </div>
-

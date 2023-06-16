@@ -133,4 +133,15 @@ public class KorisnikKontroler {
             return (ResponseEntity<?>) ResponseEntity.internalServerError();
         }
     }
+
+    @GetMapping("/drivers")
+    public ResponseEntity<?> getDrivers() {
+        try {
+            return ResponseEntity.ok(this.korisnikServis.getDrivers());
+        }
+        catch(Exception e) {
+            e.getStackTrace();
+            return (ResponseEntity<?>) ResponseEntity.internalServerError();
+        }
+    }
 }
