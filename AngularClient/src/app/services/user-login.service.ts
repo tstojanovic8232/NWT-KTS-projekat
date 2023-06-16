@@ -1,7 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { User } from '../model/user';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {User} from '../model/user';
+import {Observable} from 'rxjs';
 import {LocalService} from "./local.service";
 
 @Injectable({
@@ -9,13 +9,14 @@ import {LocalService} from "./local.service";
 })
 export class UserLoginService {
 
-  private loginUrl : string;
-  constructor(private http : HttpClient,
-              private localService : LocalService) {
-    this.loginUrl="http://localhost:8084/login";
-   }
+  private loginUrl: string;
 
-  loginUser(user : User):Observable<object> {
+  constructor(private http: HttpClient,
+              private localService: LocalService) {
+    this.loginUrl = "http://localhost:8084/login";
+  }
+
+  loginUser(user: User): Observable<object> {
     console.log(user);
     const httpOptions = {
       headers: new HttpHeaders(
@@ -27,5 +28,15 @@ export class UserLoginService {
 
   logoutUser() {
     this.localService.clearData()
+  }
+
+  LoginWithGoogle(credential: string): Observable<object> {
+    console.log(credential);
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json'}
+      )
+    };
+    return this.http.post<User>(`${this.loginUrl}Google`, JSON.stringify(credential), httpOptions);
   }
 }

@@ -79,8 +79,7 @@ import { UserFullNamePipe } from './pipes/user-full-name.pipe';
     HttpClientModule,
     FormsModule,
     NgxPaginationModule,
-    SocialLoginModule,
-    GoogleSigninButtonModule
+    SocialLoginModule
   ],
   providers: [
     {

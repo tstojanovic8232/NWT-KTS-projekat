@@ -4,6 +4,7 @@ import {UserLoginService} from '../services/user-login.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserRole} from "../model/user-role";
 import {LocalService} from '../services/local.service';
+import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
 import {FacebookLoginProvider, SocialAuthService} from "@abacritt/angularx-social-login";
 
 @Component({
@@ -23,14 +24,36 @@ export class LoginComponent implements OnInit {
     private userLoginService: UserLoginService,
     private localService: LocalService, private authService: SocialAuthService) {
 
+
   }
 
   ngOnInit(): void {
-    this.authService.authState.subscribe((userr) => {
-      this.userr = userr;
-      this.loggedIn = (userr != null);
-      console.log(this.userr)
-      this.userLogin()
+
+    // @ts-ignore
+    window.onGoogleLibraryLoad = () => {
+      // @ts-ignore
+      google.accounts.id.initialize({
+        client_id: '622369180841-fbatp9ei09717bm0hu30qkb6u5mhvn73.apps.googleusercontent.com',
+        callback: this.handleCredentialResponse.bind(this),
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+      // @ts-ignore
+      google.accounts.id.renderButton(
+        // @ts-ignore
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "medium", locale:'en'  }
+      );
+      // @ts-ignore
+      google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+    };
+  }
+
+  async handleCredentialResponse(response: CredentialResponse) {
+    await this.userLoginService.LoginWithGoogle(response.credential).subscribe(data => {
+      this.localService.saveData('user', (data as UserRole).email)
+      this.localService.saveData('role', (data as UserRole).role)
+      this.gotoUserPage(data as UserRole);
     });
   }
 
@@ -43,12 +66,9 @@ export class LoginComponent implements OnInit {
   userLogin() {
     console.log(this.user);
     this.userLoginService.loginUser(this.user).subscribe(data => {
-      this.gotoUserPage(data as UserRole);
       this.localService.saveData('user', (data as UserRole).email)
       this.localService.saveData('role', (data as UserRole).role)
-      console.log(this.localService.getData('user'))
-      console.log(this.localService.getData('role'))
-      console.log(data);
+      this.gotoUserPage(data as UserRole);
     });
   }
 
@@ -68,8 +88,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  loginUser = (data: any) => {
-    console.log(data);
-  };
+
 
 }
