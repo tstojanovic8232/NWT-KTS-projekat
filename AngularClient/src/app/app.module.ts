@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
-import {SocialLoginModule, SocialAuthServiceConfig, GoogleSigninButtonModule} from '@abacritt/angularx-social-login';
+import {SocialLoginModule, SocialAuthServiceConfig} from '@abacritt/angularx-social-login';
 import {
-  GoogleLoginProvider,
   FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
 
@@ -89,12 +88,6 @@ import { UserFullNamePipe } from './pipes/user-full-name.pipe';
       useValue: {
         autoLogin: false,
         providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              '622369180841-fbatp9ei09717bm0hu30qkb6u5mhvn73.apps.googleusercontent.com'
-            )
-          },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
             provider: new FacebookLoginProvider('3739656142938759')
