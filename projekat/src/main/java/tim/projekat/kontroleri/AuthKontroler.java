@@ -1,6 +1,10 @@
 package tim.projekat.kontroleri;
 
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +19,18 @@ import tim.projekat.responseDTO.LoginResponseDTO;
 import tim.projekat.servisi.EmailServis;
 import tim.projekat.servisi.KorisnikServis;
 
+import java.util.Collections;
 import java.util.UUID;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://localhost:4200", originPatterns = "*://localhost:4200")
 public class AuthKontroler {
     @Autowired
     EmailServis emailServis;
     @Autowired
     KorisnikServis korisnikServis;
+    private static final String CLIENT_ID = "622369180841-fbatp9ei09717bm0hu30qkb6u5mhvn73.apps.googleusercontent.com";
+
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
@@ -71,5 +78,63 @@ public class AuthKontroler {
         } else {
             return (ResponseEntity<?>) ResponseEntity.internalServerError();
         }
+    }
+
+    @PostMapping(value = "/login/google", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LoginResponseDTO> loginUserWithGoogle(@RequestBody String credential) {
+        try {
+            // Validate with clientID via Google OAuth library
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new JacksonFactory())
+                    .setAudience(Collections.singletonList(CLIENT_ID))
+                    .build();
+
+            GoogleIdToken idToken = verifier.verify(credential);
+
+            if (idToken != null) {
+                // Collect User data/email with credential
+                String email = idToken.getPayload().getEmail();
+
+                // Find Korisnik with email
+                Korisnik korisnik = korisnikServis.getKorisnikByEmail(email);
+
+                if (korisnik != null) {
+                    // If Korisnik != null, then return LoginResponseDTO with email and role
+                    LoginResponseDTO responseDTO = new LoginResponseDTO(korisnik.getEmail(), korisnik.getClass().getSimpleName());
+                    return ResponseEntity.ok(responseDTO);
+                } else {
+                    korisnik = new Klijent();
+                    korisnik.setEmail(email);
+                    korisnikServis.save(korisnik);
+                    String token = UUID.randomUUID().toString();
+
+                    // Save the token, email, and timestamp in the database
+                    korisnikServis.createVerificationToken(korisnik, token);
+
+                    // Send the email with the link
+
+                    emailServis.sendConfirmationEmail(korisnik.getEmail(), token);
+                    LoginResponseDTO responseDTO = new LoginResponseDTO(korisnik.getEmail(), "None");
+
+                    return ResponseEntity.ok(responseDTO);
+                }
+            } else {
+                System.out.println(idToken);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.internalServerError().build();
+    }
+
+    @PostMapping(value = "/login/facebook", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> loginUserWithFacebook(@RequestBody String credential) {
+        // AppID = 269068999131322
+        // Validate with client ID via RestTemplate and URL
+        // Collect User data/email via RestTemplate and URL
+        // Find Korisnik with email
+        // If Korisnik == null, then...
+        // If Korisnik != null, then return LoginResponseDTO with email and role
+        return ResponseEntity.ok().build();
     }
 }

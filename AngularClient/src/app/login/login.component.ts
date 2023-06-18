@@ -4,8 +4,9 @@ import {UserLoginService} from '../services/user-login.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserRole} from "../model/user-role";
 import {LocalService} from '../services/local.service';
-import { CredentialResponse, PromptMomentNotification } from 'google-one-tap';
-import {FacebookLoginProvider, SocialAuthService} from "@abacritt/angularx-social-login";
+import {CredentialResponse, PromptMomentNotification} from 'google-one-tap';
+
+declare const FB: any;
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userLoginService: UserLoginService,
-    private localService: LocalService, private authService: SocialAuthService) {
+    private localService: LocalService) {
 
 
   }
@@ -42,10 +43,11 @@ export class LoginComponent implements OnInit {
       google.accounts.id.renderButton(
         // @ts-ignore
         document.getElementById("buttonDiv"),
-        { theme: "outline", size: "medium", locale:'en'  }
+        {theme: "outline", size: "medium", locale: 'en'}
       );
       // @ts-ignore
-      google.accounts.id.prompt((notification: PromptMomentNotification) => {});
+      google.accounts.id.prompt((notification: PromptMomentNotification) => {
+      });
     };
   }
 
@@ -58,8 +60,20 @@ export class LoginComponent implements OnInit {
   }
 
 
-  signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  async signInWithFB() {
+    FB.login(async (result: any) => {
+      console.log(result)
+      await this.userLoginService.LoginWithFacebook(result.authResponse.accessToken).subscribe(
+        (data: any) => {
+          this.localService.saveData('user', (data as UserRole).email)
+          this.localService.saveData('role', (data as UserRole).role)
+          this.gotoUserPage(data as UserRole);
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
+    }, {scope: 'email'});
 
   }
 
@@ -87,7 +101,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/']);
     }
   }
-
 
 
 }

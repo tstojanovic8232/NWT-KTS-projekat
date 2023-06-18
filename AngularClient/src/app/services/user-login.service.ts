@@ -31,12 +31,20 @@ export class UserLoginService {
   }
 
   LoginWithGoogle(credential: string): Observable<object> {
-    console.log(credential);
     const httpOptions = {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json'}
       )
     };
-    return this.http.post<User>(`${this.loginUrl}Google`, JSON.stringify(credential), httpOptions);
+    return this.http.post<User>(`${this.loginUrl}/google`, credential, httpOptions);
+  }
+
+  LoginWithFacebook(accessToken: string): Observable<object> {
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json'}
+      )
+    };
+    return this.http.post<User>(`${this.loginUrl}/facebook`, accessToken, httpOptions);
   }
 }

@@ -2,11 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms';
-import {SocialLoginModule, SocialAuthServiceConfig} from '@abacritt/angularx-social-login';
-import {
-  FacebookLoginProvider
-} from '@abacritt/angularx-social-login';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavBarLogOutComponent } from './nav-bar-log-out/nav-bar-log-out.component';
@@ -79,25 +74,8 @@ import { UserFullNamePipe } from './pipes/user-full-name.pipe';
     HttpClientModule,
     FormsModule,
     NgxPaginationModule,
-    SocialLoginModule
   ],
-  providers: [
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('3739656142938759')
-          }
-        ],
-        onError: (err) => {
-          console.error(err);
-        }
-      } as SocialAuthServiceConfig,
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
