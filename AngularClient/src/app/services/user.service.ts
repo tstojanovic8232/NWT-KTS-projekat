@@ -5,6 +5,7 @@ import {UserRole} from "../model/user-role";
 import {UserData} from "../model/user-data";
 import {User} from "../model/user";
 import {BillingData} from "../model/billing-data";
+import {UserFull} from "../model/user-full";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class UserService {
   constructor(private http: HttpClient) {
     this.usersUrl = "http://localhost:8084/users";
   }
+
 
   getUserProfile(user: UserRole): Observable<object> {
     console.log(user);
@@ -58,5 +60,24 @@ export class UserService {
 
   getDrivers() : Observable<object> {
     return this.http.get(this.usersUrl + "/drivers")
+  }
+
+  updateBlockedStatus(email: string): Observable<any> {
+    const url = `${this.usersUrl}/block`; // Replace with your API endpoint
+
+
+
+
+    // Make the HTTP PUT request to update the blokiran status
+    return this.http.post(url, email);
+  }
+  getBlockedStatus(user: UserRole): Observable<any> {
+    const url = `${this.usersUrl}/blockstatus`; // Replace with your API endpoint
+
+
+
+
+    // Make the HTTP PUT request to update the blokiran status
+    return this.http.post(url,user);
   }
 }

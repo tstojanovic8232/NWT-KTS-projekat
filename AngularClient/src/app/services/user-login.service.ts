@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {User} from '../model/user';
 import {Observable} from 'rxjs';
 import {LocalService} from "./local.service";
-
+declare const FB:any;
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +28,7 @@ export class UserLoginService {
 
   logoutUser() {
     this.localService.clearData()
+    // FB.logout();
   }
 
   LoginWithGoogle(credential: string): Observable<object> {

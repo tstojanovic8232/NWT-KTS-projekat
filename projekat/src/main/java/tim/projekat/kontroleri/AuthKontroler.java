@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import tim.projekat.model.Vozac;
 import tim.projekat.requestDTO.LoginDTO;
 import tim.projekat.requestDTO.RegisterDTO;
@@ -17,6 +18,7 @@ import tim.projekat.model.Korisnik;
 import tim.projekat.model.VerificationToken;
 import tim.projekat.responseDTO.LoginResponseDTO;
 import tim.projekat.servisi.EmailServis;
+import tim.projekat.servisi.FacebookServis;
 import tim.projekat.servisi.KorisnikServis;
 
 import java.util.Collections;
@@ -31,6 +33,10 @@ public class AuthKontroler {
     KorisnikServis korisnikServis;
     private static final String CLIENT_ID = "622369180841-fbatp9ei09717bm0hu30qkb6u5mhvn73.apps.googleusercontent.com";
 
+    private static final String APP_ID="269068999131322";
+
+   @Autowired
+    FacebookServis facebookServis;
 
     @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
@@ -129,12 +135,28 @@ public class AuthKontroler {
 
     @PostMapping(value = "/login/facebook", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> loginUserWithFacebook(@RequestBody String credential) {
-        // AppID = 269068999131322
         // Validate with client ID via RestTemplate and URL
+        // Replace "YOUR_CLIENT_ID" with the actual client ID provided by Facebook
+        boolean isValidClientId = facebookServis.validateClientId(credential, APP_ID);
+
+        if (!isValidClientId) {
+            // Return an appropriate error response
+            return ResponseEntity.badRequest().build();
+        }
+
         // Collect User data/email via RestTemplate and URL
+        String email = facebookServis.getUserEmail(credential);
+
         // Find Korisnik with email
-        // If Korisnik == null, then...
-        // If Korisnik != null, then return LoginResponseDTO with email and role
-        return ResponseEntity.ok().build();
+        Korisnik korisnik = korisnikServis.getKorisnikByEmail(email);
+
+        if (korisnik == null) {
+            // If Korisnik == null, then return an appropriate error response
+            return ResponseEntity.notFound().build();
+        } else {
+            // If Korisnik != null, then return LoginResponseDTO with email and role
+            LoginResponseDTO responseDTO = new LoginResponseDTO(email, korisnik.getClass().getSimpleName());
+            return ResponseEntity.ok(responseDTO);
+        }
     }
 }

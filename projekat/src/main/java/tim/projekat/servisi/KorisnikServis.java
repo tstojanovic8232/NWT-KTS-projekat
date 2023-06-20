@@ -30,9 +30,23 @@ public class KorisnikServis {
         user.setAktivan(true);
         this.korisnikRepo.save(user);
     }
+    public void SetBlokiran(Korisnik user){
+        if(user.getClass().equals(Vozac.class)) {
+            Vozac v = (Vozac) user;
+            // dalje
+            v.setBlokiran(true);
+            this.korisnikRepo.save(v);
+        }
+        if(user.getClass().equals(Klijent.class)) {
+            Klijent k = (Klijent) user;
+            // dalje
+            k.setBlokiran(true);
+            this.korisnikRepo.save(k);
+        }
+    }
 
     public Korisnik getKorisnikByEmail(String email) {
-        System.out.println(email);
+//        System.out.println(email);
         return this.korisnikRepo.getKorisnikByEmail(email);
     }
 

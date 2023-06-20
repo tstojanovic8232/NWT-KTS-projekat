@@ -10,7 +10,7 @@ VALUES (nextval('korisnik_seq'), 'igorpavlov106@gmail.com', '123', TRUE, 'admin'
 -- korisnici - klijenti
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja,u_voznji,blokiran)
-VALUES (nextval('korisnik_seq'), 'tea@gmail.com', '111', TRUE, 'klijent', 'Novi Sad', '063/7077915',
+VALUES (nextval('korisnik_seq'), 'teateodora2000@gmail.com', '111', TRUE, 'klijent', 'Novi Sad', '063/7077915',
         'Tea', 'Stojanovic', 1, 'tea@gmail.com',FALSE,FALSE);
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja,u_voznji,blokiran)
@@ -27,6 +27,10 @@ VALUES (nextval('korisnik_seq'), 'rada@gmail.com', '444', TRUE, 'klijent', 'Novi
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja,u_voznji,blokiran)
 VALUES (nextval('korisnik_seq'), 'igor@gmail.com', '555', TRUE, 'klijent', 'Novi Sad', '062/1112223',
+        'Igor', 'P', 1, 'igor@gmail.com',FALSE,FALSE);
+INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
+                      podaci_placanja,u_voznji,blokiran)
+VALUES (nextval('korisnik_seq'), 'aldonahzero123@gmail.com', '555', TRUE, 'klijent', 'Novi Sad', '062/1112223',
         'Igor', 'P', 1, 'igor@gmail.com',FALSE,FALSE);
 
 -- korisnici - vozaci

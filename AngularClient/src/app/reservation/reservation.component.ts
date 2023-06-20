@@ -14,6 +14,11 @@ import 'leaflet-polylinedecorator';
 import {FeatureGroup, marker} from "leaflet";
 import {mark} from "@angular/compiler-cli/src/ngtsc/perf/src/clock";
 import {NONE_TYPE} from "@angular/compiler";
+import {UserFull} from "../model/user-full";
+import {UserService} from "../services/user.service";
+import {LocalService} from "../services/local.service";
+import {UserProfile} from "../model/user-profile";
+import {UserRole} from "../model/user-role";
 
 
 const icon = L.icon({
@@ -53,7 +58,11 @@ export class ReservationComponent {
 
   private pom: any;
 
-  // @ts-ignore
+  blocked:boolean;
+
+
+
+
 
 
 
@@ -80,14 +89,29 @@ export class ReservationComponent {
   }
 
 
-  constructor(private http: HttpClient, private router: Router) {
-
+  constructor(private http: HttpClient, private router: Router,private localservice:LocalService,private userservice:UserService){
   }
 
   ngOnInit(): void {
+    let user:UserRole=new UserRole();
+    let email=this.localservice.getData('user')
+    let role=this.localservice.getData('role')
+    if(email && role){
+      user.email=email;
+      user.role=role;
+    }
+   this.userservice.getBlockedStatus(user).subscribe((data:any)=>{
+     this.blocked=data as boolean;
+
+   })
+
+    // Check if the user is blocked
+
     this.initMap();
 
   }
+
+
 
 
   updateMapFrom() {

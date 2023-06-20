@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://localhost:4200", originPatterns = "*://localhost:4200")
 @RequestMapping("/drives")
 public class VoznjaKontroler {
 
@@ -68,6 +68,7 @@ public class VoznjaKontroler {
         // ako ima, proveri koji je pri zavrsetku voznje => izbaci one u voznji sa voznjom koja sledi
         for (Vozac vozac : vozaciCopy) {
             if (vozac.getStatus().equals(false)) vozaci.remove(vozaciCopy.indexOf(vozac));
+            if (vozac.getBlokiran().equals(true)) vozaci.remove(vozaciCopy.indexOf(vozac));
             if (vozac.getuVoznji().equals(true)) {
                 List<Voznja> sledece = this.voznjaServis.getDriverUpcoming(vozac);
                 if (sledece.size() > 0) {

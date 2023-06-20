@@ -20,9 +20,10 @@
     </div> <!-- End of the select_component -->
   </div> <!-- End of drop_down_component -->
   <div id="dugmici">
-    <button id="1" type="submit" name="submit" ariaCurrentWhenActive="page" [disabled]="!reservationForm.form.valid">
+    <button id="1" type="submit" name="submit" ariaCurrentWhenActive="page" [disabled]="!reservationForm.form.valid || blocked">
       Rezervisi
     </button>
+
     <button id="2" type="button" id="sim" (click)="simulateDrive()">Simulate Drive</button>
   </div>
 </form>

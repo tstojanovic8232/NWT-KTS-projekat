@@ -13,7 +13,7 @@ import tim.projekat.servisi.KorisnikServis;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://localhost:4200", originPatterns = "*://localhost:4200")
 @RequestMapping("/users")
 public class KorisnikKontroler {
 
@@ -76,11 +76,25 @@ public class KorisnikKontroler {
     @PostMapping("/updateEmail")
     public ResponseEntity<?> updateEmail(@RequestBody LoginDTO email) {
         Korisnik k = this.korisnikServis.getKorisnikByEmail(email.getEmail());
-        if (k.equals(null)) {
+        System.out.println(k.toString());
+        if (k == null) {
             return (ResponseEntity<?>) ResponseEntity.internalServerError();
         }
         k.setEmail(email.getPassword());
         this.korisnikServis.save(k);
+        return ResponseEntity.ok(k);
+    }
+
+    @PostMapping("/block")
+    public ResponseEntity<?> blockUser(@RequestBody String email) {
+        System.out.println(email);
+        Korisnik k = this.korisnikServis.getKorisnikByEmail(email);
+        System.out.println(k);
+        if (k == null) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+        this.korisnikServis.SetBlokiran(k);
         return ResponseEntity.ok(k);
     }
 
@@ -112,23 +126,39 @@ public class KorisnikKontroler {
     public void updateSwitchState(@RequestBody SwitchStateDTO ssDTO) {
         Vozac v = (Vozac) this.korisnikServis.getKorisnikByEmail(ssDTO.getEmail());
         boolean state = ssDTO.isState();
-        this.korisnikServis.switchStatus(v,state);
+        this.korisnikServis.switchStatus(v, state);
         System.out.println(this.korisnikServis.getKorisnikByEmail(ssDTO.getEmail()));
     }
 
     @PostMapping("/status")
     public ResponseEntity<Boolean> getStatus(@RequestBody KorisnikEmailDTO keDTO) {
         Vozac v = (Vozac) this.korisnikServis.getKorisnikByEmail(keDTO.getEmail());
-        if(v==null) return (ResponseEntity<Boolean>) ResponseEntity.internalServerError();
+        if (v == null) return (ResponseEntity<Boolean>) ResponseEntity.internalServerError();
         return ResponseEntity.ok(v.getStatus());
+    }
+
+    @PostMapping("/blockstatus")
+    public ResponseEntity<Boolean> getblockStatus(@RequestBody KorisnikEmailDTO keDTO) {
+        Korisnik k = this.korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+        if (k == null) return (ResponseEntity<Boolean>) ResponseEntity.internalServerError();
+        if (keDTO.getRole().equals(Vozac.class.getSimpleName())) {
+
+            return ResponseEntity.internalServerError().build();
+        } else if (keDTO.getRole().equals(Klijent.class.getSimpleName())) {
+
+            return ResponseEntity.ok(((Klijent) k).getBlokiran());
+
+        }else{
+            return ResponseEntity.internalServerError().build();
+        }
+
     }
 
     @GetMapping("/clients")
     public ResponseEntity<?> getClients() {
         try {
             return ResponseEntity.ok(this.korisnikServis.getClients());
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.getStackTrace();
             return (ResponseEntity<?>) ResponseEntity.internalServerError();
         }
@@ -138,8 +168,7 @@ public class KorisnikKontroler {
     public ResponseEntity<?> getDrivers() {
         try {
             return ResponseEntity.ok(this.korisnikServis.getDrivers());
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.getStackTrace();
             return (ResponseEntity<?>) ResponseEntity.internalServerError();
         }

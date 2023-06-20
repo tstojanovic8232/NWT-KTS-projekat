@@ -5,7 +5,9 @@ import {DrivingService} from "../services/driving.service";
 import {UserFull} from "../model/user-full";
 import {UserService} from "../services/user.service";
 import {UserFullNamePipe} from "../pipes/user-full-name.pipe"
-import {HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {catchError, map, Observable} from "rxjs";
+
 
 @Component({
   selector: 'app-admin-user-table',
@@ -18,7 +20,7 @@ export class AdminUserTableComponent {
   data: UserFull[];
   isDriver: boolean;
 
-  constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService) {
+  constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService,private http:HttpClient) {
 
 
   }
@@ -52,6 +54,22 @@ export class AdminUserTableComponent {
 
 
 
+  reverseGeocode(latitude: number, longitude: number): Observable<string> {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        const { road, suburb ,city} = response.address;
+        const firstField = road || '';
+        const secondField=city || '';
+        const thirdField = suburb || '';
+        return `${firstField}, ${thirdField},${secondField}`;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        throw error;
+      })
+    );
+  }
 
 
 
@@ -59,6 +77,37 @@ export class AdminUserTableComponent {
   setData(data: any) {
     console.log(data);
     this.data = data;
+    this.data.forEach(row => {
+      if (row.trenutnaLokacija) {
+        const [latitude, longitude] = row.trenutnaLokacija.split(',').map(parseFloat);
+        this.reverseGeocode(latitude, longitude).subscribe(
+          (address: string) => {
+            row.trenutnaLokacija = address;
+
+          },
+          (error: HttpErrorResponse) => {
+            console.log('Error occurred while reverse geocoding:', error);
+          }
+        );
+      }
+    });
   }
 
+  blokirajKorisnika(email: string) {
+    const row = this.data.find((user) => user.email === email);
+    if (!row) return; // Handle case when row is not found
+
+    row.blokiran = !row.blokiran;
+
+    // Call your API or perform any other necessary logic to update the blocked status
+    // For example, you can use the userService to update the blocked status on the server.
+    this.userService.updateBlockedStatus(email).subscribe(
+      (response) => {
+        console.log('Blocked status updated successfully:', response);
+      },
+      (error: HttpErrorResponse) => {
+        console.log('Error occurred while updating blocked status:', error);
+      }
+    );
+  }
 }
