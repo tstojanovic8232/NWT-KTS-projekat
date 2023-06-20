@@ -1,44 +1,40 @@
-
-import {Component, ViewChild, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DrivingService} from "../services/driving.service";
 import {LocalService} from "../services/local.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserRole} from "../model/user-role";
 import {DrivingEntry} from "../model/driving-entry";
 
-export interface Iputovanje {
-clientName: string;
-date: Date;
-price: number;
-duration: string;
-origin: string;
-destination: string;
-}
-
 @Component({
   selector: 'app-istorija-voznji',
   templateUrl: './istorija-voznji.component.html',
   styleUrls: ['./istorija-voznji.component.css']
 })
-export class IstorijaVoznjiComponent implements OnInit{
+export class IstorijaVoznjiComponent implements OnInit {
   @ViewChild('myTable') table: ElementRef;
-  data:DrivingEntry[];
-
+  data: DrivingEntry[];
+  private loggedIn: boolean = false;
+  private driver: boolean = false;
+  private email: string = '';
+  other: string;
+  emailTemp: string | null = "";
+  role: string | null = "";
   currentPage = 1;
-  itemsPerPage = 2;
+  itemsPerPage = 5;
   private isAscending: boolean;
 
   constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private drivingService: DrivingService) {
-    let user:UserRole = new UserRole();
-    let email = this.localService.getData('user');
-    let role = this.localService.getData('role');
-    if(email && role) {
-      user.email = email;
-      user.role = role;
-    }
-    this.drivingService.getHistory(user).subscribe(data=>{
+    this.activatedRoute.data.subscribe((data) => {
       console.log(data);
-      this.setData(data as DrivingEntry[]);
+      this.loggedIn = data['loggedIn'];
+      if(this.loggedIn) this.driver = data['driver'];
+      this.activatedRoute.queryParams.subscribe((params) => {
+        console.log(params);
+        this.email = params['email'];
+        if(!this.loggedIn) this.driver = params['driver'];
+        this.other = this.driver ? "Client" : "Driver";
+        this.getHistory();
+      })
     })
   }
 
@@ -46,8 +42,26 @@ export class IstorijaVoznjiComponent implements OnInit{
 
   }
 
-  setData(data : any) {
-    this.data=data;
+  getHistory() {
+    let user: UserRole = new UserRole();
+    if (!this.loggedIn) {
+      this.emailTemp = this.email;
+      this.role="Admin";
+    } else {
+      this.emailTemp = this.localService.getData('user');
+      this.role = this.localService.getData('role');
+    }
+    if (this.emailTemp && this.role) {
+      user.email = this.emailTemp;
+      user.role = this.role;
+    }
+    this.drivingService.getHistory(user).subscribe(data => {
+      this.setData(data as DrivingEntry[]);
+    })
+  }
+
+  setData(data: any) {
+    this.data = data;
   }
 
   get paginatedData() {
@@ -55,11 +69,7 @@ export class IstorijaVoznjiComponent implements OnInit{
     return this.data.slice(startIndex, startIndex + this.itemsPerPage);
   }
 
-  onPageChange(event: number) {
-    this.currentPage = event;
-    this.table.nativeElement.scrollIntoView();
-  }
-  NextPage() {
+  nextPage() {
     const startIndex = this.currentPage * this.itemsPerPage;
     if (startIndex < this.data.length) {
       this.currentPage++;
@@ -73,6 +83,7 @@ export class IstorijaVoznjiComponent implements OnInit{
       this.table.nativeElement.scrollIntoView();
     }
   }
+
   sortKlijent() {
     if (this.isAscending) {
       this.data.sort((a, b) => a.clientName.localeCompare(b.clientName));

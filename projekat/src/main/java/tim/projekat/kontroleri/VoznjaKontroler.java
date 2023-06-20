@@ -141,12 +141,15 @@ public class VoznjaKontroler {
 
     @PostMapping("/getHistory")
     public ResponseEntity<?> listHistoryDrives(@RequestBody KorisnikEmailDTO keDTO) {
-        Korisnik k;
-        List<Voznja> voznje = new ArrayList<Voznja>();
+        System.out.println(keDTO);
+        Korisnik k= korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+        if (k==null) {
+            return ResponseEntity.internalServerError().build();
+        }
+        System.out.println(k);
+        List<Voznja> voznje;
         List<DrivingEntryDTO> voznjeFront = new ArrayList<>();
-        if (keDTO.getRole().equals(Klijent.class.getSimpleName())) {
-            k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
-            System.out.println(k);
+        if (k.getClass().equals(Klijent.class)) {
             voznje = voznjaServis.getClientHistory((Klijent) k);
 
             for (Voznja v : voznje) {
@@ -163,9 +166,7 @@ public class VoznjaKontroler {
                 String odr = apiResponse.getAddress().toString();
                 voznjeFront.add(new DrivingEntryDTO(v, vozac, pol, odr));
             }
-        } else if (keDTO.getRole().equals(Vozac.class.getSimpleName())) {
-            k = korisnikServis.getKorisnikByEmail(keDTO.getEmail());
-            System.out.println(k);
+        } else if (k.getClass().equals(Vozac.class)) {
             voznje = voznjaServis.getDriverHistory((Vozac) k);
 
             for (Voznja v : voznje) {

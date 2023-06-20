@@ -28,7 +28,7 @@
       <td *ngIf="isDriver">{{ row.status }}</td>
       <td *ngIf="isDriver" style="border-bottom-right-radius: 5px">{{ row.trenutnaLokacija }}</td>
       <td>
-        <a><i class="fa fa-history" aria-hidden="true"></i></a>
+        <a [routerLink]="['/admin/history']" [queryParams]="{ email: row.email, driver: isDriver }"><i class="fa fa-history" aria-hidden="true"></i></a>
         <a (click)="blokirajKorisnika(row.email)"><i class="fa fa-ban" aria-hidden="true" ></i></a>
       </td>
     </tr>

@@ -147,3 +147,12 @@ button {
     text-align: center;
   }
 }
+a,
+a:hover,
+a:visited,
+a:active{
+  text-decoration: none;
+  color:inherit;
+  margin: 10px;
+  font-size: 14pt;
+}

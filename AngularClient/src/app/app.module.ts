@@ -25,7 +25,6 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { BillComponent } from './bill/bill.component';
 import { IstorijaVoznjiComponent } from './istorija-voznji/istorija-voznji.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { IstorijaVoznjiVozacComponent } from './istorija-voznji-vozac/istorija-voznji-vozac.component';
 import { UpcomingTableComponent } from './upcoming-table/upcoming-table.component';
 
 import { BooleanToStatusPipe } from './pipes/boolean-to-status.pipe';
@@ -59,7 +58,6 @@ import { UserFullNamePipe } from './pipes/user-full-name.pipe';
     ReservationComponent,
     BillComponent,
     IstorijaVoznjiComponent,
-    IstorijaVoznjiVozacComponent,
     UpcomingTableComponent,
 
     BooleanToStatusPipe,

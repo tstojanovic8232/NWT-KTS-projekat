@@ -1,13 +1,13 @@
-<h2>Istorija Voznji</h2>
+
 <div class="table-wrapper">
   <table  #myTable class="fl-table">
     <thead>
     <tr>
-      <th style="border-top-left-radius: 5px"><button type="button" class="sort" (click)="sortKlijent()" >Naziv vozaca</button></th>
-      <th><button type="button" class="sort" (click)="sortDatum()">Datum</button></th>
-      <th><button type="button" class="sort" (click)="sortCena()">Cena</button></th>
-      <th><button type="button" class="sort" (click)="sortPolaziste()">Polazište</button></th>
-      <th style="border-top-right-radius: 5px"><button type="button" class="sort" (click)="sortOdrediste()">Odredište</button></th>
+      <th style="border-top-left-radius: 5px"><button type="button" class="sort" (click)="sortKlijent()" >{{other}}</button></th>
+      <th><button type="button" class="sort" (click)="sortDatum()">Date</button></th>
+      <th><button type="button" class="sort" (click)="sortCena()">Price</button></th>
+      <th><button type="button" class="sort" (click)="sortPolaziste()">Starting Point</button></th>
+      <th style="border-top-right-radius: 5px"><button type="button" class="sort" (click)="sortOdrediste()">Destination</button></th>
     </tr>
 
     </thead>
@@ -28,7 +28,7 @@
   <div align="center" >
 
   <button (click)="previousPage()" class="button">Previous</button>
-    <button  (click)="NextPage()" class="button">Next</button>
+    <button (click)="nextPage()" class="button">Next</button>
 </div>
 
 </div>

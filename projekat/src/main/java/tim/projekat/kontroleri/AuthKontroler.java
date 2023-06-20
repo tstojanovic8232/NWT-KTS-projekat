@@ -42,6 +42,9 @@ public class AuthKontroler {
     public ResponseEntity<LoginResponseDTO> loginUser(@RequestBody LoginDTO loginDTO) {
         System.out.println(loginDTO.toString());
         Korisnik korisnik = this.korisnikServis.getKorisnikByEmail(loginDTO.getEmail());
+        if(korisnik == null) {
+            return ResponseEntity.internalServerError().build();
+        }
         LoginResponseDTO response = new LoginResponseDTO(korisnik.getEmail(), korisnik.getClass().getSimpleName());
         if (korisnik.getLozinka().equals(loginDTO.getPassword()) && korisnik.getAktivan().equals(true))
         {
@@ -51,7 +54,7 @@ public class AuthKontroler {
             }
             return ResponseEntity.ok(response);
         }
-        return (ResponseEntity<LoginResponseDTO>) ResponseEntity.internalServerError();
+        return ResponseEntity.internalServerError().build();
     }
 
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

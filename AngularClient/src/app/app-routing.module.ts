@@ -12,7 +12,6 @@ import {DriverPageComponent} from "./driver-page/driver-page.component";
 import {ReservationComponent} from "./reservation/reservation.component";
 import {BillComponent} from "./bill/bill.component";
 import {IstorijaVoznjiComponent} from "./istorija-voznji/istorija-voznji.component";
-import {IstorijaVoznjiVozacComponent} from "./istorija-voznji-vozac/istorija-voznji-vozac.component";
 import {UpcomingTableComponent} from "./upcoming-table/upcoming-table.component";
 
 import {AboutComponent} from "./about/about.component";
@@ -48,6 +47,13 @@ const routes: Routes = [
           path: 'clients',
           component: AdminUserTableComponent,
         },
+        {
+          path: 'history',
+          component: IstorijaVoznjiComponent,
+          data: {
+            loggedIn: false
+          }
+        },
       ],
   },
   {
@@ -67,6 +73,10 @@ const routes: Routes = [
         {
           path:'history',
           component: IstorijaVoznjiComponent,
+          data: {
+            loggedIn: true,
+            driver: false
+          }
         },
 
         /*{
@@ -85,7 +95,11 @@ const routes: Routes = [
         },
         {
           path: 'history',
-          component: IstorijaVoznjiVozacComponent,
+          component: IstorijaVoznjiComponent,
+          data: {
+            loggedIn: true,
+            driver: true
+          }
         },
         {
           path: '',
