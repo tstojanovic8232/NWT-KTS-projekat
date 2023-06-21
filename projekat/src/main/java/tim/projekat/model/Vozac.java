@@ -1,8 +1,11 @@
 package tim.projekat.model;
 
 import tim.projekat.model.enums.NacinPlacanja;
+import tim.projekat.requestDTO.RegisterDTO;
+import tim.projekat.requestDTO.RegisterVozacDTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,6 +40,22 @@ public class Vozac extends Korisnik {
         this.uVoznji = false;
         this.status = false;
         this.setAktivan(true);
+    }
+
+    public Vozac(RegisterVozacDTO dto,Vozilo v) {
+        super(dto.getEmail(),"",dto.getName(),dto.getLastname(),dto.getCity(),dto.getPhone());
+
+        this.uVoznji = false;
+        this.blokiran = false;
+        this.voznje = new ArrayList<>();
+
+        this.nacinPlacanja=NacinPlacanja.Default;
+        this.podaciPlacanja="";
+        this.status=false;
+        this.trenutnaLokacija="";
+        this.vozilo=v;
+
+
     }
 
     public String getTrenutnaLokacija() {

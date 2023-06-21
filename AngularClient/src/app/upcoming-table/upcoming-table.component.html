@@ -22,7 +22,9 @@
       <td>{{ row.price }}</td>
       <td>{{ row.origin }}</td>
       <td >{{ row.destination }}</td>
-      <td style="border-bottom-right-radius: 5px"><button type="button" (click)="startDrive(i)" *ngIf="i==0" [disabled]="isOnline">start</button></td>
+      <td style="border-bottom-right-radius: 5px"><button type="button" (click)="startDrive(i)" *ngIf="i==0" [disabled]="isOnline || blocked">start</button>
+
+      </td>
 
     </tr >
 

@@ -44,6 +44,18 @@ public class KorisnikServis {
             this.korisnikRepo.save(k);
         }
     }
+    public void setNeblokiran(Korisnik user) {
+        if (user.getClass().equals(Vozac.class)) {
+            Vozac v = (Vozac) user;
+            v.setBlokiran(false);
+            this.korisnikRepo.save(v);
+        }
+        if (user.getClass().equals(Klijent.class)) {
+            Klijent k = (Klijent) user;
+            k.setBlokiran(false);
+            this.korisnikRepo.save(k);
+        }
+    }
 
     public Korisnik getKorisnikByEmail(String email) {
 //        System.out.println(email);
@@ -83,4 +95,6 @@ public class KorisnikServis {
     public List<Vozac> getDrivers() {
         return this.korisnikRepo.getAllDrivers();
     }
+
+
 }

@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 import {Observable} from "rxjs";
 import {UserRegister} from "../model/user-register";
+import {DriverRegister} from "../model/driver-register";
 
 @Injectable({
   providedIn: 'root'
@@ -25,13 +26,13 @@ export class UserRegisterService {
     return this.http.post<UserRegister>(this.loginUrl, JSON.stringify(user), httpOptions);
   }
 
-  registerDriver(user: UserRegister):Observable<object> {
+  registerDriver(user: DriverRegister):Observable<object> {
     console.log(user);
     const httpOptions = {
       headers: new HttpHeaders(
         {'Content-Type': 'application/json'}
       )
     };
-    return this.http.post<UserRegister>(`${this.loginUrl}Driver`, JSON.stringify(user), httpOptions);
+    return this.http.post<DriverRegister>(`${this.loginUrl}Driver`, JSON.stringify(user), httpOptions);
   }
 }

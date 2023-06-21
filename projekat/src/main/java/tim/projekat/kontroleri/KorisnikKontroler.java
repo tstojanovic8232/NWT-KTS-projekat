@@ -11,6 +11,8 @@ import tim.projekat.requestDTO.*;
 import tim.projekat.responseDTO.KVProfilDTO;
 import tim.projekat.servisi.KorisnikServis;
 
+import java.util.Map;
+
 
 @RestController
 @CrossOrigin(origins = "https://localhost:4200", originPatterns = "*://localhost:4200")
@@ -85,8 +87,22 @@ public class KorisnikKontroler {
         return ResponseEntity.ok(k);
     }
 
+//    @PostMapping("/block")
+//    public ResponseEntity<?> blockUser(@RequestBody String email) {
+//        System.out.println(email);
+//        Korisnik k = this.korisnikServis.getKorisnikByEmail(email);
+//        System.out.println(k);
+//        if (k == null) {
+//            return ResponseEntity.internalServerError().build();
+//        }
+//
+//        this.korisnikServis.SetBlokiran(k);
+//        return ResponseEntity.ok(k);
+//    }
     @PostMapping("/block")
-    public ResponseEntity<?> blockUser(@RequestBody String email) {
+    public ResponseEntity<?> blockUser(@RequestBody Map<String, Object> requestData) {
+        String email = (String) requestData.get("email");
+        boolean blocked = (boolean) requestData.get("blocked");
         System.out.println(email);
         Korisnik k = this.korisnikServis.getKorisnikByEmail(email);
         System.out.println(k);
@@ -94,7 +110,12 @@ public class KorisnikKontroler {
             return ResponseEntity.internalServerError().build();
         }
 
-        this.korisnikServis.SetBlokiran(k);
+        if (blocked) {
+            this.korisnikServis.SetBlokiran(k);
+        } else {
+            this.korisnikServis.setNeblokiran(k);
+        }
+
         return ResponseEntity.ok(k);
     }
 
@@ -143,7 +164,7 @@ public class KorisnikKontroler {
         if (k == null) return (ResponseEntity<Boolean>) ResponseEntity.internalServerError();
         if (keDTO.getRole().equals(Vozac.class.getSimpleName())) {
 
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.ok(((Vozac) k).getBlokiran());
         } else if (keDTO.getRole().equals(Klijent.class.getSimpleName())) {
 
             return ResponseEntity.ok(((Klijent) k).getBlokiran());

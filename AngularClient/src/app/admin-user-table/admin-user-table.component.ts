@@ -87,6 +87,24 @@ export class AdminUserTableComponent {
     });
   }
 
+  // blokirajKorisnika(email: string) {
+  //   const row = this.data.find((user) => user.email === email);
+  //   if (!row) return; // Handle case when row is not found
+  //
+  //   row.blokiran = !row.blokiran;
+  //
+  //   // Call your API or perform any other necessary logic to update the blocked status
+  //   // For example, you can use the userService to update the blocked status on the server.
+  //   this.userService.updateBlockedStatus(email).subscribe(
+  //     (response) => {
+  //       console.log('Blocked status updated successfully:', response);
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       console.log('Error occurred while updating blocked status:', error);
+  //     }
+  //   );
+  // }
+
   blokirajKorisnika(email: string) {
     const row = this.data.find((user) => user.email === email);
     if (!row) return; // Handle case when row is not found
@@ -95,17 +113,21 @@ export class AdminUserTableComponent {
 
     // Call your API or perform any other necessary logic to update the blocked status
     // For example, you can use the userService to update the blocked status on the server.
-    this.userService.updateBlockedStatus(email).subscribe(
+    this.userService.updateBlockedStatus(email, row.blokiran).subscribe(
       (response) => {
         console.log('Blocked status updated successfully:', response);
       },
       (error: HttpErrorResponse) => {
         console.log('Error occurred while updating blocked status:', error);
+        // Revert the change if an error occurs
+        row.blokiran = !row.blokiran;
       }
     );
   }
 
+
   goToRegister() {
     this.router.navigate(['/admin/drivers/add'])
   }
+
 }

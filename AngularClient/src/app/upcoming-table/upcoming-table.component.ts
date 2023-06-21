@@ -4,6 +4,7 @@ import {LocalService} from "../services/local.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DrivingService} from "../services/driving.service";
 import {UserRole} from "../model/user-role";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-upcoming-table',
@@ -14,8 +15,8 @@ export class UpcomingTableComponent implements OnInit{
   @ViewChild('myTable') table: ElementRef;
   data: DrivingEntry[];
   isOnline: boolean;
-
-  constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private drivingService: DrivingService) {
+  blocked:boolean;
+  constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private drivingService: DrivingService,private userservice:UserService) {
 
 
 
@@ -32,6 +33,13 @@ export class UpcomingTableComponent implements OnInit{
     this.drivingService.getUpcoming(user).subscribe(data=>{
     this.setData(data as DrivingEntry[]);
   })
+    this.userservice.getBlockedStatus(user).subscribe((data:any)=>{
+      this.blocked=data as boolean;
+      console.log(this.blocked)
+
+    })
+    // console.log(this.blocked);
+
   }
 
   setData(data : any) {

@@ -10,12 +10,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import tim.projekat.model.Vozac;
+import tim.projekat.model.*;
+import tim.projekat.repozitorijumi.VoziloRepo;
 import tim.projekat.requestDTO.LoginDTO;
 import tim.projekat.requestDTO.RegisterDTO;
-import tim.projekat.model.Klijent;
-import tim.projekat.model.Korisnik;
-import tim.projekat.model.VerificationToken;
+import tim.projekat.requestDTO.RegisterVozacDTO;
 import tim.projekat.responseDTO.LoginResponseDTO;
 import tim.projekat.servisi.EmailServis;
 import tim.projekat.servisi.FacebookServis;
@@ -31,6 +30,9 @@ public class AuthKontroler {
     EmailServis emailServis;
     @Autowired
     KorisnikServis korisnikServis;
+
+    @Autowired
+    VoziloRepo voziloRepo;
     private static final String CLIENT_ID = "622369180841-fbatp9ei09717bm0hu30qkb6u5mhvn73.apps.googleusercontent.com";
 
     private static final String APP_ID="269068999131322";
@@ -72,6 +74,21 @@ public class AuthKontroler {
         emailServis.sendConfirmationEmail(k.getEmail(), token);
         return ResponseEntity.ok(registerDTO);
     }
+
+    @PostMapping(value = "/registerDriver", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> registerVozac(@RequestBody RegisterVozacDTO registerDTO) {
+        System.out.println(registerDTO.toString());
+        Vozilo v=new Vozilo(registerDTO.getRegistration(),registerDTO.getPrice());
+        this.voziloRepo.save(v);
+        Korisnik k = new Vozac(registerDTO,v);
+        this.korisnikServis.save(k);
+
+
+        // Save the token, email, and timestamp in the database
+
+        return ResponseEntity.ok(registerDTO);
+    }
+
 
     @GetMapping(value = "/confirm", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> confirmEmail(@RequestParam("token") String token) {

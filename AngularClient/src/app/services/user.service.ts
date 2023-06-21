@@ -62,14 +62,21 @@ export class UserService {
     return this.http.get(this.usersUrl + "/drivers")
   }
 
-  updateBlockedStatus(email: string): Observable<any> {
+  // updateBlockedStatus(email: string): Observable<any> {
+  //   const url = `${this.usersUrl}/block`; // Replace with your API endpoint
+  //
+  //
+  //
+  //
+  //   // Make the HTTP PUT request to update the blokiran status
+  //   return this.http.post(url, email);
+  // }
+
+  updateBlockedStatus(email: string, blocked: boolean): Observable<any> {
     const url = `${this.usersUrl}/block`; // Replace with your API endpoint
 
-
-
-
-    // Make the HTTP PUT request to update the blokiran status
-    return this.http.post(url, email);
+    // Make the HTTP POST request to update the blocked status
+    return this.http.post(url, { email, blocked });
   }
   getBlockedStatus(user: UserRole): Observable<any> {
     const url = `${this.usersUrl}/blockstatus`; // Replace with your API endpoint

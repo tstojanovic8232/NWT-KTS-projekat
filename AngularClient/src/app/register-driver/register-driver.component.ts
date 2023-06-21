@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {UserRegister} from "../model/user-register";
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserRegisterService} from "../services/user-register.service";
+import {DriverRegister} from "../model/driver-register";
 
 @Component({
   selector: 'app-register-driver',
@@ -9,8 +10,8 @@ import {UserRegisterService} from "../services/user-register.service";
   styleUrls: ['./register-driver.component.css']
 })
 export class RegisterDriverComponent {
-  user:UserRegister=new UserRegister();
-  pass:String='';
+  user:DriverRegister=new DriverRegister();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -21,13 +22,11 @@ export class RegisterDriverComponent {
   }
   register() {
     console.log(this.user);
-    console.log(this.pass);
-    if(this.user.password==this.pass){
-      this.userRegisterService.registerDriver(this.user).subscribe(result => this.router.navigate(['/admin/drivers']));
 
-    }else{
-      alert("Password mismatch!");
-    }
+
+    this.userRegisterService.registerDriver(this.user).subscribe(result => this.router.navigate(['/admin/drivers']));
+
 
   }
+
 }
