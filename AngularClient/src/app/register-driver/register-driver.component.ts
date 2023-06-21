@@ -4,13 +4,13 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserRegisterService} from "../services/user-register.service";
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  selector: 'app-register-driver',
+  templateUrl: './register-driver.component.html',
+  styleUrls: ['./register-driver.component.css']
 })
-export class RegistrationComponent {
-   user:UserRegister=new UserRegister();
-   pass:String='';
+export class RegisterDriverComponent {
+  user:UserRegister=new UserRegister();
+  pass:String='';
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -23,7 +23,7 @@ export class RegistrationComponent {
     console.log(this.user);
     console.log(this.pass);
     if(this.user.password==this.pass){
-      this.userRegisterService.registerUser(this.user).subscribe(result => this.router.navigate(['/login']));
+      this.userRegisterService.registerDriver(this.user).subscribe(result => this.router.navigate(['/admin/drivers']));
 
     }else{
       alert("Password mismatch!");

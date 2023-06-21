@@ -37,6 +37,7 @@ export class UpcomingTableComponent implements OnInit{
   setData(data : any) {
     console.log(data);
     this.data=data;
+    this.data.sort((a, b) => a.date.localeCompare(b.date));
   }
 
   startDrive(i:number) {

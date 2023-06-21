@@ -1,3 +1,4 @@
+<button type="button" (click)="goToRegister()">Add a new driver</button>
 <div class="table-wrapper">
   <table #myTable class="fl-table">
     <thead>
@@ -11,7 +12,7 @@
       <th>Enabled</th>
       <th>Blocked</th>
       <th *ngIf="isDriver">Online status</th>
-      <th *ngIf="isDriver" style="border-top-right-radius: 5px">Current location</th>
+      <th *ngIf="isDriver" style="border-top-right-radius: 5px">Current/Last known location</th>
       <th style="border-top-right-radius: 5px">Actions</th>
     </tr>
     </thead>

@@ -32,6 +32,8 @@ import { AdminUserTableComponent } from './admin-user-table/admin-user-table.com
 
 import { ZapocniVoznjuComponent } from './zapocni-voznju/zapocni-voznju.component';
 import { UserFullNamePipe } from './pipes/user-full-name.pipe';
+import { RegisterDriverComponent } from './register-driver/register-driver.component';
+import { DriverPasswordComponent } from './driver-password/driver-password.component';
 
 
 
@@ -63,7 +65,9 @@ import { UserFullNamePipe } from './pipes/user-full-name.pipe';
     BooleanToStatusPipe,
     AdminUserTableComponent,
     ZapocniVoznjuComponent,
-    UserFullNamePipe
+    UserFullNamePipe,
+    RegisterDriverComponent,
+    DriverPasswordComponent
 
   ],
   imports: [

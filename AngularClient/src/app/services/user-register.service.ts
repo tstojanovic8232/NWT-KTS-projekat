@@ -24,4 +24,14 @@ export class UserRegisterService {
     };
     return this.http.post<UserRegister>(this.loginUrl, JSON.stringify(user), httpOptions);
   }
+
+  registerDriver(user: UserRegister):Observable<object> {
+    console.log(user);
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {'Content-Type': 'application/json'}
+      )
+    };
+    return this.http.post<UserRegister>(`${this.loginUrl}Driver`, JSON.stringify(user), httpOptions);
+  }
 }

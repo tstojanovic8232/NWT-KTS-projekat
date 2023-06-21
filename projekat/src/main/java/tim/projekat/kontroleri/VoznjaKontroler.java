@@ -164,6 +164,7 @@ public class VoznjaKontroler {
                 lon = Double.parseDouble(vKoord[1]);
                 apiResponse = geocodingService.geocode(lat, lon);
                 String odr = apiResponse.getAddress().toString();
+                System.out.println(vozac);
                 voznjeFront.add(new DrivingEntryDTO(v, vozac, pol, odr));
             }
         } else if (k.getClass().equals(Vozac.class)) {

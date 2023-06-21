@@ -18,19 +18,24 @@ import {AboutComponent} from "./about/about.component";
 import {AdminUserTableComponent} from "./admin-user-table/admin-user-table.component";
 
 import {ZapocniVoznjuComponent} from "./zapocni-voznju/zapocni-voznju.component";
+import {RegisterDriverComponent} from "./register-driver/register-driver.component";
+import {DriverPasswordComponent} from "./driver-password/driver-password.component";
 
 
 const routes: Routes = [
-  {path: '', component: HomePageComponent,
-  children:[
-    {path: 'about', component: AboutComponent},
-    {path: '', component: MapComponent},
-  ]},
+  {
+    path: '', component: HomePageComponent,
+    children: [
+      {path: 'about', component: AboutComponent},
+      {path: '', component: MapComponent},
+    ]
+  },
   {path: 'login', component: LoginComponent},
   {
     path: 'register', component: RegistrationComponent
   },
   {path: 'confirm', component: ConfirmComponent},
+  {path: 'set-pass', component: DriverPasswordComponent},
   {
     path: 'admin', component: AdminPageComponent,
     children:
@@ -42,6 +47,10 @@ const routes: Routes = [
         {
           path: 'drivers',
           component: AdminUserTableComponent,
+        },
+        {
+          path: 'drivers/add',
+          component: RegisterDriverComponent,
         },
         {
           path: 'clients',
@@ -61,7 +70,7 @@ const routes: Routes = [
 
     children:
       [
-        {path:'', component: ReservationComponent},
+        {path: '', component: ReservationComponent},
         {
           path: 'profile',
           component: ClientProfileComponent,
@@ -71,7 +80,7 @@ const routes: Routes = [
           component: BillComponent,
         },
         {
-          path:'history',
+          path: 'history',
           component: IstorijaVoznjiComponent,
           data: {
             loggedIn: true,

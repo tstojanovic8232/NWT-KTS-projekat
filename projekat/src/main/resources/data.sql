@@ -11,7 +11,7 @@ VALUES (nextval('korisnik_seq'), 'igorpavlov106@gmail.com', '123', TRUE, 'admin'
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja,u_voznji,blokiran)
 VALUES (nextval('korisnik_seq'), 'teateodora2000@gmail.com', '111', TRUE, 'klijent', 'Novi Sad', '063/7077915',
-        'Tea', 'Stojanovic', 1, 'tea@gmail.com',FALSE,FALSE);
+        'Tea', 'Stojanovic', 1, 'teateodora2000@gmail.com',FALSE,FALSE);
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja,u_voznji,blokiran)
 VALUES (nextval('korisnik_seq'), 'pera@gmail.com', '222', TRUE, 'klijent', 'Novi Sad', '063/1234567',
@@ -31,7 +31,7 @@ VALUES (nextval('korisnik_seq'), 'igor@gmail.com', '555', TRUE, 'klijent', 'Novi
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja,u_voznji,blokiran)
 VALUES (nextval('korisnik_seq'), 'aldonahzero123@gmail.com', '555', TRUE, 'klijent', 'Novi Sad', '062/1112223',
-        'Igor', 'P', 1, 'igor@gmail.com',FALSE,FALSE);
+        'Igor', 'P', 1, 'aldonahzero123@gmail.com',FALSE,FALSE);
 
 -- korisnici - vozaci
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
@@ -51,34 +51,34 @@ VALUES (nextval('korisnik_seq'), 'anica@gmail.com', '000', TRUE, 'vozac', 'Novi 
 
 -- voznje
 INSERT INTO voznja (id, vozac_id, polaziste, destinacija, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena)
-VALUES (nextval('voznja_seq'), 8, '44.7866, 20.4489', '44.8120, 20.4619', 5.2, 'Napomena 1', '2022-01-15 08:30:00',
+VALUES (nextval('voznja_seq'), 9, '44.7866, 20.4489', '44.8120, 20.4619', 5.2, 'Napomena 1', '2022-01-15 08:30:00',
         1200, true, 0);
 INSERT INTO voznja (id, vozac_id, polaziste, destinacija, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena)
-VALUES (nextval('voznja_seq'), 8, '44.8093, 20.4682', '44.8225, 20.4546', 7.8, 'Napomena 2', '2022-01-16 12:15:00',
+VALUES (nextval('voznja_seq'), 9, '44.8093, 20.4682', '44.8225, 20.4546', 7.8, 'Napomena 2', '2022-01-16 12:15:00',
         1800, true, 0);
 INSERT INTO voznja (id, vozac_id, polaziste, destinacija, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena)
-VALUES (nextval('voznja_seq'), 9, '44.8144, 20.4596', '44.7742, 20.4633', 12.3, 'Napomena 3', '2022-01-18 17:45:00',
+VALUES (nextval('voznja_seq'), 10, '44.8144, 20.4596', '44.7742, 20.4633', 12.3, 'Napomena 3', '2022-01-18 17:45:00',
         2500, true, 0);
 INSERT INTO voznja (id, vozac_id, polaziste, destinacija, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena)
-VALUES (nextval('voznja_seq'), 10, '44.7875, 20.4715', '44.8085, 20.4115', 9.7, 'Napomena 4', '2022-01-19 10:00:00',
+VALUES (nextval('voznja_seq'), 11, '44.7875, 20.4715', '44.8085, 20.4115', 9.7, 'Napomena 4', '2022-01-19 10:00:00',
         2000, true, 0);
 INSERT INTO voznja (id, vozac_id, polaziste, destinacija, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena)
-VALUES (nextval('voznja_seq'), 9, '44.8151, 20.4347', '44.7948, 20.4552', 6.5, 'Napomena 5', '2022-01-20 15:30:00',
+VALUES (nextval('voznja_seq'), 10, '44.8151, 20.4347', '44.7948, 20.4552', 6.5, 'Napomena 5', '2022-01-20 15:30:00',
         1500, true, 0);
 INSERT INTO voznja (id, vozac_id, polaziste, destinacija, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena)
-VALUES (nextval('voznja_seq'), 9, '44.7944, 20.4599', '44.8210, 20.4434', 8.9, 'Napomena 6', '2022-01-22 09:45:00',
+VALUES (nextval('voznja_seq'), 10, '44.7944, 20.4599', '44.8210, 20.4434', 8.9, 'Napomena 6', '2022-01-22 09:45:00',
         1900, true, 0);
 INSERT INTO voznja (id, vozac_id, polaziste, destinacija, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena)
-VALUES (nextval('voznja_seq'), 8, '44.8242, 20.4412', '44.7967, 20.4573', 7.1, 'Napomena 7', '2022-01-23 13:20:00',
+VALUES (nextval('voznja_seq'), 9, '44.8242, 20.4412', '44.7967, 20.4573', 7.1, 'Napomena 7', '2022-01-23 13:20:00',
         1700, true, 0);
 INSERT INTO voznja (id, vozac_id, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena, polaziste, destinacija)
-VALUES (nextval('voznja_seq'), 10, 20.5, 'Nema napomene', '2023-03-05 12:00:00', 1500.00, false, 0, '44.7866, 20.4489',
+VALUES (nextval('voznja_seq'), 11, 20.5, 'Nema napomene', '2023-03-05 12:00:00', 1500.00, false, 0, '44.7866, 20.4489',
         '44.8158, 20.4569');
 INSERT INTO voznja (id, vozac_id, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena, polaziste, destinacija)
-VALUES (nextval('voznja_seq'), 8, 10.0, 'Putovanje sa kućnim ljubimcem', '2023-03-15 08:30:00', 800.00, false, 0,
+VALUES (nextval('voznja_seq'), 9, 10.0, 'Putovanje sa kućnim ljubimcem', '2023-03-15 08:30:00', 800.00, false, 0,
         '45.2671, 19.8335', '45.2488, 19.7930');
 INSERT INTO voznja (id, vozac_id, broj_kilometara, napomena, datum_vreme, cena, gotova, ocena, polaziste, destinacija)
-VALUES (nextval('voznja_seq'), 10, 30.2, 'Dostava hrane', '2023-03-20 18:45:00', 2000.00, false, 0, '44.7623, 19.6927',
+VALUES (nextval('voznja_seq'), 11, 30.2, 'Dostava hrane', '2023-03-20 18:45:00', 2000.00, false, 0, '44.7623, 19.6927',
         '44.7844, 19.6959');
 
 -- klijenti za voznju
@@ -87,7 +87,7 @@ VALUES (1, 3);
 INSERT INTO voznje_klijenti(voznja_id, klijent_id)
 VALUES (2, 4);
 INSERT INTO voznje_klijenti(voznja_id, klijent_id)
-VALUES (3, 4);
+VALUES (3, 8);
 INSERT INTO voznje_klijenti(voznja_id, klijent_id)
 VALUES (4, 5);
 INSERT INTO voznje_klijenti(voznja_id, klijent_id)

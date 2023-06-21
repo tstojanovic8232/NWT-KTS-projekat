@@ -1,0 +1,37 @@
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="login-wrap p-0">
+          <h3 class="mb-4 text-center">Driver Registration</h3>
+          <form (ngSubmit)="register()" class="signin-form">
+            <div class="form-group">
+              <input  type="name" name="name" class="form-control" placeholder="Name" [(ngModel)]="user.name" required>
+
+            </div>
+            <div class="form-group">
+              <input  type="name" name="lastname" class="form-control" placeholder="LastName" [(ngModel)]="user.lastname" required>
+
+            </div>
+            <div class="form-group">
+              <input  type="email" name="email" class="form-control" placeholder="Email" [(ngModel)]="user.email" required>
+
+            </div>
+            <div class="form-group">
+              <input  type="name" name="city" class="form-control" placeholder="City" [(ngModel)]="user.city" required>
+
+            </div>
+            <div class="form-group">
+              <input  type="name" name="phone" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" required>
+
+            </div>
+            <div class="form-group">
+              <button type="submit" class="form-control btn btn-primary submit px-3">Register</button>
+            </div>
+          </form>
+          <p class="w-100 text-center"><a routerLink="/admin/drivers" routerLinkActive="active" ariaCurrentWhenActive="page">&mdash; Go Back To Drivers &mdash;</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

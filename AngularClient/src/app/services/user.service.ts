@@ -80,4 +80,9 @@ export class UserService {
     // Make the HTTP PUT request to update the blokiran status
     return this.http.post(url,user);
   }
+
+  setPass(user: User): Observable<object> {
+    console.log(user);
+    return this.http.post<User>(this.usersUrl + "/setPass", user);
+  }
 }

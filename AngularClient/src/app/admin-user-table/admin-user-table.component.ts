@@ -1,10 +1,8 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {LocalService} from "../services/local.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {DrivingService} from "../services/driving.service";
 import {UserFull} from "../model/user-full";
 import {UserService} from "../services/user.service";
-import {UserFullNamePipe} from "../pipes/user-full-name.pipe"
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, map, Observable} from "rxjs";
 
@@ -20,7 +18,7 @@ export class AdminUserTableComponent {
   data: UserFull[];
   isDriver: boolean;
 
-  constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService,private http:HttpClient) {
+  constructor(private localService: LocalService, private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService, private http: HttpClient) {
 
 
   }
@@ -52,16 +50,14 @@ export class AdminUserTableComponent {
   }
 
 
-
-
   reverseGeocode(latitude: number, longitude: number): Observable<string> {
     const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
 
     return this.http.get(url).pipe(
       map((response: any) => {
-        const { road, suburb ,city} = response.address;
+        const {road, suburb, city} = response.address;
         const firstField = road || '';
-        const secondField=city || '';
+        const secondField = city || '';
         const thirdField = suburb || '';
         return `${firstField}, ${thirdField},${secondField}`;
       }),
@@ -70,8 +66,6 @@ export class AdminUserTableComponent {
       })
     );
   }
-
-
 
 
   setData(data: any) {
@@ -109,5 +103,9 @@ export class AdminUserTableComponent {
         console.log('Error occurred while updating blocked status:', error);
       }
     );
+  }
+
+  goToRegister() {
+    this.router.navigate(['/admin/drivers/add'])
   }
 }
