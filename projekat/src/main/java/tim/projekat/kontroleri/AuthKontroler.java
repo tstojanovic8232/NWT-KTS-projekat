@@ -82,6 +82,14 @@ public class AuthKontroler {
         this.voziloRepo.save(v);
         Korisnik k = new Vozac(registerDTO,v);
         this.korisnikServis.save(k);
+        String token = UUID.randomUUID().toString();
+
+        // Save the token, email, and timestamp in the database
+        korisnikServis.createVerificationToken(k, token);
+
+        // Send the email with the link
+
+        emailServis.sendConfirmationEmail(k.getEmail(), token);
 
 
         // Save the token, email, and timestamp in the database

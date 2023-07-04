@@ -194,4 +194,20 @@ public class KorisnikKontroler {
             return (ResponseEntity<?>) ResponseEntity.internalServerError();
         }
     }
+
+    @PostMapping("/setPass")
+    public ResponseEntity<?> setPass(@RequestBody LoginDTO uDto) {
+        try {
+            Korisnik k = this.korisnikServis.getKorisnikByEmail(uDto.getEmail());
+            if (k.equals(null)) {
+                return (ResponseEntity<?>) ResponseEntity.internalServerError();
+            }
+            k.setLozinka(uDto.getPassword());
+            this.korisnikServis.save(k);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.getStackTrace();
+            return (ResponseEntity<?>) ResponseEntity.internalServerError();
+        }
+    }
 }
