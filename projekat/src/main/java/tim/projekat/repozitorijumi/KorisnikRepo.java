@@ -11,7 +11,7 @@ import tim.projekat.model.Voznja;
 import java.util.List;
 
 public interface KorisnikRepo extends JpaRepository<Korisnik, Long> {
-    Korisnik getKorisnikByEmail(String email);
+    Korisnik getKorisnikByEmail(String email); // SELECT k FROM Korisnik WHERE k.email = :email
     @Query("SELECT k FROM Klijent k JOIN k.voznje v WHERE v.id = :voznja_id AND TYPE(k) = Klijent")
     Korisnik getKlijentByVoznjeContains(@Param("voznja_id") Long id);
 
