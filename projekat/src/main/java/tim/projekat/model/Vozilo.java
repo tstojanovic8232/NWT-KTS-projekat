@@ -4,11 +4,23 @@ import javax.persistence.*;
 
 @Entity
 @Access(AccessType.FIELD)
-@Table(name="vozilo")
+@Table(name = "vozilo")
 @SequenceGenerator(name = "vozilo_seq", sequenceName = "vozilo_seq", allocationSize = 1)
 public class Vozilo {
     private String registracija;
     private double cena;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vozilo_seq")
+    private Long id;
+
+
+    public Vozilo() {
+    }
+
+    public Vozilo(String registracija, double cena) {
+        this.registracija = registracija;
+        this.cena = cena;
+    }
 
     @Override
     public String toString() {
@@ -17,20 +29,6 @@ public class Vozilo {
                 ", cena=" + cena +
                 ", id=" + id +
                 '}';
-    }
-
-
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vozilo_seq")
-    private Long id;
-
-    public Vozilo() {
-    }
-
-    public Vozilo(String registracija, double cena) {
-        this.registracija = registracija;
-        this.cena = cena;
     }
 
     public String getRegistracija() {
@@ -49,11 +47,11 @@ public class Vozilo {
         this.cena = cena;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

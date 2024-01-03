@@ -113,10 +113,10 @@ VALUES (nextval('vozilo_seq'), 'GHI789', 300.00);
 
 UPDATE korisnik
 SET vozilo_id = 1
-WHERE id = 8;
-UPDATE korisnik
-SET vozilo_id = 2
 WHERE id = 9;
 UPDATE korisnik
-SET vozilo_id = 3
+SET vozilo_id = 2
 WHERE id = 10;
+UPDATE korisnik
+SET vozilo_id = 3
+WHERE id = 11;
