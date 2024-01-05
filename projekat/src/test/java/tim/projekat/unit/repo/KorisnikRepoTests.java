@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestPropertySource(locations = "classpath:application-test.properties")
 public class KorisnikRepoTests {
 
+
     @Autowired
     private KorisnikRepo korisnikRepo;
 
@@ -184,4 +185,5 @@ public class KorisnikRepoTests {
         // Assert
         assertThat(result).hasSize(2);
     }
+
 }
