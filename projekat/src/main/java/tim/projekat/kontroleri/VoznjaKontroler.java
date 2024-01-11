@@ -210,7 +210,7 @@ public class VoznjaKontroler {
 
         Vozac v=(Vozac)this.korisnikServis.getKorisnikByEmail(keDTO.getEmail());
         if(v==null){
-            return (ResponseEntity<?>) ResponseEntity.internalServerError();
+            return ResponseEntity.internalServerError().build();
         }
         List<Voznja>li=this.voznjaServis.getDriverUpcoming(v);
         Voznja voznja=li.get(0);
