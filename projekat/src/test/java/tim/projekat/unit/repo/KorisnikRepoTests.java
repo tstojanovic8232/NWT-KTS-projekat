@@ -10,12 +10,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tim.projekat.model.*;
 import tim.projekat.model.enums.NacinPlacanja;
 import tim.projekat.repozitorijumi.KorisnikRepo;
+import tim.projekat.repozitorijumi.VoznjaRepo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -25,6 +27,8 @@ public class KorisnikRepoTests {
 
     @Autowired
     private KorisnikRepo korisnikRepo;
+    @Autowired
+    private VoznjaRepo voznjaRepo;
 
     private Korisnik korisnik;
     private Klijent klijent;
@@ -72,42 +76,27 @@ public class KorisnikRepoTests {
         vozac.setIme("Perica");
         vozac.setPrezime("Peric");
 
-        existingVoznjaId = 1L;
-        nonExistingVoznjaId = 20L;
-        existingEmail = "teateodora2000@gmail.com";
-        nonExistingEmail = "nonexisting@example.com";
-
-        Voznja voznja1 = new Voznja();
-        voznja1.setId(1L);
-        voznja1.setPolaziste("44.7866, 20.4489");
-        voznja1.setDestinacija("44.8120, 20.4619");
-        voznja1.setBrojKilometara(5.2);
-        voznja1.setNapomena("Napomena 1");
-        voznja1.setDatumVreme(LocalDateTime.parse("2022-01-15T08:30:00"));
-        voznja1.setCena(1200.0);
-        voznja1.setGotova(true);
-        voznja1.setOcena(0);
-
-        Voznja voznja2 = new Voznja();
-        voznja2.setId(2L);
-        voznja2.setPolaziste("44.8093, 20.4682");
-        voznja2.setDestinacija("44.8225, 20.4546");
-        voznja2.setBrojKilometara(7.8);
-        voznja2.setNapomena("Napomena 2");
-        voznja2.setDatumVreme(LocalDateTime.parse("2022-01-16T12:15:00"));
-        voznja2.setCena(1800.0);
-        voznja2.setGotova(true);
-        voznja2.setOcena(0);
+        Voznja voznja1 = createVoznja("44.7866, 20.4489", "44.8120, 20.4619", 5.2, "Napomena 1", "2022-01-15T08:30:00", 1200.0, true, 0);
+        Voznja voznja2 = createVoznja("44.8093, 20.4682", "44.8225, 20.4546", 7.8, "Napomena 2", "2022-01-16T12:15:00", 1800.0, true, 0);
 
         // Klijent
-        List voznjeKlijent = new ArrayList<Voznja>();
+        List<Voznja> voznjeKlijent = new ArrayList<>();
         voznjeKlijent.add(voznja1);
         klijent.setVoznje(voznjeKlijent);
 
         // Vozac
-        List voznjeVozac = new ArrayList<Voznja>(voznjeKlijent);
+        List<Voznja> voznjeVozac = new ArrayList<>(voznjeKlijent);
         voznjeVozac.add(voznja2);
         vozac.setVoznje(voznjeVozac);
+
+        voznjaRepo.saveAll(voznjeVozac);
+        korisnikRepo.save(klijent);
+        korisnikRepo.save(vozac);
+
+        existingVoznjaId = voznjaRepo.findAll().get(0).getId();
+        nonExistingVoznjaId = 20L;
+        existingEmail = "teateodora2000@gmail.com";
+        nonExistingEmail = "nonexisting@example.com";
     }
 
     @Test
@@ -116,7 +105,6 @@ public class KorisnikRepoTests {
         Korisnik result = korisnikRepo.getKorisnikByEmail(existingEmail);
 
         // Assert
-//        assertThat(result).isEqualTo(korisnik);
         assertThat(result).usingRecursiveComparison().isEqualTo(korisnik);
 
     }
@@ -136,7 +124,9 @@ public class KorisnikRepoTests {
         Korisnik result = korisnikRepo.getKlijentByVoznjeContains(existingVoznjaId);
 
         // Assert
-//        assertThat(result).isEqualTo(klijent);
+        System.out.println(korisnikRepo.findAll());
+        System.out.println(voznjaRepo.findAll());
+        System.out.println(result);
         assertThat(result).usingRecursiveComparison().isEqualTo(klijent);
     }
 
@@ -155,7 +145,9 @@ public class KorisnikRepoTests {
         Korisnik result = korisnikRepo.getVozacByVoznjeContains(existingVoznjaId);
 
         // Assert
-//        assertThat(result).isEqualTo(vozac);
+        System.out.println(korisnikRepo.findAll());
+        System.out.println(voznjaRepo.findAll());
+        System.out.println(result);
         assertThat(result).usingRecursiveComparison().isEqualTo(vozac);
     }
 
@@ -184,6 +176,19 @@ public class KorisnikRepoTests {
 
         // Assert
         assertThat(result).hasSize(2);
+    }
+
+    private Voznja createVoznja(String polaziste, String destinacija, double brojKilometara, String napomena, String datumVreme, double cena, boolean gotova, int ocena) {
+        Voznja voznja = new Voznja();
+        voznja.setPolaziste(polaziste);
+        voznja.setDestinacija(destinacija);
+        voznja.setBrojKilometara(brojKilometara);
+        voznja.setNapomena(napomena);
+        voznja.setDatumVreme(LocalDateTime.parse(datumVreme));
+        voznja.setCena(cena);
+        voznja.setGotova(gotova);
+        voznja.setOcena(ocena);
+        return voznja;
     }
 
 }

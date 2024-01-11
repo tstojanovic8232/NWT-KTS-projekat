@@ -24,7 +24,7 @@ public class Vozac extends Korisnik {
     @JoinColumn(name = "vozilo_id", referencedColumnName = "id")
     private Vozilo vozilo;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "vozac_id")
     private List<Voznja> voznje;
 

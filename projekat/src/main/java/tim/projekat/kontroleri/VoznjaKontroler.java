@@ -50,7 +50,7 @@ public class VoznjaKontroler {
     public ResponseEntity<?> newDrive(@RequestBody VoznjaDTO vDTO) {
         Klijent k = (Klijent) this.korisnikServis.getKorisnikByEmail(vDTO.getClient());
         if (k.equals(null))
-            return (ResponseEntity<?>) ResponseEntity.internalServerError();
+            return ResponseEntity.internalServerError().build();
         // TODO: dto u voznju
         Voznja v = new Voznja(vDTO);
 
@@ -60,30 +60,20 @@ public class VoznjaKontroler {
         for (Korisnik korisnik : vozacList) {
             vozaci.add((Vozac) korisnik);
         }
-        List<Vozac> vozaciCopy = new ArrayList<>(vozaci);
 
         // da li ima prijavljenih vozaca? => izbaci neaktivne
         // da li ima slobodnih vozaca?
         // ako ne, da li ima vozaca koji zavrsavaju trenutnu voznju i nemaju sledecu
         // ako ima, proveri koji je pri zavrsetku voznje => izbaci one u voznji sa voznjom koja sledi
-        for (Vozac vozac : vozaciCopy) {
-            if (vozac.getStatus().equals(false)) vozaci.remove(vozaciCopy.indexOf(vozac));
-            if (vozac.getBlokiran().equals(true)) vozaci.remove(vozaciCopy.indexOf(vozac));
-            if (vozac.getuVoznji().equals(true)) {
-                List<Voznja> sledece = this.voznjaServis.getDriverUpcoming(vozac);
-                if (sledece.size() > 0) {
-                    for (Voznja voznja : sledece) {
-                        if (voznja.getDatumVreme().getHour() == LocalDateTime.now().getHour()) {
-                            vozaci.remove(vozaciCopy.indexOf(vozac));
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        vozaci.removeIf(vozac -> !vozac.getStatus());
+        vozaci.removeIf(vozac -> vozac.getBlokiran());
+        vozaci.removeIf(vozac -> vozac.getuVoznji() &&
+                this.voznjaServis.getDriverUpcoming(vozac)
+                        .stream()
+                        .anyMatch(voznja -> voznja.getDatumVreme().getHour() == LocalDateTime.now().getHour()));
         // ako nema dostupnih vozaca, odbij voznju
         // vrati obavestenje da nema slobodnih vozaca
-        if (vozaci.isEmpty()) return ResponseEntity.ok(vDTO);
+        if (vozaci.isEmpty()) return ResponseEntity.ok().build();
 
             // ako ima dostupnih vozaca u listi, proveri rastojanje od polazista
             // dekartovo rastojanje
