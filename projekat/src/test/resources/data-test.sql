@@ -26,8 +26,6 @@ INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel
 VALUES (nextval('korisnik_seq'), 'nikica@gmail.com', '999', TRUE, 'vozac', 'Novi Sad', '064/1834927', 'Nikica', 'Nikic',
         1, 'nikica@gmail.com', FALSE, '45.235225, 19.810289', FALSE, FALSE);
 
-
-
 -- vozila
 INSERT INTO vozilo (id, registracija, cena)
 VALUES (nextval('vozilo_seq'), 'ABC123', 100.00);
