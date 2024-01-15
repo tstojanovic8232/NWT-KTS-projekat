@@ -1,6 +1,7 @@
 package tim.projekat.kontroleri;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tim.projekat.model.*;
@@ -180,20 +181,33 @@ public class VoznjaKontroler {
     }
 
     @PostMapping("/start")
-    public ResponseEntity<?> StartDrive(@RequestBody KorisnikEmailDTO keDTO) {
-        Vozac v=(Vozac)this.korisnikServis.getKorisnikByEmail(keDTO.getEmail());
-        if(v==null){
-            return (ResponseEntity<?>) ResponseEntity.internalServerError();
+    public ResponseEntity<?> startDrive(@RequestBody KorisnikEmailDTO keDTO) {
+        Vozac v = (Vozac) this.korisnikServis.getKorisnikByEmail(keDTO.getEmail());
+
+        if (v == null) {
+            return ResponseEntity.internalServerError().build();
         }
-        List<Voznja>li=this.voznjaServis.getDriverUpcoming(v);
-        Voznja voznja=li.get(0);
-        Klijent k=this.korisnikServis.getKlijent(voznja);
+
+        List<Voznja> upcomingDrives = this.voznjaServis.getDriverUpcoming(v);
+
+        if (upcomingDrives.isEmpty()) {
+            // Handle the case when there are no upcoming drives for the driver
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("No upcoming drives for the driver.");
+        }
+
+        Voznja voznja = upcomingDrives.get(0);
+        Klijent k = this.korisnikServis.getKlijent(voznja);
+
         v.setuVoznji(true);
         k.setuVoznji(true);
+
         this.korisnikServis.save(k);
         this.korisnikServis.save(v);
+
         return ResponseEntity.ok(voznja);
     }
+
 
     @PostMapping("/stop")
     public ResponseEntity<?> EndDrive(@RequestBody KorisnikEmailDTO keDTO) {
@@ -203,6 +217,11 @@ public class VoznjaKontroler {
             return ResponseEntity.internalServerError().build();
         }
         List<Voznja>li=this.voznjaServis.getDriverUpcoming(v);
+        if (li.isEmpty()) {
+            // Handle the case when there are no upcoming drives for the driver
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("No upcoming drives for the driver.");
+        }
         Voznja voznja=li.get(0);
         Klijent k=this.korisnikServis.getKlijent(voznja);
         v.setuVoznji(false);
@@ -213,6 +232,8 @@ public class VoznjaKontroler {
         this.voznjaServis.save(voznja);
         return ResponseEntity.ok(voznja);
     }
+
+
 
 
 }
