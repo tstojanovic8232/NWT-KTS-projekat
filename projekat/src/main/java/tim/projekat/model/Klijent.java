@@ -14,7 +14,7 @@ public class Klijent extends Korisnik {
     private String podaciPlacanja;
     private Boolean uVoznji;    // Da li je trenutno u voznji
     private Boolean blokiran;   // Da li je blokiran od strane administratora
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "voznje_klijenti",
             joinColumns = @JoinColumn(name = "klijent_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "voznja_id", referencedColumnName = "id"))

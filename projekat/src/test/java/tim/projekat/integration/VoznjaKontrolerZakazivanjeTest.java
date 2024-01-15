@@ -42,6 +42,12 @@ public class VoznjaKontrolerZakazivanjeTest {
 
         // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        Voznja voznja = new Voznja(voznjaDTO);
+        assertTrue(this.korisnikServis.getClients().stream().anyMatch(x -> x.getVoznje().stream().anyMatch(v -> areVoznjasEqual(v, voznja))),
+                "Klijent's list should contain the Voznja");
+        assertTrue(this.korisnikServis.getDrivers().stream().anyMatch(x -> x.getVoznje().stream().anyMatch(v -> areVoznjasEqual(v, voznja))),
+                "Vozac's list should contain the Voznja");
     }
 
     @Test
@@ -56,6 +62,19 @@ public class VoznjaKontrolerZakazivanjeTest {
 
         // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+
+        Voznja voznja = new Voznja(voznjaDTO);
+        this.korisnikServis.getClients().forEach(System.out::println);
+        this.korisnikServis.getClients().forEach(c -> c.getVoznje().forEach(System.out::println));
+        assertTrue(this.korisnikServis.getClients().stream()
+                        .noneMatch(klijent -> klijent.getVoznje().stream()
+                                .anyMatch(v -> areVoznjasEqual(voznja, v))),
+                "No Klijent's list should contain the Voznja");
+
+        assertTrue(this.korisnikServis.getDrivers().stream()
+                        .noneMatch(vozac -> vozac.getVoznje().stream()
+                                .anyMatch(v -> areVoznjasEqual(voznja, v))),
+                "No Vozac's list should contain the Voznja");
     }
 
     @Test
@@ -63,15 +82,28 @@ public class VoznjaKontrolerZakazivanjeTest {
     public void testIfNoDriversAreInactive() {
         // Arrange
         String baseUrl = "/drives/add";
-        VoznjaDTO voznjaDTO = createValidVoznjaDTO();
+        VoznjaDTO voznjaDTO = createInactiveDriverVoznjaDTO();
 
         this.makeAllDriversInactive();
 
         // Act
-        ResponseEntity<Void> responseEntity = restTemplate.postForEntity(baseUrl, voznjaDTO, Void.class);
+        ResponseEntity<VoznjaDTO> responseEntity = restTemplate.postForEntity(baseUrl, voznjaDTO, VoznjaDTO.class);
 
         // Assert
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+
+        Voznja voznja = new Voznja(voznjaDTO);
+        this.korisnikServis.getClients().forEach(System.out::println);
+        this.korisnikServis.getClients().forEach(c -> c.getVoznje().forEach(System.out::println));
+        assertTrue(this.korisnikServis.getClients().stream()
+                        .noneMatch(klijent -> klijent.getVoznje().stream()
+                                .anyMatch(v -> areVoznjasEqual(voznja, v))),
+                "No Klijent's list should contain the Voznja");
+
+        assertTrue(this.korisnikServis.getDrivers().stream()
+                        .noneMatch(vozac -> vozac.getVoznje().stream()
+                                .anyMatch(v -> areVoznjasEqual(voznja, v))),
+                "No Vozac's list should contain the Voznja");
 
     }
 
@@ -93,9 +125,15 @@ public class VoznjaKontrolerZakazivanjeTest {
         assertNotNull(selectedDriver);
         assertTrue(selectedDriver.getStatus());
 
+        Vozac otherDriver = (Vozac) korisnikServis.getKorisnikByEmail(driver1.getEmail());
+        assertNotNull(otherDriver);
+        assertTrue(otherDriver.getStatus());
+
         Voznja voznja = new Voznja(voznjaDTO);
         assertTrue(selectedDriver.getVoznje().stream().anyMatch(v -> areVoznjasEqual(v, voznja)),
-                "The driver's list should contain the voznja");
+                "The second Vozac's list should contain the Voznja");
+        assertTrue(otherDriver.getVoznje().stream().noneMatch(v -> areVoznjasEqual(v, voznja)),
+                "The first Vozac's list should not contain the Voznja");
     }
 
     @Test
@@ -118,7 +156,7 @@ public class VoznjaKontrolerZakazivanjeTest {
 
         Voznja voznja = new Voznja(voznjaDTO);
         assertTrue(selectedDriver.getVoznje().stream().anyMatch(v -> areVoznjasEqual(v, voznja)),
-                "The driver's list should contain the voznja");
+                "The Vozac's list should contain the Voznja");
     }
 
     @Test
@@ -158,29 +196,15 @@ public class VoznjaKontrolerZakazivanjeTest {
         }
     }
 
-    private void makeOneDriverActive() {
-        List<Vozac> allDrivers = korisnikServis.getDrivers();
-        if (!allDrivers.isEmpty()) {
-            Vozac driver = allDrivers.get(0);
-            driver.setStatus(true);
-            korisnikServis.save(driver);
-        }
-    }
-
-    private void makeAllDriversActive() {
-        List<Vozac> allDrivers = korisnikServis.getDrivers();
-        for (Vozac driver : allDrivers) {
-            driver.setStatus(true);
-            korisnikServis.save(driver);
-        }
-    }
-
     private VoznjaDTO createValidVoznjaDTO() {
         return new VoznjaDTO("44.7866, 20.4489", "44.8120, 20.4619", "Napomena 1", "teateodora2000@gmail.com", 5.2, 1200, "2022-01-15T08:30");
     }
 
+    private VoznjaDTO createInactiveDriverVoznjaDTO() {
+        return new VoznjaDTO("44.7866, 20.4489", "44.8120, 20.4619", "Napomena 1", "teateodora2000@gmail.com", 5.2, 1200, "2021-01-15T08:30");
+    }
     private VoznjaDTO createInvalidClientVoznjaDTO() {
-        return new VoznjaDTO("44.7866, 20.4489", "44.8120, 20.4619", "Napomena 1", "nonexistent_client@example.com", 5.2, 1200, "2022-01-15T08:30");
+        return new VoznjaDTO("44.7866, 20.4489", "44.8120, 20.4619", "Napomena 1", "nonexistent_client@example.com", 5.2, 1200, "2020-01-15T08:30");
     }
 
     private Vozac createDriver(String email, String currentLocation) {
