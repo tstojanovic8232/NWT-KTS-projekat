@@ -134,6 +134,7 @@ public class VoznjaKontrolerZakazivanjeTest {
         // Assert
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
     }
+
     @Test
     @Order(7)
     public void testNullInput() {
