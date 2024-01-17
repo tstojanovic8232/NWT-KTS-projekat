@@ -22,6 +22,7 @@ export class UserRegisterService {
     return this.http.post<UserRegister>(this.loginUrl, JSON.stringify(user), httpOptions);
   }
 
+
   registerDriver(user: DriverRegister): Observable<object> {
     console.log(user);
     const httpOptions = {

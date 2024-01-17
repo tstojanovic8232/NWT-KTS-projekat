@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminPageComponent } from './admin-page.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {AppRoutingModule} from "../app-routing.module";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {NgxPaginationModule} from "ngx-pagination";
 
 describe('AdminPageComponent', () => {
   let component: AdminPageComponent;
@@ -8,7 +13,14 @@ describe('AdminPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminPageComponent ]
+      declarations: [ AdminPageComponent ],
+      imports:[
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        NgxPaginationModule,
+      ]
     })
     .compileComponents();
 

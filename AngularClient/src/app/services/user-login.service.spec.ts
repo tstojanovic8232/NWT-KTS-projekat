@@ -1,10 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UserLoginService } from './user-login.service';
+
 import { User } from '../model/user';
 import { LocalService } from './local.service';
 import { Observable } from 'rxjs';
 import {RouterTestingModule} from "@angular/router/testing";
+
+import {BrowserModule} from "@angular/platform-browser";
+import {AppRoutingModule} from "../app-routing.module";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {NgxPaginationModule} from "ngx-pagination";
+import {UserService} from "./user.service";
+
 
 describe('UserLoginService', () => {
   let service: UserLoginService;
@@ -12,7 +21,13 @@ describe('UserLoginService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+
       imports: [HttpClientTestingModule,
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        NgxPaginationModule,
         RouterTestingModule.withRoutes([
           {path: 'admin', redirectTo:''},
           {path: 'client-home', redirectTo:''},
@@ -20,6 +35,8 @@ describe('UserLoginService', () => {
         ])],
       providers: [UserLoginService, LocalService],
     });
+
+
 
     service = TestBed.inject(UserLoginService);
     httpTestingController = TestBed.inject(HttpTestingController);

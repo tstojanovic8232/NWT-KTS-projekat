@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavBarAdminComponent } from './nav-bar-admin.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {AppRoutingModule} from "../app-routing.module";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {NgxPaginationModule} from "ngx-pagination";
 
 describe('NavBarAdminComponent', () => {
   let component: NavBarAdminComponent;
@@ -8,7 +13,14 @@ describe('NavBarAdminComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavBarAdminComponent ]
+      declarations: [ NavBarAdminComponent ],
+      imports:[
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        NgxPaginationModule,
+      ]
     })
     .compileComponents();
 

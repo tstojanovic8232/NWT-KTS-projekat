@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavBarClientComponent } from './nav-bar-client.component';
+import {BrowserModule} from "@angular/platform-browser";
+import {AppRoutingModule} from "../app-routing.module";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
+import {NgxPaginationModule} from "ngx-pagination";
 
 describe('NavBarClientComponent', () => {
   let component: NavBarClientComponent;
@@ -8,7 +13,14 @@ describe('NavBarClientComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavBarClientComponent ]
+      declarations: [ NavBarClientComponent ],
+      imports:[
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        NgxPaginationModule,
+      ]
     })
     .compileComponents();
 

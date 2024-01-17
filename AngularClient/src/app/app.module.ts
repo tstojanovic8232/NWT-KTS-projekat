@@ -50,7 +50,6 @@ import { DriverPasswordComponent } from './driver-password/driver-password.compo
     ClientProfileComponent,
     AdminPageComponent,
     NavBarAdminComponent,
-    ClientPageComponent,
     DriverPageComponent,
     NavBarClientComponent,
     NavBarDriverComponent,
@@ -61,11 +60,11 @@ import { DriverPasswordComponent } from './driver-password/driver-password.compo
     BillComponent,
     IstorijaVoznjiComponent,
     UpcomingTableComponent,
-
     BooleanToStatusPipe,
     AdminUserTableComponent,
     ZapocniVoznjuComponent,
     UserFullNamePipe,
+    ClientPageComponent,
     RegisterDriverComponent,
     DriverPasswordComponent
 
