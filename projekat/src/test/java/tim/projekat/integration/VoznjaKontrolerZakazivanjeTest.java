@@ -64,8 +64,6 @@ public class VoznjaKontrolerZakazivanjeTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
 
         Voznja voznja = new Voznja(voznjaDTO);
-        this.korisnikServis.getClients().forEach(System.out::println);
-        this.korisnikServis.getClients().forEach(c -> c.getVoznje().forEach(System.out::println));
         assertTrue(this.korisnikServis.getClients().stream()
                         .noneMatch(klijent -> klijent.getVoznje().stream()
                                 .anyMatch(v -> areVoznjasEqual(voznja, v))),
@@ -93,8 +91,6 @@ public class VoznjaKontrolerZakazivanjeTest {
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
         Voznja voznja = new Voznja(voznjaDTO);
-        this.korisnikServis.getClients().forEach(System.out::println);
-        this.korisnikServis.getClients().forEach(c -> c.getVoznje().forEach(System.out::println));
         assertTrue(this.korisnikServis.getClients().stream()
                         .noneMatch(klijent -> klijent.getVoznje().stream()
                                 .anyMatch(v -> areVoznjasEqual(voznja, v))),
