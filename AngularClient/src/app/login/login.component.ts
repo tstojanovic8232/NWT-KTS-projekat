@@ -83,7 +83,19 @@ export class LoginComponent implements OnInit {
             this.localService.saveData('user', (data as UserRole).email)
             this.localService.saveData('role', (data as UserRole).role)
             this.gotoUserPage(data as UserRole);
-        });
+        },
+          (error) => {
+            // Handle login error
+            console.error("Login failed:", error);
+            if (error.status === 401) {
+              // Unauthorized: Invalid username or password
+              alert("Invalid username or password. Please try again.");
+            } else {
+              // Other error, display a generic message
+              alert("Login failed. Please try again later.");
+            }
+          }
+        );
     }
 
     gotoUserPage(userRole: UserRole) {
