@@ -49,6 +49,7 @@ public class VoznjaKontroler {
 
     @PostMapping("/add")
     public ResponseEntity<?> newDrive(@RequestBody VoznjaDTO vDTO) {
+        System.out.println(vDTO);
         Klijent k = (Klijent) this.korisnikServis.getKorisnikByEmail(vDTO.getClient());
         if (k == null)
             return ResponseEntity.internalServerError().build();

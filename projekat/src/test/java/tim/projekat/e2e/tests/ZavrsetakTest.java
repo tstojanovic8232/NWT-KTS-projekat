@@ -26,7 +26,7 @@ public class ZavrsetakTest extends TestBase{
 
         // Wait for some time to see the result (optional)
         try {
-            Thread.sleep(5000);
+            Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 
-import 'leaflet-velocity/dist/leaflet-velocity.min.js';
 import * as L from 'leaflet';
-
-import DriftMarker from "leaflet-drift-marker";
 import 'leaflet-routing-machine';
 import 'leaflet-polylinedecorator';
+
+import 'leaflet-velocity/dist/leaflet-velocity.min.js';
+import DriftMarker from "leaflet-drift-marker";
 
 
 
@@ -121,6 +121,7 @@ export class ReservationComponent {
 
     const url = `https://nominatim.openstreetmap.org/search?q=${this.addressFrom}&format=json`;
     this.http.get(url).subscribe(data => {
+      console.log(data);
       // @ts-ignore
       const coordinates = data[0];
       this.setFrom(coordinates);
@@ -141,6 +142,7 @@ export class ReservationComponent {
 
     const url = `https://nominatim.openstreetmap.org/search?q=${this.addressTo}&format=json`;
     this.http.get(url).subscribe(data => {
+      console.log(data);
       // @ts-ignore
       const coordinates = data[0];
       this.setTo(coordinates);
@@ -272,6 +274,8 @@ export class ReservationComponent {
   }
 
   goToPayment() {
+    console.log(this.from);
+    console.log(this.to);
     this.router.navigate(['/client-home/receipt'], {
       state: {
         tip: this.tip,

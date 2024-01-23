@@ -21,10 +21,6 @@ public class ZakazivanjeTest extends TestBase {
     public void makeReservationOK() {
         driver.get("http://localhost:4200/login");
 
-
-
-
-
         LoginPage loginPage = new LoginPage(driver);
         KlijentHomePage reservationPage = new KlijentHomePage(driver);
         RacunPage racunPage = new RacunPage(driver);
@@ -36,7 +32,17 @@ public class ZakazivanjeTest extends TestBase {
 
         Assert.assertTrue(reservationPage.isPageOpened());
         reservationPage.setAddressFrom(POLAZISTE);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         reservationPage.setAddressTo(DESTINACIJA);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         reservationPage.setNapomena(NAPOMENA);
         reservationPage.selectVehicleType(TIP_VOZILA);
 
@@ -49,6 +55,12 @@ public class ZakazivanjeTest extends TestBase {
         Assert.assertEquals(racunPage.getTip(), TIP_VOZILA);
         String cena = racunPage.getCena();
         System.out.println("Total Price: " + cena);
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         racunPage.clickConfirmPaymentButton();
     }

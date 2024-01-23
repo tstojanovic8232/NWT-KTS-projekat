@@ -11,7 +11,7 @@ VALUES (nextval('korisnik_seq'), 'igorpavlov106@gmail.com', '123', TRUE, 'admin'
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja,u_voznji,blokiran)
 VALUES (nextval('korisnik_seq'), 'teateodora2000@gmail.com', '111', TRUE, 'klijent', 'Novi Sad', '063/7077915',
-        'Tea', 'Stojanovic', ., 'teateodora2000@gmail.com',FALSE,FALSE);
+        'Tea', 'Stojanovic', 1, 'teateodora2000@gmail.com',FALSE,FALSE);
 INSERT INTO korisnik (id, email, lozinka, aktivan, tip_korisnika, grad, broj_tel, ime, prezime, nacin_placanja,
                       podaci_placanja,u_voznji,blokiran)
 VALUES (nextval('korisnik_seq'), 'pera@gmail.com', '222', TRUE, 'klijent', 'Novi Sad', '063/1234567',

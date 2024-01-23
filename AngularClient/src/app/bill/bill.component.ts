@@ -36,6 +36,7 @@ export class BillComponent implements OnInit {
     this.km = history.state.km;
     this.coords.from=history.state.coords.from;
     this.coords.to=history.state.coords.to;
+    console.log(history.state.coords);
     this.cena = this.km * 120;
     history.state.tip = undefined;
     history.state.nap = undefined;

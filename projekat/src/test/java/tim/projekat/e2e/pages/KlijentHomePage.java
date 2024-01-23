@@ -1,5 +1,6 @@
 package tim.projekat.e2e.pages;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -38,11 +39,15 @@ public class KlijentHomePage {
     public void setAddressFrom(String address) {
         addressFrom.clear();
         addressFrom.sendKeys(address);
+
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].dispatchEvent(new Event('input'))", addressFrom);
     }
 
     public void setAddressTo(String address) {
         addressTo.clear();
         addressTo.sendKeys(address);
+
+        ((JavascriptExecutor) webDriver).executeScript("arguments[0].dispatchEvent(new Event('input'))", addressTo);
     }
 
     public void setNapomena(String napomena) {
