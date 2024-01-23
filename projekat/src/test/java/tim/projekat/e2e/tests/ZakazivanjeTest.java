@@ -21,6 +21,10 @@ public class ZakazivanjeTest extends TestBase {
     public void makeReservationOK() {
         driver.get("http://localhost:4200/login");
 
+
+
+
+
         LoginPage loginPage = new LoginPage(driver);
         KlijentHomePage reservationPage = new KlijentHomePage(driver);
         RacunPage racunPage = new RacunPage(driver);
@@ -54,6 +58,7 @@ public class ZakazivanjeTest extends TestBase {
     public void makeInvalidReservation() {
         driver.get("http://localhost:4200/login");
 
+
         LoginPage loginPage = new LoginPage(driver);
         KlijentHomePage reservationPage = new KlijentHomePage(driver);
 
@@ -67,4 +72,5 @@ public class ZakazivanjeTest extends TestBase {
 
         Assert.assertTrue(reservationPage.checkIfDisabled());
     }
-}
+    }
+
