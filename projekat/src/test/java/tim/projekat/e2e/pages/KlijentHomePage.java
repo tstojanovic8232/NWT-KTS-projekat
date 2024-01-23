@@ -59,6 +59,10 @@ public class KlijentHomePage {
         submitButton.click();
     }
 
+    public boolean checkIfDisabled() {
+        return !submitButton.isEnabled();
+    }
+
     public void clickSimulateDriveButton() {
         simulateDriveButton.click();
     }

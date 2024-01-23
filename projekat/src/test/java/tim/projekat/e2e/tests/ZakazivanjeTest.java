@@ -3,24 +3,34 @@ package tim.projekat.e2e.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tim.projekat.e2e.pages.KlijentHomePage;
+import tim.projekat.e2e.pages.LoginPage;
 import tim.projekat.e2e.pages.RacunPage;
 
-public class ZakazivanjeTest extends TestBase {
+import java.time.Duration;
 
+public class ZakazivanjeTest extends TestBase {
+    static final String KORISNIK = "teateodora2000@gmail.com";
+    static final String LOZINKA = "111";
     static final String POLAZISTE = "Adi Endrea 27";
     static final String DESTINACIJA = "Bulevar Oslobodjenja 37";
     static final String NAPOMENA = "napomena";
     static final String TIP_VOZILA = "Karavan";
 
-    @Test
-    public void makeReservation() {
-        driver.get("https://localhost:4200/client-home");
 
+    @Test
+    public void makeReservationOK() {
+        driver.get("http://localhost:4200/login");
+
+        LoginPage loginPage = new LoginPage(driver);
         KlijentHomePage reservationPage = new KlijentHomePage(driver);
         RacunPage racunPage = new RacunPage(driver);
 
-        Assert.assertTrue(reservationPage.isPageOpened());
+        loginPage.enterEmail(KORISNIK);
+        loginPage.enterPassword(LOZINKA);
+        loginPage.clickSignInButton();
 
+
+        Assert.assertTrue(reservationPage.isPageOpened());
         reservationPage.setAddressFrom(POLAZISTE);
         reservationPage.setAddressTo(DESTINACIJA);
         reservationPage.setNapomena(NAPOMENA);
@@ -37,5 +47,24 @@ public class ZakazivanjeTest extends TestBase {
         System.out.println("Total Price: " + cena);
 
         racunPage.clickConfirmPaymentButton();
+    }
+
+
+    @Test
+    public void makeInvalidReservation() {
+        driver.get("http://localhost:4200/login");
+
+        LoginPage loginPage = new LoginPage(driver);
+        KlijentHomePage reservationPage = new KlijentHomePage(driver);
+
+        loginPage.enterEmail(KORISNIK);
+        loginPage.enterPassword(LOZINKA);
+        loginPage.clickSignInButton();
+
+        Assert.assertTrue(reservationPage.isPageOpened());
+        reservationPage.setAddressFrom(POLAZISTE);
+        reservationPage.selectVehicleType(TIP_VOZILA);
+
+        Assert.assertTrue(reservationPage.checkIfDisabled());
     }
 }
